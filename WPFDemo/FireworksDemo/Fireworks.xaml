@@ -1,13 +1,23 @@
 ﻿<Window x:Class="WPFDemo.Fireworks"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Fireworks" Height="500" Width="506">
+        Title="Fireworks" Height="500" Width="522">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Margin="3" BorderBrush="SteelBlue" BorderThickness="1" Height="400" Width="500">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="408"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Margin="3" BorderBrush="SteelBlue" BorderThickness="1" Height="402" Width="500">
             <Image x:Name="imageSurface" Width="500" Height="400" MouseDown="imageSurface_MouseDown" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
         </Border>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <RadioButton Grid.Column="0" x:Name="Drag" Content="阻力 + 重力" FontSize="18" Margin="10"/>
+            <RadioButton Grid.Column="1" x:Name="Wind" Content="风力 + 重力" FontSize="18" Margin="10"/>
+        </Grid>
+        
     </Grid>
 </Window>
