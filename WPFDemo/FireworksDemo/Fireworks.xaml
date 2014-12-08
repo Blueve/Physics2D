@@ -15,7 +15,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <RadioButton Grid.Column="0" x:Name="Drag" Content="阻力 + 重力" FontSize="18" Margin="10"/>
+            <RadioButton Grid.Column="0" x:Name="Drag" Content="阻力 + 重力" FontSize="18" Margin="10" IsChecked="True"/>
             <RadioButton Grid.Column="1" x:Name="Wind" Content="风力 + 重力" FontSize="18" Margin="10"/>
         </Grid>
         

@@ -49,6 +49,8 @@ namespace WPFDemo.CircleDemo
         {
             if (!Start)
             {
+                // 全局增加一个小阻尼
+                ZoneFactory.CreateGloablZone(physicsWorld, new ParticleDrag(0.01f, 0.02f));
                 Start = true;
             }
             var item = physicsWorld.CreateParticle
@@ -57,7 +59,6 @@ namespace WPFDemo.CircleDemo
                 new Vector2D(0f, 5f),
                 1f
             );
-            physicsWorld.RegistryForceGenerator(item, new ParticleDrag(0.01f, 0.02f));
             objList.Add(item);
         }
 
