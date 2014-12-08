@@ -42,6 +42,7 @@
     <Compile Include="Common\Vector2D.cs" />
     <Compile Include="Core\ParticleForceRegistry.cs" />
     <Compile Include="Factories\ZoneFactory.cs" />
+    <Compile Include="Force\ParticleConstantForce.cs" />
     <Compile Include="Force\Zones\GlobalZone.cs" />
     <Compile Include="Force\Zones\RectangleZone.cs" />
     <Compile Include="Core\World.cs" />
