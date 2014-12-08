@@ -15,26 +15,74 @@ namespace WPFDemo.FireworksDemo
 {
     public class FireworksDemo : PhysicsGraphic, IDrawable
     {
-        private string type;
+        public const int WATER_G = 1;
+        public const int WIND_G = 2;
+
+        private int type = 0;
+        public int Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                type = value;
+                // 设置力场
+                if (type == WATER_G)
+                {
+                    if (!physicsWorld.ZoneSet.Contains(dragZone))
+                        physicsWorld.ZoneSet.Add(dragZone);
+                    if (physicsWorld.ZoneSet.Contains(windZone))
+                        physicsWorld.ZoneSet.Remove(windZone);
+
+                }
+                else if (type == WIND_G)
+                {
+                    if (!physicsWorld.ZoneSet.Contains(windZone))
+                        physicsWorld.ZoneSet.Add(windZone);
+                    if (physicsWorld.ZoneSet.Contains(dragZone))
+                        physicsWorld.ZoneSet.Remove(dragZone);
+                }
+            }
+        }
 
         // 空间作用力
-        private ParticleGravity g          = new ParticleGravity(new Vector2D(0, 10f));
-        private ParticleDrag drag          = new ParticleDrag(2f, 1f);
-        private ParticleConstantForce wind = new ParticleConstantForce(new Vector2D(30f, 0f));
+        private ParticleGravity g = new ParticleGravity(new Vector2D(0, 10f));
+        private ParticleDrag drag = new ParticleDrag(2f, 1f);
+        private ParticleConstantForce wind = new ParticleConstantForce(new Vector2D(20f, -5f));
 
-        private Zone dragZone = null;
-        private Zone windZone = null;
+        private Zone dragZone;
+        private Zone windZone;
 
         // 粒子队列
         private List<Particle> objList = new List<Particle>();
 
         private int worldHeight = 400;
-        private int worldWidth  = 500;
+        private int worldWidth = 500;
 
         public FireworksDemo(Image image)
             : base(image)
         {
             drawQueue.Add(this);
+
+            dragZone = new RectangleZone
+            (
+                ConvertUnits.ToSimUnits(0f),
+                ConvertUnits.ToSimUnits(worldHeight * 2 / 3f),
+                ConvertUnits.ToSimUnits(500f),
+                ConvertUnits.ToSimUnits(400f)
+            );
+            dragZone.particleForceGenerators.Add(drag);
+
+            windZone = new RectangleZone
+            (
+                ConvertUnits.ToSimUnits(0f),
+                ConvertUnits.ToSimUnits(worldHeight * 1 / 3f),
+                ConvertUnits.ToSimUnits(500f),
+                ConvertUnits.ToSimUnits(worldHeight * 2 / 3f)
+            );
+            windZone.particleForceGenerators.Add(wind);
         }
 
         protected override void UpdatePhysics(float duration)
@@ -44,7 +92,11 @@ namespace WPFDemo.FireworksDemo
 
         void IDrawable.Draw(WriteableBitmap bitmap)
         {
-            bitmap.FillRectangle(0, worldHeight * 2 / 3, worldWidth, worldHeight, Colors.SkyBlue);
+            if (type == WATER_G)
+                bitmap.FillRectangle(0, worldHeight * 2 / 3, worldWidth, worldHeight, Colors.SkyBlue);
+            else if (type == WIND_G)
+                bitmap.FillRectangle(0, worldHeight * 1 / 3, worldWidth, worldHeight * 2 / 3, Colors.LightGray);
+
             for (int i = objList.Count - 1; i >= 0; i--)
             {
                 int x = ConvertUnits.ToDisplayUnits(objList[i].Position.X);
@@ -57,69 +109,28 @@ namespace WPFDemo.FireworksDemo
                 }
                 else
                 {
-                    if (y > worldHeight * 2 / 3)
-                        bitmap.FillEllipseCentered(x, y, 4, 4, Colors.DarkBlue);
+                    if(type == WATER_G)
+                    {
+                        if (y > worldHeight * 2 / 3)
+                            bitmap.FillEllipseCentered(x, y, 4, 4, Colors.DarkBlue);
+                        else
+                            bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
+                    }
                     else
+                    {
                         bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
+                    }
                 }
             }
         }
 
-        public void Fire(float x, float y, string type)
+        public void Fire(float x, float y)
         {
             if (!Start)
             {
                 Start = true;
-                physicsWorld.ZoneSet.Clear();
                 // 增加重力
                 ZoneFactory.CreateGloablZone(physicsWorld, g);
-            }
-            
-            
-            if(type == "Water + G" && this.type != type)
-            {
-                this.type = type;
-                if (dragZone == null)
-                {
-                    // 增加阻力
-                    dragZone = ZoneFactory.CreateRectangleZone(physicsWorld, drag,
-                        ConvertUnits.ToSimUnits(0f),
-                        ConvertUnits.ToSimUnits(worldHeight * 2 / 3f),
-                        ConvertUnits.ToSimUnits(500f),
-                        ConvertUnits.ToSimUnits(400f)
-                    );
-                }
-                else
-                {
-                    if (windZone != null)
-                    {
-                        physicsWorld.ZoneSet.Remove(windZone);
-                    }
-                    physicsWorld.ZoneSet.Add(dragZone);
-                }
-
-            }
-            else if(type == "Wind + G" && this.type != type)
-            {
-                this.type = type;
-                if (windZone == null)
-                {
-                    // 增加恒定的风力
-                    windZone = ZoneFactory.CreateRectangleZone(physicsWorld, wind,
-                        ConvertUnits.ToSimUnits(0f),
-                        ConvertUnits.ToSimUnits(worldHeight * 1 / 3f),
-                        ConvertUnits.ToSimUnits(500f),
-                        ConvertUnits.ToSimUnits(worldHeight * 2 / 3f)
-                    );
-                }
-                else
-                {
-                    if(dragZone != null)
-                    {
-                        physicsWorld.ZoneSet.Remove(dragZone);
-                    }
-                    physicsWorld.ZoneSet.Add(windZone);
-                }
             }
 
             Random rnd = new Random();
@@ -135,5 +146,7 @@ namespace WPFDemo.FireworksDemo
                 objList.Add(paritcle);
             }
         }
+
+
     }
 }

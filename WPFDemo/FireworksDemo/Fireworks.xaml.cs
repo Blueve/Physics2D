@@ -22,11 +22,19 @@ namespace WPFDemo
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string type;
-            if(Drag.IsChecked == true) type = "Water + G";
-            else                       type = "Wind + G";
-            
-            fireworksDemo.Fire((float)e.GetPosition(imageSurface).X / 50, (float)e.GetPosition(imageSurface).Y / 50, type);
+            fireworksDemo.Fire((float)e.GetPosition(imageSurface).X / 50, (float)e.GetPosition(imageSurface).Y / 50);
+        }
+
+        private void Checked(object sender, RoutedEventArgs e)
+        {
+            if (Drag.IsChecked == true)
+            {
+                fireworksDemo.Type = FireworksDemo.FireworksDemo.WATER_G;
+            }
+            else if (Wind.IsChecked == true)
+            {
+                fireworksDemo.Type = FireworksDemo.FireworksDemo.WIND_G;
+            }
         }
     }
 }
