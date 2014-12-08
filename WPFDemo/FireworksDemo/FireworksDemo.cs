@@ -2,6 +2,7 @@
 using Physics2D.Common;
 using Physics2D.Factories;
 using Physics2D.Force;
+using Physics2D.Force.Zones;
 using Physics2D.Object;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,21 @@ namespace WPFDemo.FireworksDemo
 {
     public class FireworksDemo : PhysicsGraphic, IDrawable
     {
-        private ParticleGravity g = new ParticleGravity(new Vector2D(0, 10f));
-        private ParticleDrag particleDrag = new ParticleDrag(2f, 1f);
+        private string type;
 
+        // 空间作用力
+        private ParticleGravity g          = new ParticleGravity(new Vector2D(0, 10f));
+        private ParticleDrag drag          = new ParticleDrag(2f, 1f);
+        private ParticleConstantForce wind = new ParticleConstantForce(new Vector2D(30f, 0f));
+
+        private Zone dragZone = null;
+        private Zone windZone = null;
+
+        // 粒子队列
         private List<Particle> objList = new List<Particle>();
 
         private int worldHeight = 400;
-        private int worldWidth = 500;
+        private int worldWidth  = 500;
 
         public FireworksDemo(Image image)
             : base(image)
@@ -56,7 +65,7 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        public void Fire(float x, float y)
+        public void Fire(float x, float y, string type)
         {
             if (!Start)
             {
@@ -64,14 +73,55 @@ namespace WPFDemo.FireworksDemo
                 physicsWorld.ZoneSet.Clear();
                 // 增加重力
                 ZoneFactory.CreateGloablZone(physicsWorld, g);
-                // 增加阻力
-                ZoneFactory.CreateRectangleZone(physicsWorld, particleDrag,
-                    ConvertUnits.ToSimUnits(0f),
-                    ConvertUnits.ToSimUnits(worldHeight * 2 / 3f),
-                    ConvertUnits.ToSimUnits(500f),
-                    ConvertUnits.ToSimUnits(400f)
-                );
             }
+            
+            
+            if(type == "Water + G" && this.type != type)
+            {
+                this.type = type;
+                if (dragZone == null)
+                {
+                    // 增加阻力
+                    dragZone = ZoneFactory.CreateRectangleZone(physicsWorld, drag,
+                        ConvertUnits.ToSimUnits(0f),
+                        ConvertUnits.ToSimUnits(worldHeight * 2 / 3f),
+                        ConvertUnits.ToSimUnits(500f),
+                        ConvertUnits.ToSimUnits(400f)
+                    );
+                }
+                else
+                {
+                    if (windZone != null)
+                    {
+                        physicsWorld.ZoneSet.Remove(windZone);
+                    }
+                    physicsWorld.ZoneSet.Add(dragZone);
+                }
+
+            }
+            else if(type == "Wind + G" && this.type != type)
+            {
+                this.type = type;
+                if (windZone == null)
+                {
+                    // 增加恒定的风力
+                    windZone = ZoneFactory.CreateRectangleZone(physicsWorld, wind,
+                        ConvertUnits.ToSimUnits(0f),
+                        ConvertUnits.ToSimUnits(worldHeight * 1 / 3f),
+                        ConvertUnits.ToSimUnits(500f),
+                        ConvertUnits.ToSimUnits(worldHeight * 2 / 3f)
+                    );
+                }
+                else
+                {
+                    if(dragZone != null)
+                    {
+                        physicsWorld.ZoneSet.Remove(dragZone);
+                    }
+                    physicsWorld.ZoneSet.Add(windZone);
+                }
+            }
+
             Random rnd = new Random();
 
             for (int i = 0; i < 10; i++)
