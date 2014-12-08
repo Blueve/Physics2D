@@ -77,7 +77,12 @@ namespace Physics2D.Common
         public static Vector2D Normalize(ref Vector2D value, out Vector2D result)
         {
             float factor;
-            factor = 1f / Distance(value, Zero);
+            float distance = Distance(value, Zero);
+
+            // 零向量标准化仍为零向量
+            if (distance == 0f) return result = Vector2D.Zero;
+
+            factor = 1f / distance;
 
             result = new Vector2D(value.X * factor, value.Y * factor);
             return result;
