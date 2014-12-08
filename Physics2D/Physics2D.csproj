@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\ParticleContact.cs" />
+    <Compile Include="Collision\ParticleContactResolver.cs" />
     <Compile Include="Common\Vector2D.cs" />
     <Compile Include="Core\ParticleForceRegistry.cs" />
     <Compile Include="Factories\ZoneFactory.cs" />
@@ -59,9 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Collision\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
