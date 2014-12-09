@@ -145,10 +145,6 @@ namespace WPFDemo.FireworksDemo
                     1f
                 );
                 objList.Add(paritcle);
-                // 添加碰撞
-                
-                contactGenerator.AddBall(paritcle, 4f / 50);
-                physicsWorld.RegistryContactGenerator(contactGenerator);
             }
         }
 
