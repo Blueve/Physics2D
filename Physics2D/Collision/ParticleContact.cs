@@ -77,7 +77,7 @@ namespace Physics2D.Collision
 
             float newSeparatingVelocity = -separatingVelocity * restitution;
 
-            // 检查仅有加速度产生的速度
+            // 检查仅由加速度产生的速度
             float accCausedSeparatingVelocity = (PA.Acceleration - PB.Acceleration) * contactNormal * duration;
             if (accCausedSeparatingVelocity < 0f)
             {
@@ -118,7 +118,7 @@ namespace Physics2D.Collision
 
             Vector2D movePerIMass = contactNormal * (-penetration / totalInverseMass);
 
-            PA.Position += movePerIMass * PA.InverseMass;
+            PA.Position -= movePerIMass * PA.InverseMass;
             PB.Position += movePerIMass * PB.InverseMass;
         }
         #endregion
