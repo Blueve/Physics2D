@@ -132,11 +132,13 @@ namespace WPFDemo.FireworksDemo
                 Start = true;
                 // 增加重力
                 ZoneFactory.CreateGloablZone(physicsWorld, g);
+                // 添加边缘
+                physicsWorld.RegistryContactGenerator(contact);
             }
 
             Random rnd = new Random();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1; i++)
             {
                 var paritcle = physicsWorld.CreateParticle
                 (
@@ -145,9 +147,14 @@ namespace WPFDemo.FireworksDemo
                     1f
                 );
                 objList.Add(paritcle);
+                contact.AddBall(paritcle, ConvertUnits.ToSimUnits(20));
             }
         }
 
-        private ParticleBall contactGenerator = new ParticleBall(0.7f);
+        private ParticleEdge contact = new ParticleEdge(0.5f,
+                                                        ConvertUnits.ToSimUnits(0f),
+                                                        ConvertUnits.ToSimUnits(400f),
+                                                        ConvertUnits.ToSimUnits(500f),
+                                                        ConvertUnits.ToSimUnits(400f));
     }
 }
