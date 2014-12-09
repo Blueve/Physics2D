@@ -78,7 +78,7 @@ namespace Physics2D.Collision
             float newSeparatingVelocity = -separatingVelocity * restitution;
 
             // 检查仅由加速度产生的速度
-            float accCausedSeparatingVelocity = (PA.Acceleration - PB.Acceleration) * contactNormal * duration;
+            float accCausedSeparatingVelocity = (PA.Acceleration - (PB != null ? PB.Acceleration : Vector2D.Zero)) * contactNormal * duration;
             if (accCausedSeparatingVelocity < 0f)
             {
                 // 补偿由加速度产生的速度
@@ -89,7 +89,7 @@ namespace Physics2D.Collision
 
             float deltaVelocity = newSeparatingVelocity - separatingVelocity;
 
-            float totalInverseMass = PA.InverseMass + PB.InverseMass;
+            float totalInverseMass = PA.InverseMass + (PB != null ? PB.InverseMass : 0f);
 
             // 两个物体全为固定或匀速物体则不处理
             if (totalInverseMass <= 0f) return;
@@ -100,7 +100,9 @@ namespace Physics2D.Collision
             // 施加冲量
             Vector2D impulsePerIMass = contactNormal * impulse;
             PA.Velocity += impulsePerIMass * PA.InverseMass;
-            PB.Velocity -= impulsePerIMass * PB.InverseMass;
+
+            if(PB != null)
+                PB.Velocity -= impulsePerIMass * PB.InverseMass;
         }
 
         /// <summary>
@@ -113,13 +115,18 @@ namespace Physics2D.Collision
             if (penetration <= 0f) return;
 
             // 不处理两个均为固定或常速运动的物体
-            float totalInverseMass = PA.InverseMass + PB.InverseMass;
+            float totalInverseMass = PA.InverseMass +(PB != null ? PB.InverseMass : 0);
             if (totalInverseMass <= 0f) return;
 
-            Vector2D movePerIMass = contactNormal * (-penetration / totalInverseMass);
+            Vector2D movePerIMass = contactNormal * (penetration / totalInverseMass);
 
-            PA.Position -= movePerIMass * PA.InverseMass;
-            PB.Position += movePerIMass * PB.InverseMass;
+            PA.Position += movePerIMass * PA.InverseMass;
+
+            if(PB != null)
+                PB.Position -= movePerIMass * PB.InverseMass;
+
+            if(PA.InverseMass != 0 && PB.InverseMass != 0)
+                System.Diagnostics.Debug.WriteLine("PA:" + movePerIMass * PA.InverseMass + " PB: " + -movePerIMass * PB.InverseMass);
         }
         #endregion
     }
