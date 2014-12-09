@@ -37,7 +37,7 @@ namespace Physics2D.Collision
             // 检查所有组合
             for(int i = 0; i < ballList.Count; i++)
             {
-                for (int j = i; j < ballList.Count; j++)
+                for (int j = i + 1; j < ballList.Count; j++)
                 {
                     float d = (ballList[i].particle.Position - ballList[j].particle.Position).Length();
                     // 碰撞检测

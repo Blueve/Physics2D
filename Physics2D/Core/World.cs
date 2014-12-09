@@ -1,4 +1,5 @@
-﻿using Physics2D.Common;
+﻿using Physics2D.Collision;
+using Physics2D.Common;
 using Physics2D.Factories;
 using Physics2D.Force;
 using Physics2D.Force.Zones;
@@ -18,10 +19,21 @@ namespace Physics2D.Core
         private List<PhysicsObject> objectSet = new List<PhysicsObject>();
 
         /// <summary>
-        /// 粒子作用力管理器
+        /// 质体作用力管理器
         /// </summary>
         private ParticleForceRegistry particleForceRegistry = new ParticleForceRegistry();
 
+        /// <summary>
+        /// 质体碰撞管理器
+        /// </summary>
+        private List<ParticleContactGenerator> particleContactRegistry = new List<ParticleContactGenerator>();
+
+        /// <summary>
+        /// 质体碰撞表
+        /// </summary>
+        private List<ParticleContact> particleContactList = new List<ParticleContact>();
+
+        private ParticleContactResolver particleContactResolver = new ParticleContactResolver(0);
         #endregion 私有属性
 
         #region 只读属性
@@ -56,19 +68,30 @@ namespace Physics2D.Core
 
             // 仅在物体为质体时执行注销操作
             if (obj is Particle)
+            {
                 particleForceRegistry.Remove((Particle)obj);
+            }
         }
 
         /// <summary>
-        /// 注册粒子作用力发生器
+        /// 注册质体作用力发生器
         /// </summary>
-        /// <param name="particle">粒子</param>
+        /// <param name="particle">质体</param>
         /// <param name="forceGenerator">作用力发生器</param>
         public void RegistryForceGenerator(Particle particle, ParticleForceGenerator forceGenerator)
         {
             particleForceRegistry.Add(particle, forceGenerator);
         }
 
+        /// <summary>
+        /// 注册质体碰撞发生器
+        /// </summary>
+        /// <param name="contactGenerator">碰撞发生器</param>
+        public void RegistryContactGenerator(ParticleContactGenerator contactGenerator)
+        {
+            if (!particleContactRegistry.Contains(contactGenerator))
+                particleContactRegistry.Add(contactGenerator);
+        }
         #endregion 公开的管理方法
 
         #region 公开的方法
@@ -93,6 +116,20 @@ namespace Physics2D.Core
                 // 对物理对象进行积分
                 item.Update(duration);
             });
+
+            // 质体碰撞检测
+            particleContactList.Clear();
+            int limit = Settings.maxContacts;
+            foreach(var item in particleContactRegistry)
+            {
+                int used = item.addContact(particleContactList, limit);
+                limit -= used;
+
+                if (limit <= 0) break;
+            }
+            // 解决质体碰撞
+            particleContactResolver.Iterations = (Settings.maxContacts - limit) * 2;
+            particleContactResolver.resolveContacts(particleContactList, duration);
         }
 
         #endregion 公开的方法

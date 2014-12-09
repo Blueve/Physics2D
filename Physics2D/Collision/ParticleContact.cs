@@ -9,7 +9,7 @@ using Physics2D.Object;
 
 namespace Physics2D.Collision
 {
-    internal class ParticleContact
+    public class ParticleContact
     {
         #region 公共属性
         /// <summary>
@@ -100,7 +100,7 @@ namespace Physics2D.Collision
             // 施加冲量
             Vector2D impulsePerIMass = contactNormal * impulse;
             PA.Velocity += impulsePerIMass * PA.InverseMass;
-            PB.Velocity += impulsePerIMass * PB.InverseMass;
+            PB.Velocity -= impulsePerIMass * PB.InverseMass;
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace Physics2D.Collision
             {
                 // 找到分离速度最大的一组碰撞 优先处理
                 float max = 0f;
-                int maxI = contactList.Count;
+                int maxI = contactList.Count - 1;
                 for(int i = 0; i < contactList.Count; i++)
                 {
                     // 计算分离速度
