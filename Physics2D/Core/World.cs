@@ -122,7 +122,7 @@ namespace Physics2D.Core
             int limit = Settings.maxContacts;
             foreach(var item in particleContactRegistry)
             {
-                int used = item.addContact(particleContactList, limit);
+                int used = item.fillContact(particleContactList, limit);
                 limit -= used;
 
                 if (limit <= 0) break;
