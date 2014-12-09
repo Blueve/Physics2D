@@ -41,9 +41,11 @@ namespace Physics2D.Object
 
         public override void Update(float duration)
         {
-            // 对位置和速度进行更新
+            // 对位置速度以及加速度进行更新
+            Acceleration = forceAccum * inverseMass;
+
             Position += Velocity * duration;
-            Velocity += (Acceleration + forceAccum * InverseMass) * duration;
+            Velocity += Acceleration * duration;
 
             // 清除作用力
             forceAccum = Vector2D.Zero;
