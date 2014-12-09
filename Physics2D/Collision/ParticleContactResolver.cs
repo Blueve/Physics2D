@@ -25,6 +25,7 @@ namespace Physics2D.Collision
 
         public void resolveContacts(List<ParticleContact> contactList, float duration)
         {
+            if (contactList.Count == 0) return;
             iterationsUsed = 0;
             while(iterationsUsed++ < iterations)
             {
