@@ -56,7 +56,7 @@ namespace Physics2D.Collision
         /// <returns>分离速度</returns>
         public float calculateSeparatingVelocity()
         {
-            return (PA.Velocity - PB.Velocity) * contactNormal;
+            return (PA.Velocity - (PB != null ? PB.Velocity : Vector2D.Zero)) * contactNormal;
         }
         #endregion
 
@@ -125,8 +125,8 @@ namespace Physics2D.Collision
             if(PB != null)
                 PB.Position -= movePerIMass * PB.InverseMass;
 
-            if(PA.InverseMass != 0 && PB.InverseMass != 0)
-                System.Diagnostics.Debug.WriteLine("PA:" + movePerIMass * PA.InverseMass + " PB: " + -movePerIMass * PB.InverseMass);
+            //if(PA.InverseMass != 0 && PB.InverseMass != 0)
+            //    System.Diagnostics.Debug.WriteLine("PA:" + movePerIMass * PA.InverseMass + " PB: " + -movePerIMass * PB.InverseMass);
         }
         #endregion
     }
