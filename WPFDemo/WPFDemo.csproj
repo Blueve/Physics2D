@@ -62,6 +62,11 @@
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>
     <Compile Include="CircleDemo\CircleDemo.cs" />
+    <Compile Include="ContactDemo\Contact.xaml.cs">
+      <DependentUpon>Contact.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContactDemo\Ball.cs" />
+    <Compile Include="ContactDemo\ContactDemo.cs" />
     <Compile Include="ElasticDemo\Elastic.xaml.cs">
       <DependentUpon>Elastic.xaml</DependentUpon>
     </Compile>
@@ -81,6 +86,10 @@
     <Compile Include="Graphic\PhysicsGraphic.cs" />
     <Compile Include="Graphic\TimeTracker.cs" />
     <Page Include="CircleDemo\Circle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContactDemo\Contact.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

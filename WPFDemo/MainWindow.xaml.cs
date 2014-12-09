@@ -39,5 +39,11 @@ namespace WPFDemo
             Fluid fW = new Fluid();
             fW.Show();
         }
+
+        private void contactDemo_Click(object sender, RoutedEventArgs e)
+        {
+            Contact cW = new Contact();
+            cW.Show();
+        }
     }
 }
