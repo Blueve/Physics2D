@@ -31,7 +31,7 @@ namespace WPFDemo.CircleDemo
                 )
             );
             // 注册绘制对象
-            this.drawQueue.Add(this);
+            drawQueue.Add(this);
         }
 
         protected override void UpdatePhysics(float duration)
