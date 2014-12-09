@@ -93,10 +93,13 @@ namespace WPFDemo.FireworksDemo
 
         void IDrawable.Draw(WriteableBitmap bitmap)
         {
+            
             if (type == WATER_G)
                 bitmap.FillRectangle(0, worldHeight * 2 / 3, worldWidth, worldHeight, Colors.SkyBlue);
             else if (type == WIND_G)
                 bitmap.FillRectangle(0, worldHeight * 1 / 3, worldWidth, worldHeight * 2 / 3, Colors.LightGray);
+
+            bitmap.DrawLineAa(100, 350, 400, 350, Colors.Black);
 
             for (int i = objList.Count - 1; i >= 0; i--)
             {
@@ -138,7 +141,7 @@ namespace WPFDemo.FireworksDemo
 
             Random rnd = new Random();
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var paritcle = physicsWorld.CreateParticle
                 (
@@ -147,14 +150,14 @@ namespace WPFDemo.FireworksDemo
                     1f
                 );
                 objList.Add(paritcle);
-                contact.AddBall(paritcle, ConvertUnits.ToSimUnits(20));
+                contact.AddBall(paritcle, ConvertUnits.ToSimUnits(10));
             }
         }
 
-        private ParticleEdge contact = new ParticleEdge(0.5f,
-                                                        ConvertUnits.ToSimUnits(0f),
+        private ParticleEdge contact = new ParticleEdge(0.02f,
+                                                        ConvertUnits.ToSimUnits(100f),
+                                                        ConvertUnits.ToSimUnits(350f),
                                                         ConvertUnits.ToSimUnits(400f),
-                                                        ConvertUnits.ToSimUnits(500f),
-                                                        ConvertUnits.ToSimUnits(400f));
+                                                        ConvertUnits.ToSimUnits(350f));
     }
 }

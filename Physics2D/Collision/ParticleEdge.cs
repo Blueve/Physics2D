@@ -18,6 +18,7 @@ namespace Physics2D.Collision
 
         private List<ParticleBall.Ball> ballList = new List<ParticleBall.Ball>();
 
+
         public void AddBall(Particle particle, float r)
         {
             // 添加一个球
@@ -36,17 +37,8 @@ namespace Physics2D.Collision
             int count = 0;
             foreach(var item in ballList)
             {
-                float dOAB;
-
                 // 半径的平方
                 float rS = item.r * item.r;
-
-                //float cross = (pointA - pointB) * (item.particle.Position - pointA);
-
-                //if (cross <= 0f) dOAB = (item.particle.Position - pointA).Length();
-
-                //float d2 = (pointB - pointA).LengthSquared();
-                //if (cross >= d2) dOAB = (item.particle.Position - pointB).Length();
 
                 float n1 = (pointA - item.particle.Position) * (pointA - pointB);
                 float n2 = (pointB - item.particle.Position) * (pointA - pointB);
@@ -66,15 +58,32 @@ namespace Physics2D.Collision
                     // 线段上存在比端点到圆心距离更近的点
 
                     // 计算线段所处直线到圆心的距离平方
-                    float A = pointA.Y - pointB.Y;
-                    float B = -pointA.X + pointB.X;
-                    float C = B * pointB.Y - A * pointB.X;
-                    float tmp = (A * item.particle.Position.X + B * item.particle.Position.Y + C);
+                    float A = pointB.Y - pointA.Y;
+                    float B = -(pointB.X - pointA.X);
+                    float C = (pointB.X - pointA.X) * pointA.Y - A * pointA.X;
+                    float tmp = Math.Abs(A * item.particle.Position.X + B * item.particle.Position.Y + C);
 
                     float dAB = tmp / (float)Math.Sqrt(A * A + B * B);
 
                     if (item.r > dAB)
-                        count++;
+                    {
+                        var l = pointB - pointA;
+                        var normal = (pointB - pointA) * (item.particle.Position - pointA) * l.Normalize();
+                        normal = (item.particle.Position - pointA) - normal;
+                        normal = new Vector2D(0f, -1f);
+                        // 产生一组碰撞
+                        ParticleContact contact = new ParticleContact
+                        {
+                            PA = item.particle,
+                            restitution = restitution,
+                            penetration = (item.r - dAB),
+                            contactNormal = normal
+                        };
+                        // 加入碰撞列表
+                        contactList.Add(contact);
+                        // 计数
+                        ++count;
+                    }
                 }
             }
             return count;
