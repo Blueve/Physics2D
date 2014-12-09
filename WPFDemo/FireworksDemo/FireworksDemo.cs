@@ -1,4 +1,5 @@
 ﻿using Physics2D;
+using Physics2D.Collision;
 using Physics2D.Common;
 using Physics2D.Factories;
 using Physics2D.Force;
@@ -144,9 +145,13 @@ namespace WPFDemo.FireworksDemo
                     1f
                 );
                 objList.Add(paritcle);
+                // 添加碰撞
+                
+                contactGenerator.AddBall(paritcle, 4f / 50);
+                physicsWorld.RegistryContactGenerator(contactGenerator);
             }
         }
 
-
+        private ParticleBallContact contactGenerator = new ParticleBallContact(0.7f);
     }
 }
