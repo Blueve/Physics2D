@@ -36,10 +36,10 @@ namespace WPFDemo.ContactDemo
             Particle fC = ParticleFactory.CreateFixed(physicsWorld, ConvertUnits.ToSimUnits(new Vector2D(260f, 0f)));
             Particle fD = ParticleFactory.CreateFixed(physicsWorld, ConvertUnits.ToSimUnits(new Vector2D(300f, 0f)));
 
-            Particle pA = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(50f, 50f)), new Vector2D(0f, 0f), 1f);
-            Particle pB = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(220f, 250f)), new Vector2D(0f, 0f), 1f);
-            Particle pC = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(260f, 250f)), new Vector2D(0f, 0f), 1f);
-            Particle pD = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(300f, 250f)), new Vector2D(0f, 0f), 1f);
+            Particle pA = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(50f, 50f)), new Vector2D(0f, 0f), 2f);
+            Particle pB = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(220f, 200f)), new Vector2D(0f, 0f), 2f);
+            Particle pC = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(260f, 200f)), new Vector2D(0f, 0f), 2f);
+            Particle pD = physicsWorld.CreateParticle(ConvertUnits.ToSimUnits(new Vector2D(300f, 200f)), new Vector2D(0f, 0f), 2f);
 
             bA = new Ball
             {
@@ -67,13 +67,13 @@ namespace WPFDemo.ContactDemo
             };
 
             // 将四个球分别和固定点连接
-            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(250f), 0f, fA, pA));
-            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(250f), 0f, fB, pB));
-            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(250f), 0f, fC, pC));
-            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(250f), 0f, fD, pD));
+            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(200f), 0f, fA, pA));
+            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(200f), 0f, fB, pB));
+            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(200f), 0f, fC, pC));
+            physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(200f), 0f, fD, pD));
 
             // 将四个球加入碰撞检测
-            var contact = new ParticleBall(0.99f);
+            var contact = new ParticleBall(1f);
             contact.AddBall(bA.particle, ConvertUnits.ToSimUnits(bA.r));
             contact.AddBall(bB.particle, ConvertUnits.ToSimUnits(bB.r));
             contact.AddBall(bC.particle, ConvertUnits.ToSimUnits(bC.r));
@@ -82,8 +82,8 @@ namespace WPFDemo.ContactDemo
             physicsWorld.RegistryContactGenerator(contact);
 
             // 增加重力和空气阻力
-            ZoneFactory.CreateGloablZone(physicsWorld, new ParticleGravity(new Vector2D(0f, 10f)));
-            ZoneFactory.CreateGloablZone(physicsWorld, new ParticleDrag(0.02f, 0.01f));
+            ZoneFactory.CreateGloablZone(physicsWorld, new ParticleGravity(new Vector2D(0f, 40f)));
+            //ZoneFactory.CreateGloablZone(physicsWorld, new ParticleDrag(0.02f, 0.01f));
 
             // 将两个球加入到绘制队列
             drawQueue.Add(bA);
@@ -91,7 +91,7 @@ namespace WPFDemo.ContactDemo
             drawQueue.Add(bC);
             drawQueue.Add(bD);
 
-            slot = 1 / 60f;
+            slot = 1 / 240f;
 
             Start = true;
         }
