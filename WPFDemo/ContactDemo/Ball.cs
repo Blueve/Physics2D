@@ -17,11 +17,20 @@ namespace WPFDemo.ContactDemo
 {
     class Ball : IDrawable
     {
+        public Particle fixedParticle;
         public Particle particle;
         public int r;
 
         public void Draw(WriteableBitmap bitmap)
         {
+            bitmap.DrawLineAa
+            (
+                ConvertUnits.ToDisplayUnits(fixedParticle.Position.X),
+                ConvertUnits.ToDisplayUnits(fixedParticle.Position.Y),
+                ConvertUnits.ToDisplayUnits(particle.Position.X),
+                ConvertUnits.ToDisplayUnits(particle.Position.Y),
+                Colors.DarkGray
+            );
             bitmap.FillEllipseCentered
             (
                 ConvertUnits.ToDisplayUnits(particle.Position.X),

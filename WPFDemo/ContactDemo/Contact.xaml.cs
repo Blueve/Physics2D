@@ -35,7 +35,7 @@ namespace WPFDemo
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            contactDemo.Fire();
         }
     }
 }

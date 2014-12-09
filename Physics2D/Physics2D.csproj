@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collision\ParticleBallContact.cs" />
+    <Compile Include="Collision\ParticleBall.cs" />
     <Compile Include="Collision\ParticleContact.cs" />
     <Compile Include="Collision\ParticleContactGenerator.cs" />
     <Compile Include="Collision\ParticleContactResolver.cs" />
+    <Compile Include="Collision\ParticleLink.cs" />
+    <Compile Include="Collision\ParticleRope.cs" />
     <Compile Include="Common\Vector2D.cs" />
     <Compile Include="Core\ParticleContactRegistry.cs" />
     <Compile Include="Core\ParticleForceRegistry.cs" />
