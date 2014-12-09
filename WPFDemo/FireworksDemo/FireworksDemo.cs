@@ -148,6 +148,6 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        private ParticleBallContact contactGenerator = new ParticleBallContact(0.7f);
+        private ParticleBall contactGenerator = new ParticleBall(0.7f);
     }
 }
