@@ -31,8 +31,6 @@ namespace Physics2D.Collision
 
         public override int fillContact(List<ParticleContact> contactList, int limit)
         {
-            if (limit == 0) return 0;
-
             int contactCount = 0;
             // 检查所有组合
             for(int i = 0; i < ballList.Count; i++)
@@ -64,7 +62,7 @@ namespace Physics2D.Collision
             return contactCount;
         }
 
-        private struct Ball
+        internal struct Ball
         {
             public Particle particle;
             public float r;
