@@ -12,13 +12,13 @@ namespace Physics2D.Collision
     /// <summary>
     /// 检测球形质体和球形质体之间的碰撞
     /// </summary>
-    public class ParticleBallContact : ParticleContactGenerator
+    public class ParticleBall : ParticleContactGenerator
     {
         private List<Ball> ballList = new List<Ball>();
 
         private float restitution;
 
-        public ParticleBallContact(float restitution)
+        public ParticleBall(float restitution)
         {
             this.restitution = restitution;
         }
@@ -29,7 +29,7 @@ namespace Physics2D.Collision
             ballList.Add(new Ball { particle = particle, r = r });
         }
 
-        public override int addContact(List<ParticleContact> contactList, int limit)
+        public override int fillContact(List<ParticleContact> contactList, int limit)
         {
             if (limit == 0) return 0;
 
@@ -50,7 +50,7 @@ namespace Physics2D.Collision
                             PA = ballList[i].particle,
                             PB = ballList[j].particle,
                             restitution = restitution,
-                            penetration = l - d,
+                            penetration = (l - d) / 2,
                             contactNormal = (ballList[i].particle.Position - ballList[j].particle.Position).Normalize()
                         };
                         // 加入碰撞列表
