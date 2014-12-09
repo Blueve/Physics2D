@@ -56,7 +56,8 @@ namespace Physics2D.Collision
                         // 加入碰撞列表
                         contactList.Add(contact);
                         // 计数
-                        if (++contactCount == limit) return limit;
+                        ++contactCount;
+                        //if (++contactCount == limit) return limit;
                     }
                 }
             }
