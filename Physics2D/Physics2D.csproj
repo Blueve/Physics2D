@@ -46,6 +46,7 @@
     <Compile Include="Collision\ParticleEdge.cs" />
     <Compile Include="Collision\ParticleLink.cs" />
     <Compile Include="Collision\ParticleRope.cs" />
+    <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\Vector2D.cs" />
     <Compile Include="Core\ParticleContactRegistry.cs" />
     <Compile Include="Core\ParticleForceRegistry.cs" />

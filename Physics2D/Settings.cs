@@ -7,6 +7,6 @@
         /// </summary>
         public static float percision = 1e-6f;
 
-        public static int maxContacts = 100;
+        public static int maxContacts = 200;
     }
 }

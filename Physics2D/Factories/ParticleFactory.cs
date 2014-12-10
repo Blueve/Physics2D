@@ -25,7 +25,8 @@ namespace Physics2D.Factories
             {
                 Position = p,
                 Mass = m,
-                Velocity = v
+                Velocity = v,
+                PrePosition = p
             };
             world.AddObject(particle);
             return particle;
@@ -42,7 +43,8 @@ namespace Physics2D.Factories
             Particle particle = new Particle
             {
                 Position = p,
-                InverseMass = 0f
+                InverseMass = 0f,
+                PrePosition = p
             };
             world.AddObject(particle);
             return particle;
@@ -61,7 +63,8 @@ namespace Physics2D.Factories
             {
                 Position = p,
                 InverseMass = 0f,
-                Velocity = v
+                Velocity = v,
+                PrePosition = p
             };
             world.AddObject(particle);
             return particle;

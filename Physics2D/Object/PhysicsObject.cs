@@ -8,6 +8,8 @@ namespace Physics2D.Object
         public Vector2D Velocity;
         public Vector2D Acceleration;
 
+        public Vector2D PrePosition;
+
         public abstract void Update(float duration);
     }
 }
