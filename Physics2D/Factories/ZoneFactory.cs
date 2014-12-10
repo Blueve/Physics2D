@@ -17,7 +17,7 @@ namespace Physics2D.Factories
         /// <param name="world">物理世界</param>
         /// <param name="particleForceGenerator">作用力发生器</param>
         /// <returns></returns>
-        public static GlobalZone CreateGloablZone(World world, ParticleForceGenerator particleForceGenerator)
+        public static GlobalZone CreateGlobalZone(World world, ParticleForceGenerator particleForceGenerator)
         {
             GlobalZone zone = new GlobalZone();
             RegistryZone(world, particleForceGenerator, zone);

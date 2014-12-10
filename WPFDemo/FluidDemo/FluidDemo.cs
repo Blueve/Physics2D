@@ -47,7 +47,7 @@ namespace WPFDemo.FluidDemo
             {
                 Start = true;
                 // 设置全局的阻力
-                ZoneFactory.CreateGloablZone(physicsWorld, new ParticleDrag(0.5f, 0.5f));
+                ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleDrag(0.5f, 0.5f));
                 physicsWorld.RegistryContactGenerator(contactBall);
                 physicsWorld.RegistryContactGenerator(contact);
                 physicsWorld.RegistryContactGenerator(contact2);
@@ -73,7 +73,7 @@ namespace WPFDemo.FluidDemo
             }
             else
             {
-                ZoneFactory.CreateGloablZone(physicsWorld, new ParticleGravity(new Vector2D(0f, 10f)));
+                ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleGravity(new Vector2D(0f, 10f)));
                 flag = true;
             }
             // 抖动
@@ -85,7 +85,7 @@ namespace WPFDemo.FluidDemo
 
         private bool flag = false;
 
-        private ParticleBall contactBall = new ParticleBall(0.1f);
+        private ParticleBall contactBall = new ParticleBall(0.02f);
 
         private ParticleEdge contact = new ParticleEdge(0f,
                                                         ConvertUnits.ToSimUnits(0f),

@@ -50,7 +50,7 @@ namespace WPFDemo.CircleDemo
             if (!Start)
             {
                 // 全局增加一个小阻尼
-                ZoneFactory.CreateGloablZone(physicsWorld, new ParticleDrag(0.01f, 0.02f));
+                ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleDrag(0.01f, 0.02f));
                 Start = true;
             }
             var item = physicsWorld.CreateParticle
