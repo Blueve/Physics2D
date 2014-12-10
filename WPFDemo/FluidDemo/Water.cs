@@ -30,7 +30,7 @@ namespace WPFDemo.FluidDemo
             metaTable[0] = threshold;
             for (int i = 1; i < gridR; i++)
             {
-                metaTable[i] = (100000 / (i * i));
+                metaTable[i] = (10000 / (i * i));
             }
             // 计算势能缓存
             cacheTable = new int[2 * gridR, 2 * gridR];
