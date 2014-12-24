@@ -19,7 +19,7 @@ namespace Physics2D.Force.Zones
         /// </summary>
         /// <param name="obj">物体</param>
         /// <returns></returns>
-        protected abstract bool isIn(PhysicsObject obj);
+        protected abstract bool IsIn(PhysicsObject obj);
 
         /// <summary>
         /// 尝试为给定物体施加作用力
@@ -28,7 +28,7 @@ namespace Physics2D.Force.Zones
         /// <param name="durduration">施加作用力的时间</param>
         public void TryApplyTo(PhysicsObject obj, float durduration)
         {
-            if (isIn(obj))
+            if (IsIn(obj))
             {
                 foreach (var item in particleForceGenerators)
                 {

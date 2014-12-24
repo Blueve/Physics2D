@@ -20,7 +20,7 @@ namespace Physics2D.Force.Zones
             this.y2 = y2;
         }
 
-        protected override bool isIn(PhysicsObject obj)
+        protected override bool IsIn(PhysicsObject obj)
         {
             if (obj.Position.X > x1 && obj.Position.X < x2 &&
                 obj.Position.Y > y1 && obj.Position.Y < y2)
