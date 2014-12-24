@@ -100,7 +100,6 @@ namespace WPFDemo.FireworksDemo
                 bitmap.FillRectangle(0, worldHeight * 1 / 3, worldWidth, worldHeight * 2 / 3, Colors.LightGray);
 
             bitmap.DrawLineAa(100, 350, 400, 200, Colors.Black);
-            bitmap.DrawLineAa(100, 200, 400, 350, Colors.Black);
 
             for (int i = objList.Count - 1; i >= 0; i--)
             {
@@ -138,7 +137,6 @@ namespace WPFDemo.FireworksDemo
                 ZoneFactory.CreateGlobalZone(physicsWorld, g);
                 // 添加边缘
                 physicsWorld.RegistryContactGenerator(contact);
-                physicsWorld.RegistryContactGenerator(contact2);
 
                 slot = 1 / 240f;
             }
@@ -155,7 +153,6 @@ namespace WPFDemo.FireworksDemo
                 );
                 objList.Add(paritcle);
                 contact.AddBall(paritcle, ConvertUnits.ToSimUnits(10));
-                contact2.AddBall(paritcle, ConvertUnits.ToSimUnits(10));
             }
         }
 
@@ -164,10 +161,5 @@ namespace WPFDemo.FireworksDemo
                                                         ConvertUnits.ToSimUnits(350f),
                                                         ConvertUnits.ToSimUnits(400f),
                                                         ConvertUnits.ToSimUnits(200f));
-        private ParticleEdge contact2 = new ParticleEdge(0.02f,
-                                                        ConvertUnits.ToSimUnits(100f),
-                                                        ConvertUnits.ToSimUnits(200f),
-                                                        ConvertUnits.ToSimUnits(400f),
-                                                        ConvertUnits.ToSimUnits(350f));
     }
 }
