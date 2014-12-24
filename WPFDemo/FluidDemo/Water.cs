@@ -19,6 +19,8 @@ namespace WPFDemo.FluidDemo
         private const int threshold = 900;
         private const int gridR = 60;
 
+        private const int R = 150;
+
         private int[] metaTable;
         private int[,] cacheTable;
         private object[,] cacheLocks;
@@ -30,7 +32,7 @@ namespace WPFDemo.FluidDemo
             metaTable[0] = threshold;
             for (int i = 1; i < gridR; i++)
             {
-                metaTable[i] = (20000 / (i * i));
+                metaTable[i] = (R * R / (i * i));
             }
             // 计算势能缓存
             cacheTable = new int[2 * gridR, 2 * gridR];
