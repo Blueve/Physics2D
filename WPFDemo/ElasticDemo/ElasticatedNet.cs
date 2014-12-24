@@ -34,8 +34,6 @@ namespace WPFDemo.ElasticDemo
 
         public void Reset()
         {
-            // 设置全局的阻力
-            ZoneFactory.CreateGlobalZone(world, new ParticleDrag(0.8f, 0.6f));
             // 清除以往的的数据
             foreach (var item in net)
             {

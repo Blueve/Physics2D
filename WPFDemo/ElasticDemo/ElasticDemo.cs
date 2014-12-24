@@ -1,6 +1,8 @@
 ﻿using Physics2D.Common;
 using System.Windows.Controls;
 using WPFDemo.Graphic;
+using Physics2D.Force;
+using Physics2D.Factories;
 
 namespace WPFDemo.ElasticDemo
 {
@@ -21,6 +23,9 @@ namespace WPFDemo.ElasticDemo
             );
             // 将弹性网加入绘制队列
             drawQueue.Add(elasticatedNet);
+
+            // 设置全局的阻力
+            ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleDrag(0.8f, 0.6f));
         }
 
         protected override void UpdatePhysics(float duration)
