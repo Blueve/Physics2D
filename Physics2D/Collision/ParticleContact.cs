@@ -124,24 +124,24 @@ namespace Physics2D.Collision
             // 按照速度比值解决相交
             Vector2D movePerV = contactNormal / (vA + vB);
 
-            PA.Position += movePerV * (penetration * vA);
-            if (PB != null)
-                PB.Position -= movePerV * (penetration * vB);
+            //PA.Position += movePerV * (penetration * vA);
+            //if (PB != null)
+            //    PB.Position -= movePerV * (penetration * vB);
             
 
             //// 不处理两个均为固定或常速运动的物体
-            //float totalInverseMass = PA.InverseMass +(PB != null ? PB.InverseMass : 0);
-            //if (totalInverseMass <= 0f) return;
+            float totalInverseMass = PA.InverseMass + (PB != null ? PB.InverseMass : 0);
+            if (totalInverseMass <= 0f) return;
 
-            //Vector2D movePerIMass = contactNormal * (penetration / totalInverseMass);
+            Vector2D movePerIMass = contactNormal * (penetration / totalInverseMass);
 
-            //PA.Position += movePerIMass * PA.InverseMass;
+            PA.Position += movePerIMass * PA.InverseMass;
 
-            //if(PB != null)
-            //    PB.Position -= movePerIMass * PB.InverseMass;
+            if (PB != null)
+                PB.Position -= movePerIMass * PB.InverseMass;
 
-            //if(PA.InverseMass != 0 && PB.InverseMass != 0)
-            //    System.Diagnostics.Debug.WriteLine("PA:" + movePerIMass * PA.InverseMass + " PB: " + -movePerIMass * PB.InverseMass);
+        //    if (PA.InverseMass != 0 && PB.InverseMass != 0)
+        //        System.Diagnostics.Debug.WriteLine("PA:" + movePerIMass * PA.InverseMass + " PB: " + -movePerIMass * PB.InverseMass);
         }
         #endregion
     }
