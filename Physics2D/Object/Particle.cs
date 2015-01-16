@@ -41,7 +41,7 @@ namespace Physics2D.Object
 
         public override void Update(float duration)
         {
-            PrePosition = Position;
+            PrePosition = new Vector2D(Position);
 
             // 对位置速度以及加速度进行更新
             Acceleration = forceAccum * inverseMass;

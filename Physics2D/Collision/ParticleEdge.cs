@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Physics2D.Common;
+using Physics2D.Common.Exceptions;
 using Physics2D.Object;
 
 namespace Physics2D.Collision
@@ -38,13 +39,34 @@ namespace Physics2D.Collision
             foreach(var item in ballList)
             {
                 // 判断物体的运动路径是否发生穿越
-                //MathHelper.LineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB);
+                if (MathHelper.IsLineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB))
+                {
+                    var intersectionPoint = MathHelper.LineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB);
 
-                // 发生穿越则认为发生碰撞
-                
+                    // 发生穿越则认为发生碰撞 将质体位置退至相交点
+                    item.particle.Position = intersectionPoint;
 
+                    // 产生一组碰撞
+                    Vector2D BA = pointB - pointA;
+                    Vector2D normal = BA * (item.particle.PrePosition - pointA) * BA / BA.LengthSquared();
+                    normal = (item.particle.PrePosition - pointA) - normal;
 
-                float rd = item.r + 5f / 50; ;
+                    ParticleContact contact = new ParticleContact
+                    {
+                        PA = item.particle,
+                        restitution = restitution,
+                        penetration = item.r,
+                        contactNormal = normal
+                    };
+                    // 加入碰撞列表
+                    contactList.Add(contact);
+                    // 计数
+                    ++count;
+                    continue;
+                }
+
+                // 若未发生穿越则计算
+                float rd = item.r;
 
                 float n1 = (pointA - item.particle.Position) * (pointA - pointB);
                 float n2 = (pointB - item.particle.Position) * (pointA - pointB);
@@ -56,7 +78,11 @@ namespace Physics2D.Collision
                     // 分别计算两个端点到圆心的距离的平方
                     float dAO = (item.particle.Position - pointA).Length();
                     float dBO = (item.particle.Position - pointB).Length();
-                    if (rd > dAO || rd > dBO) count++;
+                    if (rd > dAO || rd > dBO)
+                    {
+                        // 计数
+                        ++count;
+                    }
                 }
                 else
                 {
