@@ -51,6 +51,8 @@ namespace Physics2D.Collision
                     Vector2D normal = BA * (item.particle.PrePosition - pointA) * BA / BA.LengthSquared();
                     normal = (item.particle.PrePosition - pointA) - normal;
 
+                    normal.Normalize();
+
                     ParticleContact contact = new ParticleContact
                     {
                         PA = item.particle,
@@ -101,7 +103,7 @@ namespace Physics2D.Collision
                             PA = item.particle,
                             restitution = restitution,
                             penetration = (rd - normal.Length()),
-                            contactNormal = normal
+                            contactNormal = normal.Normalize()
                         };
                         // 加入碰撞列表
                         contactList.Add(contact);
