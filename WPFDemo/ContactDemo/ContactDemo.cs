@@ -22,10 +22,6 @@ namespace WPFDemo.ContactDemo
 {
     class ContactDemo : PhysicsGraphic
     {
-        private Ball bA;
-        private Ball bB;
-        private Ball bC;
-        private Ball bD;
 
         private List<Ball> ballList = new List<Ball>();
 
