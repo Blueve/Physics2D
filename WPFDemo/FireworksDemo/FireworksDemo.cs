@@ -14,6 +14,7 @@ using WPFDemo.Graphic;
 
 namespace WPFDemo.FireworksDemo
 {
+
     public class FireworksDemo : PhysicsGraphic, IDrawable
     {
         public const int WATER_G = 1;
@@ -152,7 +153,7 @@ namespace WPFDemo.FireworksDemo
                     1f
                 );
                 objList.Add(paritcle);
-                contact.AddBall(paritcle, ConvertUnits.ToSimUnits(10));
+                contact.AddBall(paritcle, ConvertUnits.ToSimUnits(4));
             }
         }
 
