@@ -27,17 +27,17 @@ namespace Physics2D
 
         #region 转换到显示尺寸
 
-        public static int ToDisplayUnits(float simUnits)
+        public static int ToDisplayUnits(this float simUnits)
         {
             return (int)(simUnits * displayUnitsToSimUnitsRatio);
         }
 
-        public static int ToDisplayUnits(int simUnits)
+        public static int ToDisplayUnits(this int simUnits)
         {
             return (int)(simUnits * displayUnitsToSimUnitsRatio);
         }
 
-        public static Vector2D ToDisplayUnits(Vector2D simUnits)
+        public static Vector2D ToDisplayUnits(this Vector2D simUnits)
         {
             return simUnits * displayUnitsToSimUnitsRatio;
         }
@@ -46,17 +46,17 @@ namespace Physics2D
 
         #region 转换到物理世界尺寸
 
-        public static float ToSimUnits(float displayUnits)
+        public static float ToSimUnits(this float displayUnits)
         {
             return displayUnits / displayUnitsToSimUnitsRatio;
         }
 
-        public static float ToSimUnits(int displayUnits)
+        public static float ToSimUnits(this int displayUnits)
         {
             return displayUnits / displayUnitsToSimUnitsRatio;
         }
 
-        public static Vector2D ToSimUnits(Vector2D displayUnits)
+        public static Vector2D ToSimUnits(this Vector2D displayUnits)
         {
             return displayUnits / displayUnitsToSimUnitsRatio;
         }

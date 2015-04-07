@@ -66,13 +66,13 @@ namespace WPFDemo.CircleDemo
         {
             bitmap.FillEllipseCentered
             (
-                ConvertUnits.ToDisplayUnits(centerObj.Position.X),
-                ConvertUnits.ToDisplayUnits(centerObj.Position.Y), 6, 6, Colors.Red
+                centerObj.Position.X.ToDisplayUnits(),
+                centerObj.Position.Y.ToDisplayUnits(), 6, 6, Colors.Red
             );
             for (int i = objList.Count - 1; i >= 0; i--)
             {
-                int x = ConvertUnits.ToDisplayUnits(objList[i].Position.X);
-                int y = ConvertUnits.ToDisplayUnits(objList[i].Position.Y);
+                int x = objList[i].Position.X.ToDisplayUnits();
+                int y = objList[i].Position.Y.ToDisplayUnits();
 
                 bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
             }
