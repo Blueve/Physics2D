@@ -16,7 +16,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 物体集合
         /// </summary>
-        private List<PhysicsObject> objectSet = new List<PhysicsObject>();
+        private readonly List<PhysicsObject> objectSet = new List<PhysicsObject>();
 
         /// <summary>
         /// 质体作用力管理器
@@ -46,7 +46,6 @@ namespace Physics2D.Core
         #endregion 只读属性
 
         #region 公开的管理方法
-
         /// <summary>
         /// 向物理世界中添加一个物体
         /// </summary>
@@ -55,6 +54,22 @@ namespace Physics2D.Core
         {
             if (!objectSet.Contains(obj))
                 objectSet.Add(obj);
+        }
+
+        /// <summary>
+        /// 同AddObject方法
+        /// 但需要注意的是，单独使用+运算符时的效果和
+        /// 使用+=的效果时一致的，例如：
+        /// 1) world + obj;
+        /// 2) world += obj;
+        /// world的值都会被更改，但建议使用第二种方式，语义会更加明确
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public World operator +(PhysicsObject obj)
+        {
+            this.AddObject(obj);
+            return this;
         }
 
         /// <summary>
@@ -71,6 +86,17 @@ namespace Physics2D.Core
             {
                 particleForceRegistry.Remove((Particle)obj);
             }
+        }
+
+        /// <summary>
+        /// 同RemoveObject方法
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public World operator -(PhysicsObject obj)
+        {
+            this.RemoveObject(obj);
+            return this;
         }
 
         /// <summary>
