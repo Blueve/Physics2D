@@ -135,7 +135,7 @@ namespace WPFDemo.FireworksDemo
             {
                 Start = true;
                 // 增加重力
-                ZoneFactory.CreateGlobalZone(physicsWorld, g);
+                physicsWorld.CreateGlobalZone(g);
                 // 添加边缘
                 physicsWorld.RegistryContactGenerator(contact);
 

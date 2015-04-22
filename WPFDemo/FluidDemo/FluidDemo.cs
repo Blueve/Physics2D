@@ -47,8 +47,7 @@ namespace WPFDemo.FluidDemo
             {
                 Start = true;
                 // 设置全局的阻力
-                ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleDrag(0.5f, 0.5f));
-                //physicsWorld.RegistryContactGenerator(contactBall);
+                physicsWorld.CreateGlobalZone(new ParticleDrag(0.5f, 0.5f));
                 
                 // 初始化水
                 for (int i = 0; i < 100; i++)

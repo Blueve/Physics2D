@@ -50,8 +50,7 @@ namespace WPFDemo.ContactDemo
             }
 
             // 增加重力和空气阻力
-            ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleGravity(new Vector2D(0f, 40f)));
-            //ZoneFactory.CreateGloablZone(physicsWorld, new ParticleDrag(0.02f, 0.01f));
+            physicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0f, 40f)));
 
             slot = 1 / 240f;
 

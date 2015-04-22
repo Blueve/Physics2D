@@ -25,7 +25,7 @@ namespace WPFDemo.ElasticDemo
             drawQueue.Add(elasticatedNet);
 
             // 设置全局的阻力
-            ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleDrag(0.8f, 0.6f));
+            physicsWorld.CreateGlobalZone(new ParticleDrag(0.8f, 0.6f));
         }
 
         protected override void UpdatePhysics(float duration)
