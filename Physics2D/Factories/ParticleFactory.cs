@@ -19,7 +19,7 @@ namespace Physics2D.Factories
         /// <param name="v">初速度</param>
         /// <param name="m">质量</param>
         /// <returns></returns>
-        public static Particle Create(World world, Vector2D p, Vector2D v, float m)
+        public static Particle CreateParticle(this World world, Vector2D p, Vector2D v, float m)
         {
             Particle particle = new Particle
             {
@@ -38,7 +38,7 @@ namespace Physics2D.Factories
         /// <param name="world">物理世界</param>
         /// <param name="p">初位置</param>
         /// <returns></returns>
-        public static Particle CreateFixed(World world, Vector2D p)
+        public static Particle CreateFixedParticle(this World world, Vector2D p)
         {
             Particle particle = new Particle
             {
@@ -57,7 +57,7 @@ namespace Physics2D.Factories
         /// <param name="p">初位置</param>
         /// <param name="v">初速度</param>
         /// <returns></returns>
-        public static Particle CreateFixed(World world, Vector2D p, Vector2D v)
+        public static Particle CreateFixedParticle(this World world, Vector2D p, Vector2D v)
         {
             Particle particle = new Particle
             {

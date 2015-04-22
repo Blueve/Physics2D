@@ -35,7 +35,7 @@ namespace WPFDemo.ContactDemo
 
             for(int i = 0; i < num; i++)
             {
-                Particle fB = ParticleFactory.CreateFixed(physicsWorld, (new Vector2D(160f + 40 * i, 0f)).ToSimUnits());
+                Particle fB = physicsWorld.CreateFixedParticle((new Vector2D(160f + 40 * i, 0f)).ToSimUnits());
                 Particle pB = physicsWorld.CreateParticle((new Vector2D(160f + 40 * i, 200f)).ToSimUnits(), new Vector2D(0f, 0f), 2f);
                 Ball ball = new Ball
                 {

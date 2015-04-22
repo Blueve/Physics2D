@@ -133,18 +133,5 @@ namespace Physics2D.Core
         }
 
         #endregion 公开的方法
-
-        #region 工厂方法
-
-        /// <summary>
-        /// 在物理世界中创建一个粒子
-        /// </summary>
-        /// <returns>粒子的引用</returns>
-        public Particle CreateParticle(Vector2D p, Vector2D v, float m)
-        {
-            return ParticleFactory.Create(this, p, v, m);
-        }
-
-        #endregion 工厂方法
     }
 }

@@ -21,9 +21,8 @@ namespace WPFDemo.CircleDemo
             : base(image)
         {
             // 初始化中心点
-            centerObj = ParticleFactory.CreateFixed
+            centerObj = physicsWorld.CreateFixedParticle
             (
-                physicsWorld,
                 new Vector2D
                 (
                     ConvertUnits.ToSimUnits(250f),
