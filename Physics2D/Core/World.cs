@@ -33,6 +33,9 @@ namespace Physics2D.Core
         /// </summary>
         private List<ParticleContact> particleContactList = new List<ParticleContact>();
 
+        /// <summary>
+        /// 碰撞解决器
+        /// </summary>
         private ParticleContactResolver particleContactResolver = new ParticleContactResolver(0);
         #endregion 私有属性
 
