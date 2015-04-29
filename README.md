@@ -1,13 +1,11 @@
 Physics2D
 =========
 
-A physics engine build via C# with WPF Demo &amp; Unit Test.
-
 一个使用C#编写的2D物理引擎，项目包含了
 
-  - Physics Engine 物理引擎
-  - Unit Test 单元测试
-  - WPF Demo 基于WPF绘制的简单Demo
+  - 物理引擎
+  - 单元测试
+  - 基于WPF绘制的简单Demo
 
 ---
 ## 目前该引擎包含的功能(包含计划)
@@ -21,3 +19,25 @@ A physics engine build via C# with WPF Demo &amp; Unit Test.
   - [ ] 刚体
   - [ ] 可以定制的刚体作用力发生器
   - [ ] 刚体碰撞处理
+
+Physics2D
+=========
+
+A physics engine build by C# include:
+
+  - Physics Engine
+  - Unit Test
+  - WPF Demo
+
+---
+## Features (Plans)
+
+  - [x] Particle
+  - [x] Force generator
+  - [x] Force field
+  - [x] Particle collision solver
+  - [ ] Particle contact (Link\Rope)
+  - [ ] Fluid simulation
+  - [ ] Rigid body
+  - [ ] Rigid body force generator
+  - [ ] Rigid body collision solver
