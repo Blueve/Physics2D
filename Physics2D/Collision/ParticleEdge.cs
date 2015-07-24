@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 using Physics2D.Common;
-using Physics2D.Common.Exceptions;
 using Physics2D.Object;
 
 using static Physics2D.Common.MathHelper;
@@ -40,13 +35,13 @@ namespace Physics2D.Collision
             int count = 0;
             foreach(var item in ballList)
             {
+                var intersectionPoint = LineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB);
+                
                 // 判断物体的运动路径是否发生穿越
-                if (IsLineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB))
+                if (intersectionPoint != null)
                 {
-                    var intersectionPoint = LineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB);
-
                     // 发生穿越则认为发生碰撞 将质体位置退至相交点
-                    item.particle.Position = intersectionPoint;
+                    item.particle.Position = (Vector2D)intersectionPoint;
 
                     // 产生一组碰撞
                     Vector2D BA = pointB - pointA;
