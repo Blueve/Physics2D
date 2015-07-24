@@ -46,7 +46,6 @@
     <Compile Include="Collision\ParticleEdge.cs" />
     <Compile Include="Collision\ParticleLink.cs" />
     <Compile Include="Collision\ParticleRope.cs" />
-    <Compile Include="Common\Exceptions\PointNotFoundException.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\Vector2D.cs" />
     <Compile Include="Core\ParticleContactRegistry.cs" />
@@ -69,7 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Common\Exceptions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
