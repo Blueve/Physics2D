@@ -24,6 +24,7 @@ namespace WPFDemo.FluidDemo
         private int[] metaTable;
         private int[,] cacheTable;
         private object[,] cacheLocks;
+        private int[,] cache;
 
         public Water(int maxWidth, int maxHeight)
         {
@@ -65,7 +66,8 @@ namespace WPFDemo.FluidDemo
                 int w = wc.Width;
                 int h = wc.Height;
                 var pixels = wc.Pixels;
-                int[,] cache = new int[w, h];
+                cache = cache ?? new int[w, h];
+                Array.Clear(cache, 0, cache.Length);
                 // 叠加每个球的势能
                 Parallel.ForEach(objList, obj =>
                 {
