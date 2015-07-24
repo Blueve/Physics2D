@@ -94,6 +94,12 @@ namespace Physics2D.Common
             return this;
         }
 
+        public void Set(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
+
         #endregion 公共方法
 
         #region 运算
