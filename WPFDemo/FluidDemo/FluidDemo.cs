@@ -66,15 +66,10 @@ namespace WPFDemo.FluidDemo
                     //contactBall.AddBall(item, ConvertUnits.ToSimUnits(3));
                 }
             }
-            else
-            {
-                //ZoneFactory.CreateGlobalZone(physicsWorld, new ParticleGravity(new Vector2D(0f, 10f)));
-                //flag = true;
-            }
             // 抖动
             foreach (var obj in water.objList)
             {
-                obj.Velocity = new Vector2D(rnd.Next(5) - 2.5f, rnd.Next(5) - 2.5f);
+                obj.Velocity.Set(rnd.Next(5) - 2.5f, rnd.Next(5) - 2.5f);
             }
         }
 
