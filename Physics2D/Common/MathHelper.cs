@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Physics2D.Common.Exceptions;
-
-namespace Physics2D.Common
+﻿namespace Physics2D.Common
 {
     public static class MathHelper
     {
@@ -34,7 +27,7 @@ namespace Physics2D.Common
         /// <param name="lineB1"></param>
         /// <param name="lineB2"></param>
         /// <returns></returns>
-        public static Vector2D LineIntersection(Vector2D lineA1, Vector2D lineA2, Vector2D lineB1, Vector2D lineB2)
+        public static Vector2D? LineIntersection(Vector2D lineA1, Vector2D lineA2, Vector2D lineB1, Vector2D lineB2)
         {
             var area1 = SignedTriangleArea(lineA1, lineA2, lineB2);
             var area2 = SignedTriangleArea(lineA1, lineA2, lineB1);
@@ -52,24 +45,7 @@ namespace Physics2D.Common
                     return intersectionPoint;
                 }
             }
-            throw new PointNotFoundException("");
-        }
-
-        public static bool IsLineIntersection(Vector2D lineA1, Vector2D lineA2, Vector2D lineB1, Vector2D lineB2)
-        {
-            var area1 = SignedTriangleArea(lineA1, lineA2, lineB2);
-            var area2 = SignedTriangleArea(lineA1, lineA2, lineB1);
-
-            if (area1 * area2 < 0f)
-            {
-                var area3 = SignedTriangleArea(lineB1, lineB2, lineA1);
-                var area4 = area3 + area2 - area1;
-                if (area3 * area4 < 0f)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return null;
         }
 
         /// <summary>
