@@ -67,12 +67,13 @@ namespace Physics2D.Core
         /// 2) world += obj;
         /// world的值都会被更改，但建议使用第二种方式，语义会更加明确
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public World operator +(PhysicsObject obj)
+        public static World operator +(World world, PhysicsObject obj)
         {
-            this.AddObject(obj);
-            return this;
+            world.AddObject(obj);
+            return world;
         }
 
         /// <summary>
@@ -81,25 +82,26 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void RemoveObject(PhysicsObject obj)
         {
-            if (objectSet.Contains(obj))
-                objectSet.Remove(obj);
+            if (this.objectSet.Contains(obj))
+                this.objectSet.Remove(obj);
 
             // 仅在物体为质体时执行注销操作
             if (obj is Particle)
             {
-                particleForceRegistry.Remove((Particle)obj);
+                this.particleForceRegistry.Remove((Particle)obj);
             }
         }
 
         /// <summary>
         /// 同RemoveObject方法
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public World operator -(PhysicsObject obj)
+        public static World operator -(World world, PhysicsObject obj)
         {
-            this.RemoveObject(obj);
-            return this;
+            world.RemoveObject(obj);
+            return world;
         }
 
         /// <summary>
