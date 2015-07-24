@@ -9,19 +9,6 @@ namespace UnitTest.Common
     public class MathHelperTest
     {
         [TestMethod]
-        public void TestIsLineIntersection()
-        {
-            Vector2D pA1 = new Vector2D(0f, 3f);
-            Vector2D pA2 = new Vector2D(6f, 3f);
-
-            Vector2D pB1 = new Vector2D(3f, 0f);
-            Vector2D pB2 = new Vector2D(3f, 6f);
-
-
-            Assert.IsTrue(MathHelper.IsLineIntersection(pA1, pA2, pB1, pB2));
-        }
-
-        [TestMethod]
         public void TestLineIntersection()
         {
             Vector2D pA1 = new Vector2D(0f, 3f);
