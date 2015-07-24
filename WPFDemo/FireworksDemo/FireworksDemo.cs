@@ -92,7 +92,7 @@ namespace WPFDemo.FireworksDemo
             physicsWorld.Update(duration);
         }
 
-        void IDrawable.Draw(WriteableBitmap bitmap)
+        public void Draw(WriteableBitmap bitmap)
         {
             
             if (type == WATER_G)
