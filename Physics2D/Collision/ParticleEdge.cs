@@ -8,6 +8,8 @@ using Physics2D.Common;
 using Physics2D.Common.Exceptions;
 using Physics2D.Object;
 
+using static Physics2D.Common.MathHelper;
+
 namespace Physics2D.Collision
 {
     public class ParticleEdge : ParticleContactGenerator
@@ -39,9 +41,9 @@ namespace Physics2D.Collision
             foreach(var item in ballList)
             {
                 // 判断物体的运动路径是否发生穿越
-                if (MathHelper.IsLineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB))
+                if (IsLineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB))
                 {
-                    var intersectionPoint = MathHelper.LineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB);
+                    var intersectionPoint = LineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB);
 
                     // 发生穿越则认为发生碰撞 将质体位置退至相交点
                     item.particle.Position = intersectionPoint;
