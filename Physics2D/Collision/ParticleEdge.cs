@@ -80,7 +80,7 @@ namespace Physics2D.Collision
                     if (rd > dAO || rd > dBO)
                     {
                         // 计数
-                        ++count;
+                        //++count;
                     }
                 }
                 else
