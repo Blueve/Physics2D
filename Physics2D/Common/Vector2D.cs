@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Math;
 
 namespace Physics2D.Common
 {
@@ -61,7 +62,7 @@ namespace Physics2D.Common
 
         public static float Distance(Vector2D value1, Vector2D value2)
         {
-            return (float)Math.Sqrt(DistanceSquared(value1, value2));
+            return (float)Sqrt(DistanceSquared(value1, value2));
         }
 
         public float LengthSquared()
@@ -104,50 +105,23 @@ namespace Physics2D.Common
 
         #region 运算
 
-        public static Vector2D operator +(Vector2D left, Vector2D right)
-        {
-            return new Vector2D(left.X + right.X, left.Y + right.Y);
-        }
+        public static Vector2D operator +(Vector2D left, Vector2D right) => new Vector2D(left.X + right.X, left.Y + right.Y);
 
-        public static Vector2D operator -(Vector2D left, Vector2D right)
-        {
-            return new Vector2D(left.X - right.X, left.Y - right.Y);
-        }
+        public static Vector2D operator -(Vector2D left, Vector2D right) => new Vector2D(left.X - right.X, left.Y - right.Y);
 
-        public static Vector2D operator -(Vector2D right)
-        {
-            return new Vector2D(0.0f - right.X, 0.0f - right.Y);
-        }
+        public static Vector2D operator -(Vector2D right) => new Vector2D(0.0f - right.X, 0.0f - right.Y);
 
-        public static float operator *(Vector2D left, Vector2D right)
-        {
-            return left.X * right.X + left.Y * right.Y;
-        }
+        public static float operator *(Vector2D left, Vector2D right) => left.X* right.X + left.Y* right.Y;
 
-        public static Vector2D operator *(Vector2D left, float factor)
-        {
-            return new Vector2D(left.X * factor, left.Y * factor);
-        }
+        public static Vector2D operator *(Vector2D left, float factor) => new Vector2D(left.X * factor, left.Y * factor);
 
-        public static Vector2D operator *(float factor, Vector2D right)
-        {
-            return right * factor;
-        }
+        public static Vector2D operator *(float factor, Vector2D right) => right * factor;
 
-        public static Vector2D operator /(Vector2D left, float divisor)
-        {
-            return new Vector2D(left.X / divisor, left.Y / divisor);
-        }
+        public static Vector2D operator /(Vector2D left, float divisor) => new Vector2D(left.X / divisor, left.Y / divisor);
 
-        public static bool operator ==(Vector2D left, Vector2D right)
-        {
-            return System.Object.Equals(left, right);
-        }
+        public static bool operator ==(Vector2D left, Vector2D right) => Equals(left, right);
 
-        public static bool operator !=(Vector2D left, Vector2D right)
-        {
-            return !System.Object.Equals(left, right); ;
-        }
+        public static bool operator !=(Vector2D left, Vector2D right) => !Equals(left, right);
 
         #endregion 运算
 
@@ -156,18 +130,12 @@ namespace Physics2D.Common
         public override bool Equals(object obj)
         {
             Vector2D right = (Vector2D)obj;
-            return Math.Abs(X - right.X) < Settings.percision && Math.Abs(Y - right.Y) < Settings.percision;
+            return Abs(X - right.X) < Settings.percision && Abs(Y - right.Y) < Settings.percision;
         }
 
-        public override string ToString()
-        {
-            return string.Format("({0:f2}, {1:f2})", X, Y);
-        }
+        public override string ToString() => $"({X:f2}, {Y:f2})";
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         #endregion 重载方法
     }
