@@ -140,10 +140,7 @@ namespace Physics2D.Core
             Parallel.ForEach(objectSet, (item) =>
             {
                 // 为物理对象施加区域作用力
-                foreach (var zone in ZoneSet)
-                {
-                    zone.TryApplyTo(item, duration);
-                }
+                ZoneSet.ForEach(z => z.TryApplyTo(item, duration));
                 // 对物理对象进行积分
                 item.Update(duration);
             });
