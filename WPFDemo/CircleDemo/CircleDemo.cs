@@ -33,12 +33,12 @@ namespace WPFDemo.CircleDemo
             drawQueue.Add(this);
         }
 
-        protected override void UpdatePhysics(float duration)
+        protected override void UpdatePhysics(double duration)
         {
             foreach (var item in objList)
             {
                 Vector2D v = centerObj.Position - item.Position;
-                float d = v.Length();
+                double d = v.Length();
                 item.AddForce(v.Normalize() * 30f);
             }
             physicsWorld.Update(duration);

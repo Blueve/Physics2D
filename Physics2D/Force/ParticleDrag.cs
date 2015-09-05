@@ -4,21 +4,21 @@ namespace Physics2D.Force
 {
     public class ParticleDrag : ParticleForceGenerator
     {
-        private float k1;
-        private float k2;
+        private double k1;
+        private double k2;
 
-        public ParticleDrag(float k1, float k2)
+        public ParticleDrag(double k1, double k2)
         {
             this.k1 = k1;
             this.k2 = k2;
         }
 
-        public override void UpdateForce(Object.Particle particle, float duration)
+        public override void UpdateForce(Object.Particle particle, double duration)
         {
             if (particle.Velocity == Vector2D.Zero) return;
 
             Vector2D force = particle.Velocity;
-            float c = force.Length();
+            double c = force.Length();
             c = k1 * c + k2 * c * c;
             force.Normalize();
             force *= -c;

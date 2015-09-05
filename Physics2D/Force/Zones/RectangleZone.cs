@@ -7,12 +7,12 @@ namespace Physics2D.Force.Zones
     /// </summary>
     public class RectangleZone : Zone
     {
-        private float x1;
-        private float y1;
-        private float x2;
-        private float y2;
+        private double x1;
+        private double y1;
+        private double x2;
+        private double y2;
 
-        public RectangleZone(float x1, float y1, float x2, float y2)
+        public RectangleZone(double x1, double y1, double x2, double y2)
         {
             this.x1 = x1;
             this.y1 = y1;

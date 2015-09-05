@@ -55,9 +55,9 @@
         /// <param name="b">顶点B</param>
         /// <param name="c">顶点C</param>
         /// <returns></returns>
-        public static float SignedTriangleArea(Vector2D a, Vector2D b, Vector2D c)
+        public static double SignedTriangleArea(Vector2D a, Vector2D b, Vector2D c)
         {
-            float result = (a.X - c.X) * (b.Y - c.Y) - (a.Y - c.Y) * (b.X - c.X);
+            double result = (a.X - c.X) * (b.Y - c.Y) - (a.Y - c.Y) * (b.X - c.X);
             return result;
         }
     }

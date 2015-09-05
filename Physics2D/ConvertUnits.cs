@@ -10,14 +10,14 @@ namespace Physics2D
     {
         #region 私有属性
 
-        private static float displayUnitsToSimUnitsRatio = 50f;
-        private static float simUnitsToDisplayUnitsRatio = 1 / displayUnitsToSimUnitsRatio;
+        private static double displayUnitsToSimUnitsRatio = 50;
+        private static double simUnitsToDisplayUnitsRatio = 1 / displayUnitsToSimUnitsRatio;
 
         #endregion 私有属性
 
         #region 公开的方法
 
-        public static void SetDisplayUnitToSimUnitRatio(float displayUnitsPerSimUnit)
+        public static void SetDisplayUnitToSimUnitRatio(double displayUnitsPerSimUnit)
         {
             displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;
             simUnitsToDisplayUnitsRatio = 1 / displayUnitsPerSimUnit;
@@ -27,7 +27,7 @@ namespace Physics2D
 
         #region 转换到显示尺寸
 
-        public static int ToDisplayUnits(this float simUnits)
+        public static int ToDisplayUnits(this double simUnits)
         {
             return (int)(simUnits * displayUnitsToSimUnitsRatio);
         }
@@ -46,12 +46,12 @@ namespace Physics2D
 
         #region 转换到物理世界尺寸
 
-        public static float ToSimUnits(this float displayUnits)
+        public static double ToSimUnits(this double displayUnits)
         {
             return displayUnits / displayUnitsToSimUnitsRatio;
         }
 
-        public static float ToSimUnits(this int displayUnits)
+        public static double ToSimUnits(this int displayUnits)
         {
             return displayUnits / displayUnitsToSimUnitsRatio;
         }

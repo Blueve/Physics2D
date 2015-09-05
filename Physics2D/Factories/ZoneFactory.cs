@@ -34,7 +34,7 @@ namespace Physics2D.Factories
         /// <param name="x2"></param>
         /// <param name="y2"></param>
         /// <returns></returns>
-        public static RectangleZone CreateRectangleZone(this World world, ParticleForceGenerator particleForceGenerator, float x1, float y1, float x2, float y2)
+        public static RectangleZone CreateRectangleZone(this World world, ParticleForceGenerator particleForceGenerator, double x1, double y1, double x2, double y2)
         {
             RectangleZone zone = new RectangleZone(x1, y1, x2, y2);
             RegistryZone(world, particleForceGenerator, zone);

@@ -5,7 +5,7 @@ namespace Physics2D.Object
 {
     public class Particle : PhysicsObject
     {
-        public float Mass
+        public double Mass
         {
             set
             {
@@ -20,18 +20,18 @@ namespace Physics2D.Object
             get { return mass; }
         }
 
-        public float InverseMass
+        public double InverseMass
         {
             set
             {
-                mass = value == 0 ? float.MaxValue : 1f / value;
+                mass = value == 0 ? double.MaxValue : 1f / value;
                 inverseMass = value;
             }
             get { return inverseMass; }
         }
 
-        private float mass;
-        private float inverseMass;
+        private double mass;
+        private double inverseMass;
         private Vector2D forceAccum;
 
         public void AddForce(Vector2D force)
@@ -39,7 +39,7 @@ namespace Physics2D.Object
             forceAccum += force;
         }
 
-        public override void Update(float duration)
+        public override void Update(double duration)
         {
             PrePosition = new Vector2D(Position);
 

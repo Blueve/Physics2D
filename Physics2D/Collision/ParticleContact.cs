@@ -25,12 +25,12 @@ namespace Physics2D.Collision
         /// <summary>
         /// 碰撞恢复系数
         /// </summary>
-        public float restitution;
+        public double restitution;
 
         /// <summary>
         /// 相交深度
         /// </summary>
-        public float penetration;
+        public double penetration;
 
         /// <summary>
         /// 碰撞法线
@@ -44,7 +44,7 @@ namespace Physics2D.Collision
         /// 解决速度及相交
         /// </summary>
         /// <param name="duration">持续时间</param>
-        public void resolve(float duration)
+        public void resolve(double duration)
         {
             resolveVelocity(duration);
             resolveInterpenetration(duration);
@@ -54,7 +54,7 @@ namespace Physics2D.Collision
         /// 计算分离速度
         /// </summary>
         /// <returns>分离速度</returns>
-        public float calculateSeparatingVelocity()
+        public double calculateSeparatingVelocity()
         {
             return (PA.Velocity - (PB != null ? PB.Velocity : Vector2D.Zero)) * contactNormal;
         }
@@ -65,9 +65,9 @@ namespace Physics2D.Collision
         /// 解决碰撞后速度
         /// </summary>
         /// <param name="duration"></param>
-        private void resolveVelocity(float duration)
+        private void resolveVelocity(double duration)
         {
-            float separatingVelocity = calculateSeparatingVelocity();
+            double separatingVelocity = calculateSeparatingVelocity();
 
             if(separatingVelocity > 0f)
             {
@@ -75,10 +75,10 @@ namespace Physics2D.Collision
                 return;
             }
 
-            float newSeparatingVelocity = -separatingVelocity * restitution;
+            double newSeparatingVelocity = -separatingVelocity * restitution;
 
             // 检查仅由加速度产生的速度
-            float accCausedSeparatingVelocity = (PA.Acceleration - (PB != null ? PB.Acceleration : Vector2D.Zero)) * contactNormal * duration;
+            double accCausedSeparatingVelocity = (PA.Acceleration - (PB != null ? PB.Acceleration : Vector2D.Zero)) * contactNormal * duration;
             if (accCausedSeparatingVelocity < 0f)
             {
                 // 补偿由加速度产生的速度
@@ -87,15 +87,15 @@ namespace Physics2D.Collision
                 if (newSeparatingVelocity < 0f) newSeparatingVelocity = 0;
             }
 
-            float deltaVelocity = newSeparatingVelocity - separatingVelocity;
+            double deltaVelocity = newSeparatingVelocity - separatingVelocity;
 
-            float totalInverseMass = PA.InverseMass + (PB != null ? PB.InverseMass : 0f);
+            double totalInverseMass = PA.InverseMass + (PB != null ? PB.InverseMass : 0f);
 
             // 两个物体全为固定或匀速物体则不处理
             if (totalInverseMass <= 0f) return;
 
             // 计算冲量
-            float impulse = deltaVelocity / totalInverseMass;
+            double impulse = deltaVelocity / totalInverseMass;
 
             // 施加冲量
             Vector2D impulsePerIMass = contactNormal * impulse;
@@ -109,15 +109,15 @@ namespace Physics2D.Collision
         /// 解决碰撞后相交
         /// </summary>
         /// <param name="duration"></param>
-        private void resolveInterpenetration(float duration)
+        private void resolveInterpenetration(double duration)
         {
             // 对象未相交
             if (penetration <= 0f) return;
 
             // 计算碰撞法线上两物体的速度分量
-            float normalLen = contactNormal.Length();
-            float vA = PA.Velocity * contactNormal / normalLen;
-            float vB = 0;
+            double normalLen = contactNormal.Length();
+            double vA = PA.Velocity * contactNormal / normalLen;
+            double vB = 0;
             if(PB != null)
                 vB = PB.Velocity * contactNormal / normalLen;
 
@@ -130,7 +130,7 @@ namespace Physics2D.Collision
             
 
             //// 不处理两个均为固定或常速运动的物体
-            float totalInverseMass = PA.InverseMass + (PB != null ? PB.InverseMass : 0);
+            double totalInverseMass = PA.InverseMass + (PB != null ? PB.InverseMass : 0);
             if (totalInverseMass <= 0f) return;
 
             Vector2D movePerIMass = contactNormal * (penetration / totalInverseMass);

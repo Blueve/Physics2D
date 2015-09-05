@@ -16,14 +16,14 @@ namespace Physics2D.Collision
     {
         private List<Ball> ballList = new List<Ball>();
 
-        private float restitution;
+        private double restitution;
 
-        public ParticleBall(float restitution)
+        public ParticleBall(double restitution)
         {
             this.restitution = restitution;
         }
 
-        public void AddBall(Particle particle, float r)
+        public void AddBall(Particle particle, double r)
         {
             // 添加一个球
             ballList.Add(new Ball { particle = particle, r = r });
@@ -37,9 +37,9 @@ namespace Physics2D.Collision
             {
                 for (int j = i + 1; j < ballList.Count; j++)
                 {
-                    float d = (ballList[i].particle.Position - ballList[j].particle.Position).Length();
+                    double d = (ballList[i].particle.Position - ballList[j].particle.Position).Length();
                     // 碰撞检测
-                    float l = ballList[i].r + ballList[j].r;
+                    double l = ballList[i].r + ballList[j].r;
                     if(d < l)
                     {
                         // 产生一组碰撞
@@ -65,7 +65,7 @@ namespace Physics2D.Collision
         internal struct Ball
         {
             public Particle particle;
-            public float r;
+            public double r;
         }
     }
 }

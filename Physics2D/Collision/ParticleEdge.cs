@@ -12,18 +12,18 @@ namespace Physics2D.Collision
         private Vector2D pointA;
         private Vector2D pointB;
 
-        private float restitution;
+        private double restitution;
 
         private List<ParticleBall.Ball> ballList = new List<ParticleBall.Ball>();
 
 
-        public void AddBall(Particle particle, float r)
+        public void AddBall(Particle particle, double r)
         {
             // 添加一个球
             ballList.Add(new ParticleBall.Ball { particle = particle, r = r });
         }
 
-        public ParticleEdge(float restitution, float x1, float y1, float x2, float y2)
+        public ParticleEdge(double restitution, double x1, double y1, double x2, double y2)
         {
             this.restitution = restitution;
             pointA = new Vector2D(x1, y1);
@@ -65,18 +65,18 @@ namespace Physics2D.Collision
                 }
 
                 // 若未发生穿越则计算
-                float rd = item.r;
+                double rd = item.r;
 
-                float n1 = (pointA - item.particle.Position) * (pointA - pointB);
-                float n2 = (pointB - item.particle.Position) * (pointA - pointB);
+                double n1 = (pointA - item.particle.Position) * (pointA - pointB);
+                double n2 = (pointB - item.particle.Position) * (pointA - pointB);
 
                 if (n1 * n2 > 0f)
                 {
                     // 线段上的点到圆心的距离不大于到端点的距离
 
                     // 分别计算两个端点到圆心的距离的平方
-                    float dAO = (item.particle.Position - pointA).Length();
-                    float dBO = (item.particle.Position - pointB).Length();
+                    double dAO = (item.particle.Position - pointA).Length();
+                    double dBO = (item.particle.Position - pointB).Length();
                     if (rd > dAO || rd > dBO)
                     {
                         // 计数

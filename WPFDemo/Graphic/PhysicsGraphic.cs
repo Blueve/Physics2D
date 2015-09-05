@@ -18,7 +18,7 @@ namespace WPFDemo.Graphic
         /// </summary>
         protected TimeTracker timeTracker = new TimeTracker();
 
-        protected float timeSpan = 0f;
+        protected double timeSpan = 0;
 
         /// <summary>
         /// 是否渲染标记
@@ -38,7 +38,7 @@ namespace WPFDemo.Graphic
         /// <summary>
         /// 物理演算时间槽大小
         /// </summary>
-        protected float slot = 1 / 60f;
+        protected double slot = 1 / 60.0;
 
         public PhysicsGraphic(Image image)
         {
@@ -68,6 +68,6 @@ namespace WPFDemo.Graphic
         /// 更新物理世界
         /// </summary>
         /// <param name="duration">持续时间</param>
-        protected abstract void UpdatePhysics(float duration);
+        protected abstract void UpdatePhysics(double duration);
     }
 }

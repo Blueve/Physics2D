@@ -35,15 +35,15 @@ namespace WPFDemo.ContactDemo
 
             for(int i = 0; i < num; i++)
             {
-                Particle fB = physicsWorld.CreateFixedParticle((new Vector2D(160f + 40 * i, 0f)).ToSimUnits());
-                Particle pB = physicsWorld.CreateParticle((new Vector2D(160f + 40 * i, 200f)).ToSimUnits(), new Vector2D(0f, 0f), 2f);
+                Particle fB = physicsWorld.CreateFixedParticle((new Vector2D(160 + 40 * i, 0f)).ToSimUnits());
+                Particle pB = physicsWorld.CreateParticle((new Vector2D(160 + 40 * i, 200f)).ToSimUnits(), new Vector2D(0, 0), 2);
                 Ball ball = new Ball
                 {
                     fixedParticle = fB,
                     particle = pB,
                     r = 20
                 };
-                physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(200f), 0f, fB, pB));
+                physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(200), 0f, fB, pB));
                 contact.AddBall(ball.particle, ConvertUnits.ToSimUnits(ball.r));
                 drawQueue.Add(ball);
                 ballList.Add(ball);
@@ -52,13 +52,13 @@ namespace WPFDemo.ContactDemo
             // 增加重力和空气阻力
             physicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0f, 40f)));
 
-            slot = 1 / 240f;
+            slot = 1 / 240.0;
 
             Start = true;
         }
 
 
-        protected override void UpdatePhysics(float duration)
+        protected override void UpdatePhysics(double duration)
         {
             physicsWorld.Update(duration);
         }

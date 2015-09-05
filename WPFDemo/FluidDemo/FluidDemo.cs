@@ -28,14 +28,14 @@ namespace WPFDemo.FluidDemo
             this.drawQueue.Add(water);
         }
 
-        protected override void UpdatePhysics(float duration)
+        protected override void UpdatePhysics(double duration)
         {
             if(!flag)
                 foreach (var item in water.objList)
                 {
                     Vector2D v = center - item.Position;
-                    float d = v.Length();
-                    item.AddForce(v.Normalize() * 5f * d);
+                    double d = v.Length();
+                    item.AddForce(v.Normalize() * 5 * d);
                 }
             physicsWorld.Update(duration);
         }
@@ -47,7 +47,7 @@ namespace WPFDemo.FluidDemo
             {
                 Start = true;
                 // 设置全局的阻力
-                physicsWorld.CreateGlobalZone(new ParticleDrag(0.5f, 0.5f));
+                physicsWorld.CreateGlobalZone(new ParticleDrag(0.5, 0.5));
                 
                 // 初始化水
                 for (int i = 0; i < 100; i++)
@@ -69,12 +69,12 @@ namespace WPFDemo.FluidDemo
             // 抖动
             foreach (var obj in water.objList)
             {
-                obj.Velocity.Set(rnd.Next(5) - 2.5f, rnd.Next(5) - 2.5f);
+                obj.Velocity.Set(rnd.Next(5) - 2.5, rnd.Next(5) - 2.5);
             }
         }
 
         private bool flag = false;
 
-        private ParticleBall contactBall = new ParticleBall(0.02f);
+        private ParticleBall contactBall = new ParticleBall(0.02);
     }
 }

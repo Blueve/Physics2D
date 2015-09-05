@@ -23,19 +23,19 @@ namespace Physics2D.Collision
             this.iterations = iterations;
         }
 
-        public void resolveContacts(List<ParticleContact> contactList, float duration)
+        public void resolveContacts(List<ParticleContact> contactList, double duration)
         {
             if (contactList.Count == 0) return;
             iterationsUsed = 0;
             while(iterationsUsed++ < iterations)
             {
                 // 找到分离速度最大的一组碰撞 优先处理
-                float max = 0f;
+                double max = 0f;
                 int maxI = contactList.Count - 1;
                 for(int i = 0; i < contactList.Count; i++)
                 {
                     // 计算分离速度
-                    float sepV = contactList[i].calculateSeparatingVelocity();
+                    double sepV = contactList[i].calculateSeparatingVelocity();
                     if(sepV < max)
                     {
                         max = sepV;

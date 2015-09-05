@@ -9,10 +9,10 @@ namespace WPFDemo.ElasticDemo
     {
         private List<LinkedItem> linked = new List<LinkedItem>();
 
-        private float k;
-        private float length;
+        private double k;
+        private double length;
 
-        public DestructibleElastic(float k, float length)
+        public DestructibleElastic(double k, double length)
         {
             this.k = k;
             this.length = length;
@@ -27,7 +27,7 @@ namespace WPFDemo.ElasticDemo
             });
         }
 
-        public override void UpdateForce(Particle particle, float duration)
+        public override void UpdateForce(Particle particle, double duration)
         {
             for (int i = linked.Count - 1; i >= 0; i--)
             {
@@ -39,7 +39,7 @@ namespace WPFDemo.ElasticDemo
                         linked[i].isValid = false;
                         continue;
                     }
-                    float force = (length - d.Length()) * k;
+                    double force = (length - d.Length()) * k;
                     d.Normalize();
                     particle.AddForce(d * force);
                 }

@@ -14,14 +14,14 @@ namespace Physics2D.Collision
         /// <summary>
         /// 最大长度
         /// </summary>
-        public float maxLength;
+        public double maxLength;
 
         /// <summary>
         /// 弹性系数
         /// </summary>
-        public float restitution;
+        public double restitution;
 
-        public ParticleRope(float maxLength, float restitution, Particle pA, Particle pB)
+        public ParticleRope(double maxLength, double restitution, Particle pA, Particle pB)
         {
             this.maxLength = maxLength;
             this.restitution = restitution;
@@ -31,7 +31,7 @@ namespace Physics2D.Collision
 
         public override int fillContact(List<ParticleContact> contactList, int limit)
         {
-            float length = currentLength();
+            double length = currentLength();
 
             // 未超过绳索长度
             if (length < maxLength) return 0;

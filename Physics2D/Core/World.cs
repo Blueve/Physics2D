@@ -131,7 +131,7 @@ namespace Physics2D.Core
         /// 按时间间隔更新整个物理世界
         /// </summary>
         /// <param name="duration">时间间隔</param>
-        public void Update(float duration)
+        public void Update(double duration)
         {
             // 为粒子施加作用力
             particleForceRegistry.Update(duration);

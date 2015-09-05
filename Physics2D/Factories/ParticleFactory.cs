@@ -19,7 +19,7 @@ namespace Physics2D.Factories
         /// <param name="v">初速度</param>
         /// <param name="m">质量</param>
         /// <returns></returns>
-        public static Particle CreateParticle(this World world, Vector2D p, Vector2D v, float m)
+        public static Particle CreateParticle(this World world, Vector2D p, Vector2D v, double m)
         {
             Particle particle = new Particle
             {

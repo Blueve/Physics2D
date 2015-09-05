@@ -8,10 +8,10 @@ namespace Physics2D.Force
     {
         private List<Particle> linked = new List<Particle>();
 
-        private float k;
-        private float length;
+        private double k;
+        private double length;
 
-        public ParticleElastic(float k, float length)
+        public ParticleElastic(double k, double length)
         {
             this.k = k;
             this.length = length;
@@ -22,13 +22,13 @@ namespace Physics2D.Force
             linked.Add(item);
         }
 
-        public override void UpdateForce(Particle particle, float duration)
+        public override void UpdateForce(Particle particle, double duration)
         {
             foreach (var item in linked)
             {
                 Vector2D d = particle.Position - item.Position;
 
-                float force = (length - d.Length()) * k;
+                double force = (length - d.Length()) * k;
                 d.Normalize();
                 particle.AddForce(d * force);
             }

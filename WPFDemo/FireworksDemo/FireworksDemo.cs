@@ -87,7 +87,7 @@ namespace WPFDemo.FireworksDemo
             windZone.particleForceGenerators.Add(wind);
         }
 
-        protected override void UpdatePhysics(float duration)
+        protected override void UpdatePhysics(double duration)
         {
             physicsWorld.Update(duration);
         }
@@ -129,7 +129,7 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        public void Fire(float x, float y)
+        public void Fire(double x, double y)
         {
             if (!Start)
             {
@@ -149,7 +149,7 @@ namespace WPFDemo.FireworksDemo
                 var paritcle = physicsWorld.CreateParticle
                 (
                     new Vector2D(x, y),
-                    new Vector2D((float)rnd.NextDouble() * 6 - 3, (float)rnd.NextDouble() * 6 - 3),
+                    new Vector2D(rnd.NextDouble() * 6 - 3, rnd.NextDouble() * 6 - 3),
                     1f
                 );
                 objList.Add(paritcle);

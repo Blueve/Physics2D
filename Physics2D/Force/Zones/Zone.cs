@@ -26,7 +26,7 @@ namespace Physics2D.Force.Zones
         /// </summary>
         /// <param name="obj">给定物体</param>
         /// <param name="durduration">施加作用力的时间</param>
-        public void TryApplyTo(PhysicsObject obj, float durduration)
+        public void TryApplyTo(PhysicsObject obj, double durduration)
         {
             if (IsIn(obj))
             {

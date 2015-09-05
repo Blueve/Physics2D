@@ -17,7 +17,7 @@ namespace Physics2D.Force
             force = _force;
         }
 
-        public override void UpdateForce(Particle particle, float duration)
+        public override void UpdateForce(Particle particle, double duration)
         {
             particle.AddForce(force);
         }

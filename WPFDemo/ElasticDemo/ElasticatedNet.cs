@@ -19,9 +19,9 @@ namespace WPFDemo.ElasticDemo
         private int height;
 
         private Vector2D startPosition;
-        private float gridSize;
+        private double gridSize;
 
-        public ElasticatedNet(World world, Vector2D startPosition, int width, int height, float gridSize)
+        public ElasticatedNet(World world, Vector2D startPosition, int width, int height, double gridSize)
         {
             this.world         = world;
             this.width         = width;
@@ -91,8 +91,8 @@ namespace WPFDemo.ElasticDemo
                     int y = ConvertUnits.ToDisplayUnits(net[i, j].Position.Y);
 
                     // 绘制弹性连线
-                    float dLeft;
-                    float dDown;
+                    double dLeft;
+                    double dDown;
                     if (i > 0 && (dLeft = (net[i, j].Position - net[i - 1, j].Position).Length()) < 1.5f)
                     {
                         byte colorRow = dLeft > gridSize ? (byte)((int)(255 - (dLeft - gridSize) * 150)) : (byte)255;

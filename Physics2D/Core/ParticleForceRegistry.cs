@@ -73,12 +73,9 @@ namespace Physics2D.Core
         /// 执行所有的作用力发生器
         /// </summary>
         /// <param name="durduration"></param>
-        public void Update(float durduration)
+        public void Update(double durduration)
         {
-            foreach (var item in registrations)
-            {
-                item.forceGenerator.UpdateForce(item.particle, durduration);
-            }
+            registrations.ForEach(item => item.forceGenerator.UpdateForce(item.particle, durduration));
         }
 
         #endregion 公开的方法

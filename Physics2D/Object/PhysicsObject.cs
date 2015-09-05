@@ -10,6 +10,6 @@ namespace Physics2D.Object
 
         public Vector2D PrePosition;
 
-        public abstract void Update(float duration);
+        public abstract void Update(double duration);
     }
 }
