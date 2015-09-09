@@ -87,8 +87,8 @@ namespace WPFDemo.ElasticDemo
             {
                 for (int j = 0; j < height; j++)
                 {
-                    int x = ConvertUnits.ToDisplayUnits(net[i, j].Position.X);
-                    int y = ConvertUnits.ToDisplayUnits(net[i, j].Position.Y);
+                    int x = net[i, j].Position.X.ToDisplayUnits();
+                    int y = net[i, j].Position.Y.ToDisplayUnits();
 
                     // 绘制弹性连线
                     double dLeft;
@@ -98,7 +98,7 @@ namespace WPFDemo.ElasticDemo
                         byte colorRow = dLeft > gridSize ? (byte)((int)(255 - (dLeft - gridSize) * 150)) : (byte)255;
                         bitmap.DrawLineAa(
                             x, y,
-                            ConvertUnits.ToDisplayUnits(net[i - 1, j].Position.X), ConvertUnits.ToDisplayUnits(net[i - 1, j].Position.Y),
+                            net[i - 1, j].Position.X.ToDisplayUnits(), net[i - 1, j].Position.Y.ToDisplayUnits(),
                             Color.FromArgb(colorRow, 0, 0, 0));
                     }
                     if (j > 0 && (dDown = (net[i, j].Position - net[i, j - 1].Position).Length()) < 1.5f)
@@ -106,7 +106,7 @@ namespace WPFDemo.ElasticDemo
                         byte colorCol = dDown > gridSize ? (byte)((int)(255 - (dDown - gridSize) * 150)) : (byte)255;
                         bitmap.DrawLineAa(
                             x, y,
-                            ConvertUnits.ToDisplayUnits(net[i, j - 1].Position.X), ConvertUnits.ToDisplayUnits(net[i, j - 1].Position.Y),
+                            net[i, j - 1].Position.X.ToDisplayUnits(), net[i, j - 1].Position.Y.ToDisplayUnits(),
                             Color.FromArgb(colorCol, 0, 0, 0));
                     }
                     // 绘制点

@@ -25,16 +25,16 @@ namespace WPFDemo.ContactDemo
         {
             bitmap.DrawLineAa
             (
-                ConvertUnits.ToDisplayUnits(fixedParticle.Position.X),
-                ConvertUnits.ToDisplayUnits(fixedParticle.Position.Y),
-                ConvertUnits.ToDisplayUnits(particle.Position.X),
-                ConvertUnits.ToDisplayUnits(particle.Position.Y),
+                fixedParticle.Position.X.ToDisplayUnits(),
+                fixedParticle.Position.Y.ToDisplayUnits(),
+                particle.Position.X.ToDisplayUnits(),
+                particle.Position.Y.ToDisplayUnits(),
                 Colors.DarkGray
             );
             bitmap.FillEllipseCentered
             (
-                ConvertUnits.ToDisplayUnits(particle.Position.X),
-                ConvertUnits.ToDisplayUnits(particle.Position.Y), r, r, Colors.DarkRed
+                particle.Position.X.ToDisplayUnits(),
+                particle.Position.Y.ToDisplayUnits(), r, r, Colors.DarkRed
             );
         }
     }

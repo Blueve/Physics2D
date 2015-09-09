@@ -56,8 +56,8 @@ namespace WPFDemo.FluidDemo
                     (
                         new Vector2D
                         (
-                            ConvertUnits.ToSimUnits(rnd.Next((int)bitmap.Width)),
-                            ConvertUnits.ToSimUnits(rnd.Next((int)bitmap.Height))
+                            rnd.Next((int)bitmap.Width).ToSimUnits(),
+                            rnd.Next((int)bitmap.Height).ToSimUnits()
                         ),
                         Vector2D.Zero,
                         1f

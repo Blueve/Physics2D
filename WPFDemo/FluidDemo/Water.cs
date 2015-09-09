@@ -71,8 +71,8 @@ namespace WPFDemo.FluidDemo
                 // 叠加每个球的势能
                 Parallel.ForEach(objList, obj =>
                 {
-                    int x = ConvertUnits.ToDisplayUnits(obj.Position.X);
-                    int y = ConvertUnits.ToDisplayUnits(obj.Position.Y);
+                    int x = obj.Position.X.ToDisplayUnits();
+                    int y = obj.Position.Y.ToDisplayUnits();
 
                     for (int i = x - gridR, I = 0; i < x + gridR; i++, I++)
                     {

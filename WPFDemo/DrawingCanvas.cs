@@ -14,13 +14,7 @@ namespace WPFDemo
             return visuals[index];
         }
 
-        protected override int VisualChildrenCount
-        {
-            get
-            {
-                return visuals.Count;
-            }
-        }
+        protected override int VisualChildrenCount => visuals.Count;
 
         protected override void OnRender(DrawingContext dc)
         {

@@ -104,8 +104,8 @@ namespace WPFDemo.FireworksDemo
 
             for (int i = objList.Count - 1; i >= 0; i--)
             {
-                int x = ConvertUnits.ToDisplayUnits(objList[i].Position.X);
-                int y = ConvertUnits.ToDisplayUnits(objList[i].Position.Y);
+                int x = objList[i].Position.X.ToDisplayUnits();
+                int y = objList[i].Position.Y.ToDisplayUnits();
 
                 if (y > worldHeight || x > worldWidth || x < 0 || y < 0)
                 {
@@ -116,10 +116,7 @@ namespace WPFDemo.FireworksDemo
                 {
                     if(type == WATER_G)
                     {
-                        if (y > worldHeight * 2 / 3)
-                            bitmap.FillEllipseCentered(x, y, 4, 4, Colors.DarkBlue);
-                        else
-                            bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
+                        bitmap.FillEllipseCentered(x, y, 4, 4, y > worldHeight*2/3 ? Colors.DarkBlue : Colors.Black);
                     }
                     else
                     {
@@ -153,7 +150,7 @@ namespace WPFDemo.FireworksDemo
                     1f
                 );
                 objList.Add(paritcle);
-                contact.AddBall(paritcle, ConvertUnits.ToSimUnits(4));
+                contact.AddBall(paritcle, 4.ToSimUnits());
             }
         }
 

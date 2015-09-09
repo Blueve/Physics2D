@@ -43,8 +43,8 @@ namespace WPFDemo.ContactDemo
                     particle = pB,
                     r = 20
                 };
-                physicsWorld.RegistryContactGenerator(new ParticleRope(ConvertUnits.ToSimUnits(200), 0f, fB, pB));
-                contact.AddBall(ball.particle, ConvertUnits.ToSimUnits(ball.r));
+                physicsWorld.RegistryContactGenerator(new ParticleRope(200.ToSimUnits(), 0f, fB, pB));
+                contact.AddBall(ball.particle, ball.r.ToSimUnits());
                 drawQueue.Add(ball);
                 ballList.Add(ball);
             }

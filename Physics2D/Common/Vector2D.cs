@@ -1,5 +1,4 @@
-﻿using System;
-using static System.Math;
+﻿using static System.Math;
 
 namespace Physics2D.Common
 {
@@ -45,7 +44,7 @@ namespace Physics2D.Common
 
         public static double Distance(Vector2D value1, Vector2D value2)
         {
-            return (double)Sqrt(DistanceSquared(value1, value2));
+            return Sqrt(DistanceSquared(value1, value2));
         }
 
         public double LengthSquared()
@@ -63,7 +62,7 @@ namespace Physics2D.Common
             double distance = Distance(value, Zero);
 
             // 零向量标准化仍为零向量
-            if (distance == .0) return result = Vector2D.Zero;
+            if (distance == .0) return result = Zero;
 
             var factor = 1f / distance;
 
