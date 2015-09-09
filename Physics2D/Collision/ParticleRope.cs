@@ -14,27 +14,27 @@ namespace Physics2D.Collision
         /// <summary>
         /// 最大长度
         /// </summary>
-        public double maxLength;
+        public double MaxLength { get; }
 
         /// <summary>
         /// 弹性系数
         /// </summary>
-        public double restitution;
+        public double Restitution { get; }
 
         public ParticleRope(double maxLength, double restitution, Particle pA, Particle pB)
         {
-            this.maxLength = maxLength;
-            this.restitution = restitution;
+            this.MaxLength = maxLength;
+            this.Restitution = restitution;
             PA = pA;
             PB = pB;
         }
 
-        public override int fillContact(List<ParticleContact> contactList, int limit)
+        public override int FillContact(List<ParticleContact> contactList, int limit)
         {
-            double length = currentLength();
+            double length = CurrentLength();
 
             // 未超过绳索长度
-            if (length < maxLength) return 0;
+            if (length < MaxLength) return 0;
 
             Vector2D normal = (PB.Position -　PA.Position).Normalize();
 
@@ -42,9 +42,9 @@ namespace Physics2D.Collision
             {
                 PA = PA,
                 PB = PB,
-                restitution = restitution,
-                contactNormal = normal,
-                penetration = length - maxLength
+                Restitution = Restitution,
+                ContactNormal = normal,
+                Penetration = length - MaxLength
             };
 
             contactList.Add(contact);

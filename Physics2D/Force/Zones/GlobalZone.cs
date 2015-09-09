@@ -5,9 +5,6 @@
     /// </summary>
     public class GlobalZone : Zone
     {
-        protected override bool IsIn(Object.PhysicsObject obj)
-        {
-            return true;
-        }
+        protected override bool IsIn(Object.PhysicsObject obj) => true;
     }
 }

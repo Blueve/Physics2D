@@ -53,7 +53,7 @@ namespace Physics2D.Factories
         /// <param name="zone">区域</param>
         private static void RegistryZone(World world, ParticleForceGenerator particleForceGenerator, Zone zone)
         {
-            zone.particleForceGenerators.Add(particleForceGenerator);
+            zone.ParticleForceGenerators.Add(particleForceGenerator);
             world.ZoneSet.Add(zone);
         }
 

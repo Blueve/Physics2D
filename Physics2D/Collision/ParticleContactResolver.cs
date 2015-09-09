@@ -11,31 +11,26 @@ namespace Physics2D.Collision
         /// <summary>
         /// 迭代次数
         /// </summary>
-        protected int iterations;
-
-        /// <summary>
-        /// 已经迭代的次数
-        /// </summary>
-        protected int iterationsUsed;
+        protected int _iterations;
 
         public ParticleContactResolver(int iterations)
         {
-            this.iterations = iterations;
+            this._iterations = iterations;
         }
 
-        public void resolveContacts(List<ParticleContact> contactList, double duration)
+        public void ResolveContacts(List<ParticleContact> contactList, double duration)
         {
             if (contactList.Count == 0) return;
-            iterationsUsed = 0;
-            while(iterationsUsed++ < iterations)
+            int iterationsUsed = 0;
+            while(iterationsUsed++ < _iterations)
             {
                 // 找到分离速度最大的一组碰撞 优先处理
-                double max = 0f;
+                double max = 0;
                 int maxI = contactList.Count - 1;
                 for(int i = 0; i < contactList.Count; i++)
                 {
                     // 计算分离速度
-                    double sepV = contactList[i].calculateSeparatingVelocity();
+                    double sepV = contactList[i].CalculateSeparatingVelocity();
                     if(sepV < max)
                     {
                         max = sepV;
@@ -43,14 +38,14 @@ namespace Physics2D.Collision
                     }
                 }
                 // 解决碰撞
-                contactList[maxI].resolve(duration);
+                contactList[maxI].Resolve(duration);
             }
         }
 
         public int Iterations
         {
-            get { return iterations; }
-            set { iterations = value; }
+            get { return _iterations; }
+            set { _iterations = value; }
         }
     }
 }

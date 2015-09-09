@@ -10,8 +10,8 @@ namespace Physics2D
     {
         #region 私有属性
 
-        private static double displayUnitsToSimUnitsRatio = 50;
-        private static double simUnitsToDisplayUnitsRatio = 1 / displayUnitsToSimUnitsRatio;
+        private static double _displayUnitsToSimUnitsRatio = 50;
+        private static double _simUnitsToDisplayUnitsRatio = 1 / _displayUnitsToSimUnitsRatio;
 
         #endregion 私有属性
 
@@ -19,8 +19,8 @@ namespace Physics2D
 
         public static void SetDisplayUnitToSimUnitRatio(double displayUnitsPerSimUnit)
         {
-            displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;
-            simUnitsToDisplayUnitsRatio = 1 / displayUnitsPerSimUnit;
+            _displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;
+            _simUnitsToDisplayUnitsRatio = 1 / displayUnitsPerSimUnit;
         }
 
         #endregion 公开的方法
@@ -29,17 +29,17 @@ namespace Physics2D
 
         public static int ToDisplayUnits(this double simUnits)
         {
-            return (int)(simUnits * displayUnitsToSimUnitsRatio);
+            return (int)(simUnits * _displayUnitsToSimUnitsRatio);
         }
 
         public static int ToDisplayUnits(this int simUnits)
         {
-            return (int)(simUnits * displayUnitsToSimUnitsRatio);
+            return (int)(simUnits * _displayUnitsToSimUnitsRatio);
         }
 
         public static Vector2D ToDisplayUnits(this Vector2D simUnits)
         {
-            return simUnits * displayUnitsToSimUnitsRatio;
+            return simUnits * _displayUnitsToSimUnitsRatio;
         }
 
         #endregion 转换到显示尺寸
@@ -48,17 +48,17 @@ namespace Physics2D
 
         public static double ToSimUnits(this double displayUnits)
         {
-            return displayUnits / displayUnitsToSimUnitsRatio;
+            return displayUnits / _displayUnitsToSimUnitsRatio;
         }
 
         public static double ToSimUnits(this int displayUnits)
         {
-            return displayUnits / displayUnitsToSimUnitsRatio;
+            return displayUnits / _displayUnitsToSimUnitsRatio;
         }
 
         public static Vector2D ToSimUnits(this Vector2D displayUnits)
         {
-            return displayUnits / displayUnitsToSimUnitsRatio;
+            return displayUnits / _displayUnitsToSimUnitsRatio;
         }
 
         #endregion 转换到物理世界尺寸

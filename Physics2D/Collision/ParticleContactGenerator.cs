@@ -11,6 +11,6 @@ namespace Physics2D.Collision
     /// </summary>
     public abstract class ParticleContactGenerator
     {
-        public abstract int fillContact(List<ParticleContact> contactList, int limit);
+        public abstract int FillContact(List<ParticleContact> contactList, int limit);
     }
 }

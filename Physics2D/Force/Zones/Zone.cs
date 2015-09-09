@@ -1,5 +1,6 @@
 ﻿using Physics2D.Object;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Physics2D.Force.Zones
 {
@@ -12,7 +13,7 @@ namespace Physics2D.Force.Zones
         /// <summary>
         /// 区域内粒子作用力发生器
         /// </summary>
-        public readonly List<ParticleForceGenerator> particleForceGenerators = new List<ParticleForceGenerator>();
+        public readonly List<ParticleForceGenerator> ParticleForceGenerators = new List<ParticleForceGenerator>();
 
         /// <summary>
         /// 判断给定物体是否存在于当前区域
@@ -28,13 +29,10 @@ namespace Physics2D.Force.Zones
         /// <param name="durduration">施加作用力的时间</param>
         public void TryApplyTo(PhysicsObject obj, double durduration)
         {
-            if (IsIn(obj))
+            if (!IsIn(obj)) return;
+            foreach (var item in ParticleForceGenerators.Where(item => obj is Particle))
             {
-                foreach (var item in particleForceGenerators)
-                {
-                    if (obj is Particle)
-                        item.UpdateForce((Particle)obj, durduration);
-                }
+                item.UpdateForce((Particle)obj, durduration);
             }
         }
     }

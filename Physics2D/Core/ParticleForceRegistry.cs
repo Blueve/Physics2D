@@ -11,7 +11,7 @@ namespace Physics2D.Core
     {
         #region 私有部分
 
-        private List<ParticleForceRegistration> registrations = new List<ParticleForceRegistration>();
+        private readonly List<ParticleForceRegistration> _registrations = new List<ParticleForceRegistration>();
 
         private struct ParticleForceRegistration
         {
@@ -30,7 +30,7 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void Add(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            registrations.Add(new ParticleForceRegistration
+            _registrations.Add(new ParticleForceRegistration
             {
                 particle = particle,
                 forceGenerator = forceGenerator
@@ -46,10 +46,7 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void Remove(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            registrations.RemoveAll(item =>
-            {
-                return item.particle == particle && item.forceGenerator == forceGenerator;
-            });
+            _registrations.RemoveAll(item => item.particle == particle && item.forceGenerator == forceGenerator);
         }
 
         /// <summary>
@@ -59,10 +56,7 @@ namespace Physics2D.Core
         /// <param name="particle">粒子</param>
         public void Remove(Particle particle)
         {
-            registrations.RemoveAll(item =>
-            {
-                return item.particle == particle;
-            });
+            _registrations.RemoveAll(item => item.particle == particle);
         }
 
         #endregion 公开的管理方法
@@ -75,7 +69,7 @@ namespace Physics2D.Core
         /// <param name="durduration"></param>
         public void Update(double durduration)
         {
-            registrations.ForEach(item => item.forceGenerator.UpdateForce(item.particle, durduration));
+            _registrations.ForEach(item => item.forceGenerator.UpdateForce(item.particle, durduration));
         }
 
         #endregion 公开的方法

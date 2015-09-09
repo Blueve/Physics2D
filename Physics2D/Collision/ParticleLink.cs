@@ -25,7 +25,7 @@ namespace Physics2D.Collision
         /// 返回当前连接的长度
         /// </summary>
         /// <returns></returns>
-        protected double currentLength()
+        protected double CurrentLength()
         {
             return (PA.Position - PB.Position).Length();
         }

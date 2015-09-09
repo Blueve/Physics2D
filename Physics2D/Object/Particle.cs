@@ -9,34 +9,34 @@ namespace Physics2D.Object
         {
             set
             {
-                if (value != 0)
+                if (value != .0)
                 {
-                    mass = value;
-                    inverseMass = 1f / value;
+                    _mass = value;
+                    _inverseMass = 1.0 / value;
                 }
                 else
                     throw new ArgumentOutOfRangeException();
             }
-            get { return mass; }
+            get { return _mass; }
         }
 
         public double InverseMass
         {
             set
             {
-                mass = value == 0 ? double.MaxValue : 1f / value;
-                inverseMass = value;
+                _mass = value == .0 ? double.MaxValue : 1.0 / value;
+                _inverseMass = value;
             }
-            get { return inverseMass; }
+            get { return _inverseMass; }
         }
 
-        private double mass;
-        private double inverseMass;
-        private Vector2D forceAccum;
+        private double _mass;
+        private double _inverseMass;
+        private Vector2D _forceAccum;
 
         public void AddForce(Vector2D force)
         {
-            forceAccum += force;
+            _forceAccum += force;
         }
 
         public override void Update(double duration)
@@ -44,13 +44,13 @@ namespace Physics2D.Object
             PrePosition = new Vector2D(Position);
 
             // 对位置速度以及加速度进行更新
-            Acceleration = forceAccum * inverseMass;
+            Acceleration = _forceAccum * _inverseMass;
 
             Position += Velocity * duration;
             Velocity += Acceleration * duration;
 
             // 清除作用力
-            forceAccum = Vector2D.Zero;
+            _forceAccum = Vector2D.Zero;
         }
     }
 }

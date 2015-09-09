@@ -10,16 +10,16 @@ namespace Physics2D.Force
 {
     public class ParticleConstantForce : ParticleForceGenerator
     {
-        private Vector2D force;
+        private readonly Vector2D _force;
 
         public ParticleConstantForce(Vector2D _force)
         {
-            force = _force;
+            this._force = _force;
         }
 
         public override void UpdateForce(Particle particle, double duration)
         {
-            particle.AddForce(force);
+            particle.AddForce(_force);
         }
     }
 }

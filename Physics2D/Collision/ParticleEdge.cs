@@ -2,60 +2,59 @@
 
 using Physics2D.Common;
 using Physics2D.Object;
-
+using static Physics2D.Collision.ParticleBall;
 using static Physics2D.Common.MathHelper;
 
 namespace Physics2D.Collision
 {
     public class ParticleEdge : ParticleContactGenerator
     {
-        private Vector2D pointA;
-        private Vector2D pointB;
+        public Vector2D PointA { get; }
+        public Vector2D PointB { get; }
 
-        private double restitution;
+        public double Restitution { get; }
 
-        private List<ParticleBall.Ball> ballList = new List<ParticleBall.Ball>();
+        private readonly List<Ball> _ballList = new List<Ball>();
 
 
         public void AddBall(Particle particle, double r)
         {
-            // 添加一个球
-            ballList.Add(new ParticleBall.Ball { particle = particle, r = r });
+            _ballList.Add(new Ball { Particle = particle, R = r });
         }
 
         public ParticleEdge(double restitution, double x1, double y1, double x2, double y2)
         {
-            this.restitution = restitution;
-            pointA = new Vector2D(x1, y1);
-            pointB = new Vector2D(x2, y2);
+            this.Restitution = restitution;
+            PointA = new Vector2D(x1, y1);
+            PointB = new Vector2D(x2, y2);
         }
 
-        public override int fillContact(List<ParticleContact> contactList, int limit)
+        public override int FillContact(List<ParticleContact> contactList, int limit)
         {
             int count = 0;
-            foreach(var item in ballList)
+            foreach(var item in _ballList)
             {
-                var intersectionPoint = LineIntersection(item.particle.PrePosition, item.particle.Position, pointA, pointB);
+                var intersectionPoint = LineIntersection(item.Particle.PrePosition, item.Particle.Position, PointA, PointB);
                 
                 // 判断物体的运动路径是否发生穿越
                 if (intersectionPoint != null)
                 {
                     // 发生穿越则认为发生碰撞 将质体位置退至相交点
-                    item.particle.Position = (Vector2D)intersectionPoint;
+                    item.Particle.Position = (Vector2D)intersectionPoint;
 
                     // 产生一组碰撞
-                    Vector2D BA = pointB - pointA;
-                    Vector2D normal = BA * (item.particle.PrePosition - pointA) * BA / BA.LengthSquared();
-                    normal = (item.particle.PrePosition - pointA) - normal;
+                    Vector2D BA = PointB - PointA;
+                    Vector2D normal = BA * (item.Particle.PrePosition - PointA) * BA / BA.LengthSquared();
+                    normal = (item.Particle.PrePosition - PointA) - normal;
 
                     normal.Normalize();
 
                     ParticleContact contact = new ParticleContact
                     {
-                        PA = item.particle,
-                        restitution = restitution,
-                        penetration = item.r,
-                        contactNormal = normal
+                        PA = item.Particle,
+                        Restitution = Restitution,
+                        Penetration = item.R,
+                        ContactNormal = normal
                     };
                     // 加入碰撞列表
                     contactList.Add(contact);
@@ -65,18 +64,18 @@ namespace Physics2D.Collision
                 }
 
                 // 若未发生穿越则计算
-                double rd = item.r;
+                double rd = item.R;
 
-                double n1 = (pointA - item.particle.Position) * (pointA - pointB);
-                double n2 = (pointB - item.particle.Position) * (pointA - pointB);
+                double n1 = (PointA - item.Particle.Position) * (PointA - PointB);
+                double n2 = (PointB - item.Particle.Position) * (PointA - PointB);
 
                 if (n1 * n2 > 0f)
                 {
                     // 线段上的点到圆心的距离不大于到端点的距离
 
                     // 分别计算两个端点到圆心的距离的平方
-                    double dAO = (item.particle.Position - pointA).Length();
-                    double dBO = (item.particle.Position - pointB).Length();
+                    double dAO = (item.Particle.Position - PointA).Length();
+                    double dBO = (item.Particle.Position - PointB).Length();
                     if (rd > dAO || rd > dBO)
                     {
                         // 计数
@@ -88,19 +87,19 @@ namespace Physics2D.Collision
                     // 线段上存在比端点到圆心距离更近的点
 
                     // 计算线段所处直线到圆心的距离
-                    Vector2D BA = pointB - pointA;
-                    Vector2D normal = BA * (item.particle.Position - pointA) * BA / BA.LengthSquared();
-                    normal = (item.particle.Position - pointA) - normal;
+                    Vector2D BA = PointB - PointA;
+                    Vector2D normal = BA * (item.Particle.Position - PointA) * BA / BA.LengthSquared();
+                    normal = (item.Particle.Position - PointA) - normal;
 
                     if (rd > normal.Length())
                     {
                         // 产生一组碰撞
                         ParticleContact contact = new ParticleContact
                         {
-                            PA = item.particle,
-                            restitution = restitution,
-                            penetration = (rd - normal.Length()),
-                            contactNormal = normal.Normalize()
+                            PA = item.Particle,
+                            Restitution = Restitution,
+                            Penetration = (rd - normal.Length()),
+                            ContactNormal = normal.Normalize()
                         };
                         // 加入碰撞列表
                         contactList.Add(contact);

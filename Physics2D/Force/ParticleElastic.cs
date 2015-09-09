@@ -6,29 +6,29 @@ namespace Physics2D.Force
 {
     public class ParticleElastic : ParticleForceGenerator
     {
-        private List<Particle> linked = new List<Particle>();
+        private readonly List<Particle> _linked = new List<Particle>();
 
-        private double k;
-        private double length;
+        private readonly double _k;
+        private readonly double _length;
 
         public ParticleElastic(double k, double length)
         {
-            this.k = k;
-            this.length = length;
+            this._k = k;
+            this._length = length;
         }
 
         public void Add(Particle item)
         {
-            linked.Add(item);
+            _linked.Add(item);
         }
 
         public override void UpdateForce(Particle particle, double duration)
         {
-            foreach (var item in linked)
+            foreach (var item in _linked)
             {
                 Vector2D d = particle.Position - item.Position;
 
-                double force = (length - d.Length()) * k;
+                double force = (_length - d.Length()) * _k;
                 d.Normalize();
                 particle.AddForce(d * force);
             }
