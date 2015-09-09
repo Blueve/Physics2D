@@ -8,32 +8,15 @@ namespace Physics2D.Common
         public double X;
         public double Y;
 
-        private static Vector2D ZeroVector = new Vector2D();
-        private static Vector2D OneVector = new Vector2D(1.0, 1.0);
-        private static Vector2D UnitXVector = new Vector2D(1.0, .0);
-        private static Vector2D UnitYVector = new Vector2D(.0, 1.0);
-
         #region 特殊向量
 
-        public static Vector2D Zero
-        {
-            get { return ZeroVector; }
-        }
+        public static Vector2D Zero { get; } = new Vector2D();
 
-        public static Vector2D One
-        {
-            get { return OneVector; }
-        }
+        public static Vector2D One { get; } = new Vector2D(1.0, 1.0);
 
-        public static Vector2D UnitX
-        {
-            get { return UnitXVector; }
-        }
+        public static Vector2D UnitX { get; } = new Vector2D(1.0, .0);
 
-        public static Vector2D UnitY
-        {
-            get { return UnitYVector; }
-        }
+        public static Vector2D UnitY { get; } = new Vector2D(.0, 1.0);
 
         #endregion 特殊向量
 
@@ -67,23 +50,22 @@ namespace Physics2D.Common
 
         public double LengthSquared()
         {
-            return DistanceSquared(this, ZeroVector);
+            return DistanceSquared(this, Zero);
         }
 
         public double Length()
         {
-            return Distance(this, ZeroVector);
+            return Distance(this, Zero);
         }
 
         public static Vector2D Normalize(ref Vector2D value, out Vector2D result)
         {
-            double factor;
             double distance = Distance(value, Zero);
 
             // 零向量标准化仍为零向量
-            if (distance == 0f) return result = Vector2D.Zero;
+            if (distance == .0) return result = Vector2D.Zero;
 
-            factor = 1f / distance;
+            var factor = 1f / distance;
 
             result = new Vector2D(value.X * factor, value.Y * factor);
             return result;
@@ -130,7 +112,7 @@ namespace Physics2D.Common
         public override bool Equals(object obj)
         {
             Vector2D right = (Vector2D)obj;
-            return Abs(X - right.X) < Settings.percision && Abs(Y - right.Y) < Settings.percision;
+            return Abs(X - right.X) < Settings.Percision && Abs(Y - right.Y) < Settings.Percision;
         }
 
         public override string ToString() => $"({X:f2}, {Y:f2})";

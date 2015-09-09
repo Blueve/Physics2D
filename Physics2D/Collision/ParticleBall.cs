@@ -14,49 +14,45 @@ namespace Physics2D.Collision
     /// </summary>
     public class ParticleBall : ParticleContactGenerator
     {
-        private List<Ball> ballList = new List<Ball>();
-
-        private double restitution;
+        private readonly List<Ball> _ballList = new List<Ball>();
 
         public ParticleBall(double restitution)
         {
-            this.restitution = restitution;
+            this.Restitution = restitution;
         }
+
+        public double Restitution { get; set; }
 
         public void AddBall(Particle particle, double r)
         {
             // 添加一个球
-            ballList.Add(new Ball { particle = particle, r = r });
+            _ballList.Add(new Ball { Particle = particle, R = r });
         }
 
-        public override int fillContact(List<ParticleContact> contactList, int limit)
+        public override int FillContact(List<ParticleContact> contactList, int limit)
         {
             int contactCount = 0;
             // 检查所有组合
-            for(int i = 0; i < ballList.Count; i++)
+            for(int i = 0; i < _ballList.Count; i++)
             {
-                for (int j = i + 1; j < ballList.Count; j++)
+                for (int j = i + 1; j < _ballList.Count; j++)
                 {
-                    double d = (ballList[i].particle.Position - ballList[j].particle.Position).Length();
+                    double d = (_ballList[i].Particle.Position - _ballList[j].Particle.Position).Length();
                     // 碰撞检测
-                    double l = ballList[i].r + ballList[j].r;
-                    if(d < l)
+                    double l = _ballList[i].R + _ballList[j].R;
+                    if (!(d < l)) continue;
+                    // 产生一组碰撞
+                    var contact = new ParticleContact
                     {
-                        // 产生一组碰撞
-                        ParticleContact contact = new ParticleContact
-                        {
-                            PA = ballList[i].particle,
-                            PB = ballList[j].particle,
-                            restitution = restitution,
-                            penetration = (l - d) / 2,
-                            contactNormal = (ballList[i].particle.Position - ballList[j].particle.Position).Normalize()
-                        };
-                        // 加入碰撞列表
-                        contactList.Add(contact);
-                        // 计数
-                        ++contactCount;
-                        //if (++contactCount == limit) return limit;
-                    }
+                        PA = _ballList[i].Particle,
+                        PB = _ballList[j].Particle,
+                        Restitution = Restitution,
+                        Penetration = (l - d) / 2,
+                        ContactNormal = (_ballList[i].Particle.Position - _ballList[j].Particle.Position).Normalize()
+                    };
+                    // 加入碰撞列表
+                    contactList.Add(contact);
+                    ++contactCount;
                 }
             }
             return contactCount;
@@ -64,8 +60,8 @@ namespace Physics2D.Collision
 
         internal struct Ball
         {
-            public Particle particle;
-            public double r;
+            public Particle Particle;
+            public double R;
         }
     }
 }
