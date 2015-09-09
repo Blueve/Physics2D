@@ -12,40 +12,27 @@ namespace Physics2D.Core
     sealed public class World
     {
         #region 私有属性
-
         /// <summary>
         /// 物体集合
         /// </summary>
-        private readonly List<PhysicsObject> objectSet = new List<PhysicsObject>();
+        private readonly List<PhysicsObject> _objectSet = new List<PhysicsObject>();
 
         /// <summary>
         /// 质体作用力管理器
         /// </summary>
-        private ParticleForceRegistry particleForceRegistry = new ParticleForceRegistry();
+        private readonly ParticleForceRegistry _particleForceRegistry = new ParticleForceRegistry();
 
         /// <summary>
         /// 质体碰撞管理器
         /// </summary>
-        private List<ParticleContactGenerator> particleContactRegistry = new List<ParticleContactGenerator>();
-
-        /// <summary>
-        /// 质体碰撞表
-        /// </summary>
-        private List<ParticleContact> particleContactList = new List<ParticleContact>();
-
-        /// <summary>
-        /// 碰撞解决器
-        /// </summary>
-        private ParticleContactResolver particleContactResolver = new ParticleContactResolver(0);
+        private readonly ParticleContactRegistry _particleContactRegistry = new ParticleContactRegistry();
         #endregion 私有属性
 
         #region 只读属性
-
         /// <summary>
         /// 作用力区域集合
         /// </summary>
         public readonly List<Zone> ZoneSet = new List<Zone>();
-
         #endregion 只读属性
 
         #region 公开的管理方法
@@ -55,8 +42,8 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void AddObject(PhysicsObject obj)
         {
-            if (!objectSet.Contains(obj))
-                objectSet.Add(obj);
+            if (!_objectSet.Contains(obj))
+                _objectSet.Add(obj);
         }
 
         /// <summary>
@@ -82,13 +69,14 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void RemoveObject(PhysicsObject obj)
         {
-            if (this.objectSet.Contains(obj))
-                this.objectSet.Remove(obj);
+            if (this._objectSet.Contains(obj))
+                this._objectSet.Remove(obj);
 
             // 仅在物体为质体时执行注销操作
-            if (obj is Particle)
+            var particle = obj as Particle;
+            if (particle != null)
             {
-                this.particleForceRegistry.Remove((Particle)obj);
+                this._particleForceRegistry.Remove(particle);
             }
         }
 
@@ -111,7 +99,7 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void RegistryForceGenerator(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            particleForceRegistry.Add(particle, forceGenerator);
+            _particleForceRegistry.Add(particle, forceGenerator);
         }
 
         /// <summary>
@@ -120,13 +108,11 @@ namespace Physics2D.Core
         /// <param name="contactGenerator">碰撞发生器</param>
         public void RegistryContactGenerator(ParticleContactGenerator contactGenerator)
         {
-            if (!particleContactRegistry.Contains(contactGenerator))
-                particleContactRegistry.Add(contactGenerator);
+            _particleContactRegistry.Add(contactGenerator);
         }
         #endregion 公开的管理方法
 
         #region 公开的方法
-
         /// <summary>
         /// 按时间间隔更新整个物理世界
         /// </summary>
@@ -134,10 +120,10 @@ namespace Physics2D.Core
         public void Update(double duration)
         {
             // 为粒子施加作用力
-            particleForceRegistry.Update(duration);
+            _particleForceRegistry.Update(duration);
 
             // 更新物理对象
-            Parallel.ForEach(objectSet, (item) =>
+            Parallel.ForEach(_objectSet, item =>
             {
                 // 为物理对象施加区域作用力
                 ZoneSet.ForEach(z => z.TryApplyTo(item, duration));
@@ -146,20 +132,8 @@ namespace Physics2D.Core
             });
 
             // 质体碰撞检测
-            particleContactList.Clear();
-            int limit = Settings.maxContacts;
-            foreach(var item in particleContactRegistry)
-            {
-                int used = item.fillContact(particleContactList, limit);
-                limit -= used;
-
-                if (limit <= 0) break;
-            }
-            // 解决质体碰撞
-            particleContactResolver.Iterations = (Settings.maxContacts - limit) * 2;
-            particleContactResolver.resolveContacts(particleContactList, duration);
+            _particleContactRegistry.ResolveContacts(duration);
         }
-
         #endregion 公开的方法
     }
 }
