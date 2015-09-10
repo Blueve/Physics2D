@@ -21,21 +21,21 @@ namespace WPFDemo
     /// </summary>
     public partial class Contact : Window
     {
-        private ContactDemo.ContactDemo contactDemo;
+        private ContactDemo.ContactDemo _contactDemo;
 
 
         public Contact()
         {
             InitializeComponent();
 
-            contactDemo = new ContactDemo.ContactDemo(imageSurface);
-            imageSurface.Source = contactDemo.bitmap;
-            CompositionTarget.Rendering += contactDemo.Update;
+            _contactDemo = new ContactDemo.ContactDemo(ImageSurface);
+            ImageSurface.Source = _contactDemo.Bitmap;
+            CompositionTarget.Rendering += _contactDemo.Update;
         }
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            contactDemo.Fire();
+            _contactDemo.Fire();
         }
     }
 }

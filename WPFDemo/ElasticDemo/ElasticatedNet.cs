@@ -12,67 +12,67 @@ namespace WPFDemo.ElasticDemo
 {
     internal class ElasticatedNet : IDrawable
     {
-        private World world;
+        private readonly World _world;
 
-        private Particle[,] net;
-        private int width;
-        private int height;
+        private readonly Particle[,] _net;
+        private readonly int _width;
+        private readonly int _height;
 
-        private Vector2D startPosition;
-        private double gridSize;
+        private Vector2D _startPosition;
+        private readonly double _gridSize;
 
         public ElasticatedNet(World world, Vector2D startPosition, int width, int height, double gridSize)
         {
-            this.world         = world;
-            this.width         = width;
-            this.height        = height;
-            this.startPosition = startPosition;
-            this.gridSize      = gridSize;
+            this._world         = world;
+            this._width         = width;
+            this._height        = height;
+            this._startPosition = startPosition;
+            this._gridSize      = gridSize;
 
-            net = new Particle[width, height];
+            _net = new Particle[width, height];
         }
 
         public void Reset()
         {
             // 清除以往的的数据
-            foreach (var item in net)
+            foreach (var item in _net)
             {
-                if (item != null) world.RemoveObject(item);
+                if (item != null) _world.RemoveObject(item);
             }
             // 根据参数创建弹性网
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < _width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < _height; j++)
                 {
-                    net[i, j] = world.CreateParticle
+                    _net[i, j] = _world.CreateParticle
                     (
                         new Vector2D(
-                            (startPosition.X + i * gridSize),
-                            (startPosition.Y + j * gridSize)
+                            (_startPosition.X + i * _gridSize),
+                            (_startPosition.Y + j * _gridSize)
                         ),
                         Vector2D.Zero,
-                        1f
+                        1
                     );
                 }
             }
             // 设置弹性网
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < _width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < _height; j++)
                 {
-                    var spring = new DestructibleElastic(12, gridSize);
-                    if (i > 0         ) spring.Add(net[i - 1, j]);
-                    if (i < width - 1 ) spring.Add(net[i + 1, j]);
-                    if (j > 0         ) spring.Add(net[i, j - 1]);
-                    if (j < height - 1) spring.Add(net[i, j + 1]);
-                    world.RegistryForceGenerator(net[i, j], spring);
+                    var spring = new DestructibleElastic(12, _gridSize);
+                    if (i > 0          ) spring.Add(_net[i - 1, j]);
+                    if (i < _width - 1 ) spring.Add(_net[i + 1, j]);
+                    if (j > 0          ) spring.Add(_net[i, j - 1]);
+                    if (j < _height - 1) spring.Add(_net[i, j + 1]);
+                    _world.RegistryForceGenerator(_net[i, j], spring);
                 }
             }
             // 对弹性网进行拉扯
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < _width; i++)
             {
-                net[i, height - 1].Velocity    = new Vector2D(0f, 0.1f) * 4 * (i >= width / 2 ? -1 : 1);
-                net[i, height - 1].InverseMass = 0f;
+                _net[i, _height - 1].Velocity    = new Vector2D(0, 0.1) * 4 * (i >= _width / 2 ? -1 : 1);
+                _net[i, _height - 1].InverseMass = 0;
             }
         }
 
@@ -83,30 +83,30 @@ namespace WPFDemo.ElasticDemo
         public void Draw(WriteableBitmap bitmap)
         {
             bitmap.Clear();
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < _width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < _height; j++)
                 {
-                    int x = net[i, j].Position.X.ToDisplayUnits();
-                    int y = net[i, j].Position.Y.ToDisplayUnits();
+                    int x = _net[i, j].Position.X.ToDisplayUnits();
+                    int y = _net[i, j].Position.Y.ToDisplayUnits();
 
                     // 绘制弹性连线
                     double dLeft;
                     double dDown;
-                    if (i > 0 && (dLeft = (net[i, j].Position - net[i - 1, j].Position).Length()) < 1.5f)
+                    if (i > 0 && (dLeft = (_net[i, j].Position - _net[i - 1, j].Position).Length()) < 1.5)
                     {
-                        byte colorRow = dLeft > gridSize ? (byte)((int)(255 - (dLeft - gridSize) * 150)) : (byte)255;
+                        byte colorRow = dLeft > _gridSize ? (byte)((int)(255 - (dLeft - _gridSize) * 150)) : (byte)255;
                         bitmap.DrawLineAa(
                             x, y,
-                            net[i - 1, j].Position.X.ToDisplayUnits(), net[i - 1, j].Position.Y.ToDisplayUnits(),
+                            _net[i - 1, j].Position.X.ToDisplayUnits(), _net[i - 1, j].Position.Y.ToDisplayUnits(),
                             Color.FromArgb(colorRow, 0, 0, 0));
                     }
-                    if (j > 0 && (dDown = (net[i, j].Position - net[i, j - 1].Position).Length()) < 1.5f)
+                    if (j > 0 && (dDown = (_net[i, j].Position - _net[i, j - 1].Position).Length()) < 1.5)
                     {
-                        byte colorCol = dDown > gridSize ? (byte)((int)(255 - (dDown - gridSize) * 150)) : (byte)255;
+                        byte colorCol = dDown > _gridSize ? (byte)((int)(255 - (dDown - _gridSize) * 150)) : (byte)255;
                         bitmap.DrawLineAa(
                             x, y,
-                            net[i, j - 1].Position.X.ToDisplayUnits(), net[i, j - 1].Position.Y.ToDisplayUnits(),
+                            _net[i, j - 1].Position.X.ToDisplayUnits(), _net[i, j - 1].Position.Y.ToDisplayUnits(),
                             Color.FromArgb(colorCol, 0, 0, 0));
                     }
                     // 绘制点

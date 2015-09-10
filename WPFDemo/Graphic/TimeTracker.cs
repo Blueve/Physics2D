@@ -4,61 +4,35 @@ namespace WPFDemo
 {
     public class TimeTracker
     {
-        private DateTime lastTime;
-        private double deltaTime;
-        private double timerInterval = -1;
+        public double TimerInterval { get; set; } = -1;
 
-        public double TimerInterval
-        {
-            get
-            {
-                return timerInterval;
-            }
-            set
-            {
-                timerInterval = value;
-            }
-        }
+        public DateTime ElapsedTime { get; private set; }
 
-        public DateTime ElapsedTime
-        {
-            get
-            {
-                return lastTime;
-            }
-        }
-
-        public double DeltaSeconds
-        {
-            get
-            {
-                return deltaTime;
-            }
-        }
+        public double DeltaSeconds { get; private set; }
 
         public event EventHandler TimerFired;
 
         public TimeTracker()
         {
-            lastTime = DateTime.Now;
+            ElapsedTime = DateTime.Now;
         }
 
         public double Update()
         {
             DateTime currentTime = DateTime.Now;
-            TimeSpan diffTime = currentTime - lastTime;
+            TimeSpan diffTime = currentTime - ElapsedTime;
 
-            deltaTime = diffTime.TotalSeconds;
-            if (timerInterval > 0.0)
+            DeltaSeconds = diffTime.TotalSeconds;
+            if (TimerInterval > 0.0)
             {
-                if (currentTime != lastTime)
+                if (currentTime != ElapsedTime)
                 {
                     TimerFired(this, null);
                 }
             }
-            lastTime = currentTime;
+            ElapsedTime = currentTime;
 
-            return deltaTime;
+            return DeltaSeconds;
         }
     }
 }

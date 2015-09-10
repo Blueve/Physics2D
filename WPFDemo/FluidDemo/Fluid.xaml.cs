@@ -9,25 +9,25 @@ namespace WPFDemo
     /// </summary>
     public partial class Fluid : Window
     {
-        private FluidDemo.FluidDemo fluidDemo;
+        private FluidDemo.FluidDemo _fluidDemo;
 
         public Fluid()
         {
             InitializeComponent();
-            fluidDemo = new FluidDemo.FluidDemo(imageSurface);
+            _fluidDemo = new FluidDemo.FluidDemo(ImageSurface);
 
-            imageSurface.Source = fluidDemo.bitmap;
-            CompositionTarget.Rendering += fluidDemo.Update;
+            ImageSurface.Source = _fluidDemo.Bitmap;
+            CompositionTarget.Rendering += _fluidDemo.Update;
         }
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            fluidDemo.Fire();
+            _fluidDemo.Fire();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            CompositionTarget.Rendering -= fluidDemo.Update;
+            CompositionTarget.Rendering -= _fluidDemo.Update;
         }
     }
 }

@@ -8,7 +8,7 @@
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Margin="3" BorderBrush="SteelBlue" BorderThickness="1" Height="402" Width="500">
-            <Image x:Name="imageSurface" Width="500" Height="400" MouseDown="imageSurface_MouseDown" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+            <Image x:Name="ImageSurface" Width="500" Height="400" MouseDown="imageSurface_MouseDown" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
         </Border>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

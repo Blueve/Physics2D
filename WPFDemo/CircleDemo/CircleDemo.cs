@@ -13,15 +13,15 @@ namespace WPFDemo.CircleDemo
 {
     public class CircleDemo : PhysicsGraphic, IDrawable
     {
-        private Particle centerObj;
+        private readonly Particle _centerObj;
 
-        private List<Particle> objList = new List<Particle>();
+        private readonly List<Particle> _objList = new List<Particle>();
 
         public CircleDemo(Image image)
             : base(image)
         {
             // 初始化中心点
-            centerObj = physicsWorld.CreateFixedParticle
+            _centerObj = PhysicsWorld.CreateFixedParticle
             (
                 new Vector2D
                 (
@@ -30,18 +30,17 @@ namespace WPFDemo.CircleDemo
                 )
             );
             // 注册绘制对象
-            drawQueue.Add(this);
+            DrawQueue.Add(this);
         }
 
         protected override void UpdatePhysics(double duration)
         {
-            foreach (var item in objList)
+            foreach (var item in _objList)
             {
-                Vector2D v = centerObj.Position - item.Position;
-                double d = v.Length();
-                item.AddForce(v.Normalize() * 30f);
+                Vector2D v = _centerObj.Position - item.Position;
+                item.AddForce(v.Normalize() * 30);
             }
-            physicsWorld.Update(duration);
+            PhysicsWorld.Update(duration);
         }
 
         public void Fire()
@@ -49,29 +48,29 @@ namespace WPFDemo.CircleDemo
             if (!Start)
             {
                 // 全局增加一个小阻尼
-                physicsWorld.CreateGlobalZone(new ParticleDrag(0.01f, 0.02f));
+                PhysicsWorld.CreateGlobalZone(new ParticleDrag(0.01, 0.02));
                 Start = true;
             }
-            var item = physicsWorld.CreateParticle
+            var item = PhysicsWorld.CreateParticle
             (
-                new Vector2D(ConvertUnits.ToSimUnits(200f), ConvertUnits.ToSimUnits(200f)),
-                new Vector2D(0f, 5f),
+                new Vector2D(200.ToSimUnits(), 200.ToSimUnits()),
+                new Vector2D(0, 5),
                 1f
             );
-            objList.Add(item);
+            _objList.Add(item);
         }
 
         public void Draw(WriteableBitmap bitmap)
         {
             bitmap.FillEllipseCentered
             (
-                centerObj.Position.X.ToDisplayUnits(),
-                centerObj.Position.Y.ToDisplayUnits(), 6, 6, Colors.Red
+                _centerObj.Position.X.ToDisplayUnits(),
+                _centerObj.Position.Y.ToDisplayUnits(), 6, 6, Colors.Red
             );
-            for (int i = objList.Count - 1; i >= 0; i--)
+            for (int i = _objList.Count - 1; i >= 0; i--)
             {
-                int x = objList[i].Position.X.ToDisplayUnits();
-                int y = objList[i].Position.Y.ToDisplayUnits();
+                int x = _objList[i].Position.X.ToDisplayUnits();
+                int y = _objList[i].Position.Y.ToDisplayUnits();
 
                 bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
             }

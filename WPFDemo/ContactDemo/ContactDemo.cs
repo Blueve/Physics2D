@@ -23,36 +23,36 @@ namespace WPFDemo.ContactDemo
     class ContactDemo : PhysicsGraphic
     {
 
-        private List<Ball> ballList = new List<Ball>();
+        private readonly List<Ball> _ballList = new List<Ball>();
 
         public ContactDemo(Image image)
             : base(image)
         {
-            int num = 5;
+            const int num = 5;
 
             var contact = new ParticleBall(1f);
-            physicsWorld.RegistryContactGenerator(contact);
+            PhysicsWorld.RegistryContactGenerator(contact);
 
             for(int i = 0; i < num; i++)
             {
-                Particle fB = physicsWorld.CreateFixedParticle((new Vector2D(160 + 40 * i, 0f)).ToSimUnits());
-                Particle pB = physicsWorld.CreateParticle((new Vector2D(160 + 40 * i, 200f)).ToSimUnits(), new Vector2D(0, 0), 2);
+                Particle fB = PhysicsWorld.CreateFixedParticle((new Vector2D(160 + 40 * i, 0)).ToSimUnits());
+                Particle pB = PhysicsWorld.CreateParticle((new Vector2D(160 + 40 * i, 200)).ToSimUnits(), new Vector2D(0, 0), 2);
                 Ball ball = new Ball
                 {
-                    fixedParticle = fB,
-                    particle = pB,
-                    r = 20
+                    FixedParticle = fB,
+                    Particle = pB,
+                    R = 20
                 };
-                physicsWorld.RegistryContactGenerator(new ParticleRope(200.ToSimUnits(), 0f, fB, pB));
-                contact.AddBall(ball.particle, ball.r.ToSimUnits());
-                drawQueue.Add(ball);
-                ballList.Add(ball);
+                PhysicsWorld.RegistryContactGenerator(new ParticleRope(200.ToSimUnits(), 0, fB, pB));
+                contact.AddBall(ball.Particle, ball.R.ToSimUnits());
+                DrawQueue.Add(ball);
+                _ballList.Add(ball);
             }
 
             // 增加重力和空气阻力
-            physicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0f, 40f)));
+            PhysicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0f, 40)));
 
-            slot = 1 / 240.0;
+            Slot = 1 / 120.0;
 
             Start = true;
         }
@@ -60,12 +60,12 @@ namespace WPFDemo.ContactDemo
 
         protected override void UpdatePhysics(double duration)
         {
-            physicsWorld.Update(duration);
+            PhysicsWorld.Update(duration);
         }
 
         public void Fire()
         {
-            ballList[0].particle.Velocity = new Vector2D(-10f, 0f);
+            _ballList[0].Particle.Velocity = new Vector2D(-10, 0);
         }
     }
 }

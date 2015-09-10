@@ -15,29 +15,29 @@ namespace WPFDemo.FluidDemo
 {
     public class FluidDemo : PhysicsGraphic
     {
-        private Water water;
+        private readonly Water _water;
 
-        private Vector2D center = new Vector2D(ConvertUnits.ToSimUnits(250f), ConvertUnits.ToSimUnits(200f));
+        private readonly Vector2D _center = new Vector2D(ConvertUnits.ToSimUnits(250f), ConvertUnits.ToSimUnits(200f));
 
         public FluidDemo(Image image)
             : base(image)
         {
             // 创建液体容器
-            water = new Water((int)image.Width, (int)image.Height);
+            _water = new Water((int)image.Width, (int)image.Height);
             // 添加到绘制队列
-            this.drawQueue.Add(water);
+            this.DrawQueue.Add(_water);
         }
 
         protected override void UpdatePhysics(double duration)
         {
-            if(!flag)
-                foreach (var item in water.objList)
+            if(!_flag)
+                foreach (var item in _water.ObjList)
                 {
-                    Vector2D v = center - item.Position;
+                    Vector2D v = _center - item.Position;
                     double d = v.Length();
                     item.AddForce(v.Normalize() * 5 * d);
                 }
-            physicsWorld.Update(duration);
+            PhysicsWorld.Update(duration);
         }
 
         public void Fire()
@@ -47,34 +47,30 @@ namespace WPFDemo.FluidDemo
             {
                 Start = true;
                 // 设置全局的阻力
-                physicsWorld.CreateGlobalZone(new ParticleDrag(0.5, 0.5));
+                PhysicsWorld.CreateGlobalZone(new ParticleDrag(0.5, 0.5));
                 
                 // 初始化水
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 20; i++)
                 {
-                    var item = physicsWorld.CreateParticle
+                    var item = PhysicsWorld.CreateParticle
                     (
                         new Vector2D
                         (
-                            rnd.Next((int)bitmap.Width).ToSimUnits(),
-                            rnd.Next((int)bitmap.Height).ToSimUnits()
+                            rnd.Next((int)Bitmap.Width).ToSimUnits(),
+                            rnd.Next((int)Bitmap.Height).ToSimUnits()
                         ),
                         Vector2D.Zero,
-                        1f
+                        1
                     );
-                    water.objList.Add(item);
-                    //contactBall.AddBall(item, ConvertUnits.ToSimUnits(3));
+                    _water.ObjList.Add(item);
                 }
             }
             // 抖动
-            foreach (var obj in water.objList)
-            {
-                obj.Velocity.Set(rnd.Next(5) - 2.5, rnd.Next(5) - 2.5);
-            }
+            _water.ObjList.ForEach(obj => obj.Velocity.Set(rnd.Next(5) - 2.5, rnd.Next(5) - 2.5));
         }
 
-        private bool flag = false;
+        private bool _flag = false;
 
-        private ParticleBall contactBall = new ParticleBall(0.02);
+        private ParticleBall _contactBall = new ParticleBall(0.02);
     }
 }

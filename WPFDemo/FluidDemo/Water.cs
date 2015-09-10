@@ -14,46 +14,46 @@ namespace WPFDemo.FluidDemo
 {
     class Water : IDrawable
     {
-        public readonly List<Particle> objList = new List<Particle>();
+        public readonly List<Particle> ObjList = new List<Particle>();
 
-        private const int threshold = 900;
-        private const int gridR = 60;
+        private const int Threshold = 900;
+        private const int GridR = 60;
 
         private const int R = 150;
 
-        private int[] metaTable;
-        private int[,] cacheTable;
-        private object[,] cacheLocks;
-        private int[,] cache;
+        private readonly int[] _metaTable;
+        private readonly int[,] _cacheTable;
+        private readonly object[,] _cacheLocks;
+        private int[,] _cache;
 
         public Water(int maxWidth, int maxHeight)
         {
             // 计算势能函数缓存
-            metaTable = new int[gridR];
-            metaTable[0] = threshold;
-            for (int i = 1; i < gridR; i++)
+            _metaTable = new int[GridR];
+            _metaTable[0] = Threshold;
+            for (int i = 1; i < GridR; i++)
             {
-                metaTable[i] = (R * R / (i * i));
+                _metaTable[i] = (R * R / (i * i));
             }
             // 计算势能缓存
-            cacheTable = new int[2 * gridR, 2 * gridR];
-            for (int i = 0; i < 2 * gridR; i++)
+            _cacheTable = new int[2 * GridR, 2 * GridR];
+            for (int i = 0; i < 2 * GridR; i++)
             {
-                for (int j = 0; j < 2 * gridR; j++)
+                for (int j = 0; j < 2 * GridR; j++)
                 {
-                    int d = (int)Math.Sqrt((i - gridR) * (i - gridR) + (j - gridR) * (j - gridR) + 0.5);
-                    cacheTable[i, j] = d < gridR ? metaTable[d] : 0;
+                    int d = (int)Math.Sqrt((i - GridR) * (i - GridR) + (j - GridR) * (j - GridR) + 0.5);
+                    _cacheTable[i, j] = d < GridR ? _metaTable[d] : 0;
                 }
             }
             // 初始化锁
             int w = maxWidth;
             int h = maxHeight;
-            cacheLocks = new object[w, h];
+            _cacheLocks = new object[w, h];
             for (int i = 0; i < w; i++)
             {
                 for (int j = 0; j < h; j++)
                 {
-                    cacheLocks[i, j] = new object();
+                    _cacheLocks[i, j] = new object();
                 }
             }
         }
@@ -66,24 +66,24 @@ namespace WPFDemo.FluidDemo
                 int w = wc.Width;
                 int h = wc.Height;
                 var pixels = wc.Pixels;
-                cache = cache ?? new int[w, h];
-                Array.Clear(cache, 0, cache.Length);
+                _cache = _cache ?? new int[w, h];
+                Array.Clear(_cache, 0, _cache.Length);
                 // 叠加每个球的势能
-                Parallel.ForEach(objList, obj =>
+                Parallel.ForEach(ObjList, obj =>
                 {
                     int x = obj.Position.X.ToDisplayUnits();
                     int y = obj.Position.Y.ToDisplayUnits();
 
-                    for (int i = x - gridR, I = 0; i < x + gridR; i++, I++)
+                    for (int i = x - GridR, I = 0; i < x + GridR; i++, I++)
                     {
-                        for (int j = y - gridR, J = 0; j < y + gridR; j++, J++)
+                        for (int j = y - GridR, J = 0; j < y + GridR; j++, J++)
                         {
                             if (i < 0 || i >= w || j < 0 || j >= h) continue;
                             else
                             {
-                                lock (cacheLocks[i, j])
+                                lock (_cacheLocks[i, j])
                                 {
-                                    cache[i, j] += cacheTable[I, J];
+                                    _cache[i, j] += _cacheTable[I, J];
                                 }
                             }
                         }
@@ -94,7 +94,7 @@ namespace WPFDemo.FluidDemo
                 {
                     for (int x = 0; x < w; x++)
                     {
-                        if (cache[x, y] >= threshold)
+                        if (_cache[x, y] >= Threshold)
                         {
                             pixels[y * w + x] = (255 << 24) | (16 << 68) | (146 << 8) | (216);
                         }

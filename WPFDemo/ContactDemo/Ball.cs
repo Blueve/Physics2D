@@ -17,24 +17,24 @@ namespace WPFDemo.ContactDemo
 {
     class Ball : IDrawable
     {
-        public Particle fixedParticle;
-        public Particle particle;
-        public int r;
+        public Particle FixedParticle;
+        public Particle Particle;
+        public int R;
 
         public void Draw(WriteableBitmap bitmap)
         {
             bitmap.DrawLineAa
             (
-                fixedParticle.Position.X.ToDisplayUnits(),
-                fixedParticle.Position.Y.ToDisplayUnits(),
-                particle.Position.X.ToDisplayUnits(),
-                particle.Position.Y.ToDisplayUnits(),
+                FixedParticle.Position.X.ToDisplayUnits(),
+                FixedParticle.Position.Y.ToDisplayUnits(),
+                Particle.Position.X.ToDisplayUnits(),
+                Particle.Position.Y.ToDisplayUnits(),
                 Colors.DarkGray
             );
             bitmap.FillEllipseCentered
             (
-                particle.Position.X.ToDisplayUnits(),
-                particle.Position.Y.ToDisplayUnits(), r, r, Colors.DarkRed
+                Particle.Position.X.ToDisplayUnits(),
+                Particle.Position.Y.ToDisplayUnits(), R, R, Colors.DarkRed
             );
         }
     }

@@ -8,12 +8,12 @@
             <ColumnDefinition Width="300"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Button Margin="5" Height="50" x:Name="fireworksDemo" Click="fireworksDemo_Click" Content="烟火演示" />
-            <Button Margin="5" Height="50" x:Name="circleDemo" Click="circlrDemo_Click"  Content="圆周运动演示" />
-            <Button Margin="5" Height="50" x:Name="springDemo" Click="springDemo_Click" Content="弹簧演示" />
-            <Button Margin="5" Height="50" x:Name="elasticDemo" Click="elasticDemo_Click" Content="弹性材料演示" />
-            <Button Margin="5" Height="50" x:Name="fluidDemo" Click="fluidDemo_Click" Content="流体演示" />
-            <Button Margin="5" Height="50" x:Name="contactDemo" Click="contactDemo_Click" Content="简单碰撞演示" />
+            <Button Margin="5" Height="50" x:Name="FireworksDemo" Click="fireworksDemo_Click" Content="烟火演示" />
+            <Button Margin="5" Height="50" x:Name="CircleDemo" Click="circlrDemo_Click"  Content="圆周运动演示" />
+            <Button Margin="5" Height="50" x:Name="SpringDemo" Click="springDemo_Click" Content="弹簧演示" />
+            <Button Margin="5" Height="50" x:Name="ElasticDemo" Click="elasticDemo_Click" Content="弹性材料演示" />
+            <Button Margin="5" Height="50" x:Name="FluidDemo" Click="fluidDemo_Click" Content="流体演示" />
+            <Button Margin="5" Height="50" x:Name="ContactDemo" Click="contactDemo_Click" Content="简单碰撞演示" />
         </StackPanel>
     </Grid>
 </Window>

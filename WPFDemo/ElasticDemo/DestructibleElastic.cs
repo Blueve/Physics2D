@@ -7,39 +7,39 @@ namespace WPFDemo.ElasticDemo
 {
     internal class DestructibleElastic : ParticleForceGenerator
     {
-        private List<LinkedItem> linked = new List<LinkedItem>();
+        private readonly List<LinkedItem> _linked = new List<LinkedItem>();
 
-        private double k;
-        private double length;
+        private readonly double _k;
+        private readonly double _length;
 
         public DestructibleElastic(double k, double length)
         {
-            this.k = k;
-            this.length = length;
+            this._k = k;
+            this._length = length;
         }
 
         public void Add(Particle item)
         {
-            linked.Add(new LinkedItem
+            _linked.Add(new LinkedItem
             {
-                particle = item,
-                isValid = true
+                Particle = item,
+                IsValid = true
             });
         }
 
         public override void UpdateForce(Particle particle, double duration)
         {
-            for (int i = linked.Count - 1; i >= 0; i--)
+            for (int i = _linked.Count - 1; i >= 0; i--)
             {
-                if (linked[i].isValid)
+                if (_linked[i].IsValid)
                 {
-                    Vector2D d = particle.Position - linked[i].particle.Position;
-                    if (d.Length() > 1.5f)
+                    Vector2D d = particle.Position - _linked[i].Particle.Position;
+                    if (d.Length() > 1.5)
                     {
-                        linked[i].isValid = false;
+                        _linked[i].IsValid = false;
                         continue;
                     }
-                    double force = (length - d.Length()) * k;
+                    double force = (_length - d.Length()) * _k;
                     d.Normalize();
                     particle.AddForce(d * force);
                 }
@@ -48,8 +48,8 @@ namespace WPFDemo.ElasticDemo
 
         private class LinkedItem
         {
-            public Particle particle;
-            public bool isValid;
+            public Particle Particle;
+            public bool IsValid;
         }
     }
 }

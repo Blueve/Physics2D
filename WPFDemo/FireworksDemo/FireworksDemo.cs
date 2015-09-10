@@ -17,106 +17,105 @@ namespace WPFDemo.FireworksDemo
 
     public class FireworksDemo : PhysicsGraphic, IDrawable
     {
-        public const int WATER_G = 1;
-        public const int WIND_G = 2;
+        public const int WaterG = 1;
+        public const int WindG = 2;
 
-        private int type = 0;
+        private int _type = 0;
         public int Type
         {
             get
             {
-                return type;
+                return _type;
             }
             set
             {
-                type = value;
+                _type = value;
                 // 设置力场
-                if (type == WATER_G)
+                if (_type == WaterG)
                 {
-                    if (!physicsWorld.ZoneSet.Contains(dragZone))
-                        physicsWorld.ZoneSet.Add(dragZone);
-                    if (physicsWorld.ZoneSet.Contains(windZone))
-                        physicsWorld.ZoneSet.Remove(windZone);
-
+                    if (!PhysicsWorld.ZoneSet.Contains(_dragZone))
+                        PhysicsWorld.ZoneSet.Add(_dragZone);
+                    if (PhysicsWorld.ZoneSet.Contains(_windZone))
+                        PhysicsWorld.ZoneSet.Remove(_windZone);
                 }
-                else if (type == WIND_G)
+                else if (_type == WindG)
                 {
-                    if (!physicsWorld.ZoneSet.Contains(windZone))
-                        physicsWorld.ZoneSet.Add(windZone);
-                    if (physicsWorld.ZoneSet.Contains(dragZone))
-                        physicsWorld.ZoneSet.Remove(dragZone);
+                    if (!PhysicsWorld.ZoneSet.Contains(_windZone))
+                        PhysicsWorld.ZoneSet.Add(_windZone);
+                    if (PhysicsWorld.ZoneSet.Contains(_dragZone))
+                        PhysicsWorld.ZoneSet.Remove(_dragZone);
                 }
             }
         }
 
         // 空间作用力
-        private ParticleGravity g = new ParticleGravity(new Vector2D(0, 10f));
-        private ParticleDrag drag = new ParticleDrag(2f, 1f);
-        private ParticleConstantForce wind = new ParticleConstantForce(new Vector2D(20f, -5f));
+        private readonly ParticleGravity _g = new ParticleGravity(new Vector2D(0, 10));
+        private readonly ParticleDrag _drag = new ParticleDrag(2, 1);
+        private readonly ParticleConstantForce _wind = new ParticleConstantForce(new Vector2D(20, -5));
 
-        private Zone dragZone;
-        private Zone windZone;
+        private readonly Zone _dragZone;
+        private readonly Zone _windZone;
 
         // 粒子队列
-        private List<Particle> objList = new List<Particle>();
+        private readonly List<Particle> _objList = new List<Particle>();
 
-        private int worldHeight = 400;
-        private int worldWidth = 500;
+        private const int WorldHeight = 400;
+        private const int WorldWidth = 500;
 
         public FireworksDemo(Image image)
             : base(image)
         {
-            drawQueue.Add(this);
+            DrawQueue.Add(this);
 
-            dragZone = new RectangleZone
+            _dragZone = new RectangleZone
             (
                 ConvertUnits.ToSimUnits(0f),
-                ConvertUnits.ToSimUnits(worldHeight * 2 / 3f),
+                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3f),
                 ConvertUnits.ToSimUnits(500f),
                 ConvertUnits.ToSimUnits(400f)
             );
-            dragZone.ParticleForceGenerators.Add(drag);
+            _dragZone.ParticleForceGenerators.Add(_drag);
 
-            windZone = new RectangleZone
+            _windZone = new RectangleZone
             (
                 ConvertUnits.ToSimUnits(0f),
-                ConvertUnits.ToSimUnits(worldHeight * 1 / 3f),
+                ConvertUnits.ToSimUnits(WorldHeight * 1 / 3f),
                 ConvertUnits.ToSimUnits(500f),
-                ConvertUnits.ToSimUnits(worldHeight * 2 / 3f)
+                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3f)
             );
-            windZone.ParticleForceGenerators.Add(wind);
+            _windZone.ParticleForceGenerators.Add(_wind);
         }
 
         protected override void UpdatePhysics(double duration)
         {
-            physicsWorld.Update(duration);
+            PhysicsWorld.Update(duration);
         }
 
         public void Draw(WriteableBitmap bitmap)
         {
             
-            if (type == WATER_G)
-                bitmap.FillRectangle(0, worldHeight * 2 / 3, worldWidth, worldHeight, Colors.SkyBlue);
-            else if (type == WIND_G)
-                bitmap.FillRectangle(0, worldHeight * 1 / 3, worldWidth, worldHeight * 2 / 3, Colors.LightGray);
+            if (_type == WaterG)
+                bitmap.FillRectangle(0, WorldHeight * 2 / 3, WorldWidth, WorldHeight, Colors.SkyBlue);
+            else if (_type == WindG)
+                bitmap.FillRectangle(0, WorldHeight * 1 / 3, WorldWidth, WorldHeight * 2 / 3, Colors.LightGray);
 
             bitmap.DrawLineAa(100, 350, 400, 200, Colors.Black);
 
-            for (int i = objList.Count - 1; i >= 0; i--)
+            for (int i = _objList.Count - 1; i >= 0; i--)
             {
-                int x = objList[i].Position.X.ToDisplayUnits();
-                int y = objList[i].Position.Y.ToDisplayUnits();
+                int x = _objList[i].Position.X.ToDisplayUnits();
+                int y = _objList[i].Position.Y.ToDisplayUnits();
 
-                if (y > worldHeight || x > worldWidth || x < 0 || y < 0)
+                if (y > WorldHeight || x > WorldWidth || x < 0 || y < 0)
                 {
-                    physicsWorld.RemoveObject(objList[i]);
-                    objList.Remove(objList[i]);
+                    PhysicsWorld.RemoveObject(_objList[i]);
+                    _objList.Remove(_objList[i]);
                 }
                 else
                 {
-                    if(type == WATER_G)
+                    if(_type == WaterG)
                     {
-                        bitmap.FillEllipseCentered(x, y, 4, 4, y > worldHeight*2/3 ? Colors.DarkBlue : Colors.Black);
+                        bitmap.FillEllipseCentered(x, y, 4, 4, y > WorldHeight*2/3 ? Colors.DarkBlue : Colors.Black);
                     }
                     else
                     {
@@ -132,29 +131,29 @@ namespace WPFDemo.FireworksDemo
             {
                 Start = true;
                 // 增加重力
-                physicsWorld.CreateGlobalZone(g);
+                PhysicsWorld.CreateGlobalZone(_g);
                 // 添加边缘
-                physicsWorld.RegistryContactGenerator(contact);
+                PhysicsWorld.RegistryContactGenerator(_contact);
 
-                slot = 1 / 240f;
+                Slot = 1 / 240f;
             }
 
             Random rnd = new Random();
 
             for (int i = 0; i < 10; i++)
             {
-                var paritcle = physicsWorld.CreateParticle
+                var paritcle = PhysicsWorld.CreateParticle
                 (
                     new Vector2D(x, y),
                     new Vector2D(rnd.NextDouble() * 6 - 3, rnd.NextDouble() * 6 - 3),
                     1f
                 );
-                objList.Add(paritcle);
-                contact.AddBall(paritcle, 4.ToSimUnits());
+                _objList.Add(paritcle);
+                _contact.AddBall(paritcle, 4.ToSimUnits());
             }
         }
 
-        private ParticleEdge contact = new ParticleEdge(0.02f,
+        private readonly ParticleEdge _contact = new ParticleEdge(0.02f,
                                                         ConvertUnits.ToSimUnits(100f),
                                                         ConvertUnits.ToSimUnits(350f),
                                                         ConvertUnits.ToSimUnits(400f),

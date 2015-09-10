@@ -9,31 +9,31 @@ namespace WPFDemo
     /// </summary>
     public partial class Fireworks : Window
     {
-        private FireworksDemo.FireworksDemo fireworksDemo;
+        private FireworksDemo.FireworksDemo _fireworksDemo;
 
         public Fireworks()
         {
             InitializeComponent();
-            fireworksDemo = new FireworksDemo.FireworksDemo(imageSurface);
+            _fireworksDemo = new FireworksDemo.FireworksDemo(ImageSurface);
 
-            imageSurface.Source = fireworksDemo.bitmap;
-            CompositionTarget.Rendering += fireworksDemo.Update;
+            ImageSurface.Source = _fireworksDemo.Bitmap;
+            CompositionTarget.Rendering += _fireworksDemo.Update;
         }
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            fireworksDemo.Fire((float)e.GetPosition(imageSurface).X / 50, (float)e.GetPosition(imageSurface).Y / 50);
+            _fireworksDemo.Fire((float)e.GetPosition(ImageSurface).X / 50, (float)e.GetPosition(ImageSurface).Y / 50);
         }
 
         private void Checked(object sender, RoutedEventArgs e)
         {
             if (Drag.IsChecked == true)
             {
-                fireworksDemo.Type = FireworksDemo.FireworksDemo.WATER_G;
+                _fireworksDemo.Type = FireworksDemo.FireworksDemo.WaterG;
             }
             else if (Wind.IsChecked == true)
             {
-                fireworksDemo.Type = FireworksDemo.FireworksDemo.WIND_G;
+                _fireworksDemo.Type = FireworksDemo.FireworksDemo.WindG;
             }
         }
     }

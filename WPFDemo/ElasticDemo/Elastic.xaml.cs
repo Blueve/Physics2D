@@ -9,21 +9,21 @@ namespace WPFDemo
     /// </summary>
     public partial class Elastic : Window
     {
-        private ElasticDemo.ElasticDemo elasticDemo;
+        private ElasticDemo.ElasticDemo _elasticDemo;
 
         public Elastic()
         {
             InitializeComponent();
 
-            elasticDemo = new ElasticDemo.ElasticDemo(imageSurface);
+            _elasticDemo = new ElasticDemo.ElasticDemo(ImageSurface);
 
-            imageSurface.Source = elasticDemo.bitmap;
-            CompositionTarget.Rendering += elasticDemo.Update;
+            ImageSurface.Source = _elasticDemo.Bitmap;
+            CompositionTarget.Rendering += _elasticDemo.Update;
         }
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            elasticDemo.Fire();
+            _elasticDemo.Fire();
         }
     }
 }

@@ -11,14 +11,14 @@ namespace WPFDemo.Graphic
         /// <summary>
         /// 物理世界
         /// </summary>
-        protected World physicsWorld = new World();
+        protected World PhysicsWorld = new World();
 
         /// <summary>
         /// 帧率控制计时器
         /// </summary>
-        protected TimeTracker timeTracker = new TimeTracker();
+        protected TimeTracker TimeTracker = new TimeTracker();
 
-        protected double timeSpan = 0;
+        protected double TimeSpan = 0;
 
         /// <summary>
         /// 是否渲染标记
@@ -28,40 +28,37 @@ namespace WPFDemo.Graphic
         /// <summary>
         /// 绘制层
         /// </summary>
-        public readonly WriteableBitmap bitmap;
+        public readonly WriteableBitmap Bitmap;
 
         /// <summary>
         /// 绘制队列
         /// </summary>
-        protected readonly List<IDrawable> drawQueue = new List<IDrawable>();
+        protected readonly List<IDrawable> DrawQueue = new List<IDrawable>();
 
         /// <summary>
         /// 物理演算时间槽大小
         /// </summary>
-        protected double slot = 1 / 60.0;
+        protected double Slot = 1 / 60.0;
 
         public PhysicsGraphic(Image image)
         {
-            bitmap = BitmapFactory.New((int)image.Width, (int)image.Height);
+            Bitmap = BitmapFactory.New((int)image.Width, (int)image.Height);
         }
 
         public void Update(object sender, EventArgs e)
         {
-            float interval = (float)timeTracker.Update();
+            float interval = (float)TimeTracker.Update();
             if (!Start) return;
 
             // 更新物理世界
-            timeSpan += interval;
-            for (; timeSpan >= slot; timeSpan -= slot)
+            TimeSpan += interval;
+            for (; TimeSpan >= Slot; TimeSpan -= Slot)
             {
-                UpdatePhysics(slot);
+                UpdatePhysics(Slot);
             }
             // 更新图形
-            bitmap.Clear();
-            foreach (var item in drawQueue)
-            {
-                item.Draw(bitmap);
-            }
+            Bitmap.Clear();
+            DrawQueue.ForEach(item => item.Draw(Bitmap));
         }
 
         /// <summary>

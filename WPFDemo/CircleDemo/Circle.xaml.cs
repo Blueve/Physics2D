@@ -9,20 +9,20 @@ namespace WPFDemo
     /// </summary>
     public partial class Circle : Window
     {
-        private CircleDemo.CircleDemo circleDemo;
+        private CircleDemo.CircleDemo _circleDemo;
 
         public Circle()
         {
             InitializeComponent();
-            circleDemo = new CircleDemo.CircleDemo(imageSurface);
+            _circleDemo = new CircleDemo.CircleDemo(ImageSurface);
 
-            imageSurface.Source = circleDemo.bitmap;
-            CompositionTarget.Rendering += circleDemo.Update;
+            ImageSurface.Source = _circleDemo.Bitmap;
+            CompositionTarget.Rendering += _circleDemo.Update;
         }
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            circleDemo.Fire();
+            _circleDemo.Fire();
         }
     }
 }
