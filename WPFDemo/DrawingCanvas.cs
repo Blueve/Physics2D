@@ -16,11 +16,6 @@ namespace WPFDemo
 
         protected override int VisualChildrenCount => _visuals.Count;
 
-        protected override void OnRender(DrawingContext dc)
-        {
-            base.OnRender(dc);
-        }
-
         public void AddVisual(Visual visual)
         {
             _visuals.Add(visual);
