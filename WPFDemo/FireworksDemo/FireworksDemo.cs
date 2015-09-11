@@ -69,19 +69,19 @@ namespace WPFDemo.FireworksDemo
 
             _dragZone = new RectangleZone
             (
-                ConvertUnits.ToSimUnits(0f),
-                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3f),
-                ConvertUnits.ToSimUnits(500f),
-                ConvertUnits.ToSimUnits(400f)
+                ConvertUnits.ToSimUnits(0),
+                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3.0),
+                ConvertUnits.ToSimUnits(500),
+                ConvertUnits.ToSimUnits(400)
             );
             _dragZone.ParticleForceGenerators.Add(_drag);
 
             _windZone = new RectangleZone
             (
-                ConvertUnits.ToSimUnits(0f),
-                ConvertUnits.ToSimUnits(WorldHeight * 1 / 3f),
-                ConvertUnits.ToSimUnits(500f),
-                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3f)
+                ConvertUnits.ToSimUnits(0),
+                ConvertUnits.ToSimUnits(WorldHeight * 1 / 3.0),
+                ConvertUnits.ToSimUnits(500),
+                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3.0)
             );
             _windZone.ParticleForceGenerators.Add(_wind);
         }
@@ -135,7 +135,7 @@ namespace WPFDemo.FireworksDemo
                 // 添加边缘
                 PhysicsWorld.RegistryContactGenerator(_contact);
 
-                Slot = 1 / 240f;
+                Slot = 1 / 240.0;
             }
 
             Random rnd = new Random();
@@ -153,10 +153,10 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        private readonly ParticleEdge _contact = new ParticleEdge(0.02f,
-                                                        ConvertUnits.ToSimUnits(100f),
-                                                        ConvertUnits.ToSimUnits(350f),
-                                                        ConvertUnits.ToSimUnits(400f),
-                                                        ConvertUnits.ToSimUnits(200f));
+        private readonly ParticleEdge _contact = new ParticleEdge(0.02,
+                                                        ConvertUnits.ToSimUnits(100),
+                                                        ConvertUnits.ToSimUnits(350),
+                                                        ConvertUnits.ToSimUnits(400),
+                                                        ConvertUnits.ToSimUnits(200));
     }
 }

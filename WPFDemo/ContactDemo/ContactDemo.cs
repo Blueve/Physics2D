@@ -30,7 +30,7 @@ namespace WPFDemo.ContactDemo
         {
             const int num = 5;
 
-            var contact = new ParticleBall(1f);
+            var contact = new ParticleBall(1);
             PhysicsWorld.RegistryContactGenerator(contact);
 
             for(int i = 0; i < num; i++)

@@ -111,7 +111,7 @@ namespace Physics2D.Collision
         private void ResolveInterpenetration(double duration)
         {
             // 对象未相交
-            if (Penetration <= 0f) return;
+            if (Penetration <= .0) return;
 
             // 计算碰撞法线上两物体的速度分量
             double normalLen = ContactNormal.Length();
