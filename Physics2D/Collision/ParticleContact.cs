@@ -69,7 +69,7 @@ namespace Physics2D.Collision
         {
             double separatingVelocity = CalculateSeparatingVelocity();
 
-            if(separatingVelocity > 0f)
+            if(separatingVelocity > 0)
             {
                 // 两个物体已经分离或静止
                 return;
@@ -113,24 +113,9 @@ namespace Physics2D.Collision
             // 对象未相交
             if (Penetration <= .0) return;
 
-            // 计算碰撞法线上两物体的速度分量
-            double normalLen = ContactNormal.Length();
-            double vA = PA.Velocity * ContactNormal / normalLen;
-            double vB = 0;
-            if(PB != null)
-                vB = PB.Velocity * ContactNormal / normalLen;
-
-            // 按照速度比值解决相交
-            Vector2D movePerV = ContactNormal / (vA + vB);
-
-            //PA.Position += movePerV * (penetration * vA);
-            //if (PB != null)
-            //    PB.Position -= movePerV * (penetration * vB);
-            
-
-            //// 不处理两个均为固定或常速运动的物体
+            // 不处理两个均为固定或常速运动的物体
             double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? 0);
-            if (totalInverseMass <= 0f) return;
+            if (totalInverseMass <= 0) return;
 
             Vector2D movePerIMass = ContactNormal * (Penetration / totalInverseMass);
 
@@ -138,9 +123,6 @@ namespace Physics2D.Collision
 
             if (PB != null)
                 PB.Position -= movePerIMass * PB.InverseMass;
-
-        //    if (PA.InverseMass != 0 && PB.InverseMass != 0)
-        //        System.Diagnostics.Debug.WriteLine("PA:" + movePerIMass * PA.InverseMass + " PB: " + -movePerIMass * PB.InverseMass);
         }
         #endregion
     }
