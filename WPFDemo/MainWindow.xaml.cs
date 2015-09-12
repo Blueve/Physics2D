@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using WPFDemo.RobDemo;
+
 namespace WPFDemo
 {
     /// <summary>
@@ -16,10 +18,6 @@ namespace WPFDemo
         {
             Fireworks fwW = new Fireworks();
             fwW.Show();
-        }
-
-        private void springDemo_Click(object sender, RoutedEventArgs e)
-        {
         }
 
         private void circlrDemo_Click(object sender, RoutedEventArgs e)
@@ -44,6 +42,12 @@ namespace WPFDemo
         {
             Contact cW = new Contact();
             cW.Show();
+        }
+
+        private void RobDemo_Click(object sender, RoutedEventArgs e)
+        {
+            Rob rW = new Rob();
+            rW.Show();
         }
     }
 }
