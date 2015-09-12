@@ -23,8 +23,8 @@ namespace Physics2D.Collision
 
         public ParticleRope(double maxLength, double restitution, Particle pA, Particle pB)
         {
-            this.MaxLength = maxLength;
-            this.Restitution = restitution;
+            MaxLength = maxLength;
+            Restitution = restitution;
             PA = pA;
             PB = pB;
         }
