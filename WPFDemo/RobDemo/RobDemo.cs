@@ -64,7 +64,7 @@ namespace WPFDemo.RobDemo
             // 连接三个顶点
             //PhysicsWorld.RegistryContactGenerator(new ParticleRod(_a, _b));
             //PhysicsWorld.RegistryContactGenerator(new ParticleRod(_b, _c));
-            PhysicsWorld.RegistryContactGenerator(new ParticleRod(_a, _c));
+            PhysicsWorld.RegistryContactGenerator(new ParticleRod(_c, _a));
 
             // 增加底部边缘
             PhysicsWorld.RegistryContactGenerator(_contact);
