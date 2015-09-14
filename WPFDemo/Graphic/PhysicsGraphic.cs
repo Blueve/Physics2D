@@ -40,7 +40,7 @@ namespace WPFDemo.Graphic
         /// </summary>
         protected double Slot = 1 / 60.0;
 
-        public PhysicsGraphic(Image image)
+        protected PhysicsGraphic(Image image)
         {
             Bitmap = BitmapFactory.New((int)image.Width, (int)image.Height);
         }
