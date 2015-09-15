@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 
-namespace WPFDemo
+namespace WPFDemo.Graphic
 {
     public class TimeTracker
     {
@@ -27,6 +28,7 @@ namespace WPFDemo
             {
                 if (currentTime != ElapsedTime)
                 {
+                    Debug.Assert(TimerFired != null, "TimerFired != null");
                     TimerFired(this, null);
                 }
             }

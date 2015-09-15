@@ -2,19 +2,19 @@
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace WPFDemo
+namespace WPFDemo.FluidDemo
 {
     /// <summary>
     /// Fluid.xaml 的交互逻辑
     /// </summary>
     public partial class Fluid : Window
     {
-        private FluidDemo.FluidDemo _fluidDemo;
+        private WPFDemo.FluidDemo.FluidDemo _fluidDemo;
 
         public Fluid()
         {
             InitializeComponent();
-            _fluidDemo = new FluidDemo.FluidDemo(ImageSurface);
+            _fluidDemo = new WPFDemo.FluidDemo.FluidDemo(ImageSurface);
 
             ImageSurface.Source = _fluidDemo.Bitmap;
             CompositionTarget.Rendering += _fluidDemo.Update;

@@ -1,4 +1,4 @@
-﻿<Window x:Class="WPFDemo.Contact"
+﻿<Window x:Class="WPFDemo.ContactDemo.Contact"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Contact" Height="450" Width="550">

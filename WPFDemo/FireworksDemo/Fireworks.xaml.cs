@@ -2,19 +2,19 @@
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace WPFDemo
+namespace WPFDemo.FireworksDemo
 {
     /// <summary>
     /// Fireworks.xaml 的交互逻辑
     /// </summary>
     public partial class Fireworks : Window
     {
-        private FireworksDemo.FireworksDemo _fireworksDemo;
+        private WPFDemo.FireworksDemo.FireworksDemo _fireworksDemo;
 
         public Fireworks()
         {
             InitializeComponent();
-            _fireworksDemo = new FireworksDemo.FireworksDemo(ImageSurface);
+            _fireworksDemo = new WPFDemo.FireworksDemo.FireworksDemo(ImageSurface);
 
             ImageSurface.Source = _fireworksDemo.Bitmap;
             CompositionTarget.Rendering += _fireworksDemo.Update;
@@ -29,11 +29,11 @@ namespace WPFDemo
         {
             if (Drag.IsChecked == true)
             {
-                _fireworksDemo.Type = FireworksDemo.FireworksDemo.WaterG;
+                _fireworksDemo.Type = WPFDemo.FireworksDemo.FireworksDemo.WaterG;
             }
             else if (Wind.IsChecked == true)
             {
-                _fireworksDemo.Type = FireworksDemo.FireworksDemo.WindG;
+                _fireworksDemo.Type = WPFDemo.FireworksDemo.FireworksDemo.WindG;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="WPFDemo.Fireworks"
+﻿<Window x:Class="WPFDemo.FireworksDemo.Fireworks"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Fireworks" Height="500" Width="522">

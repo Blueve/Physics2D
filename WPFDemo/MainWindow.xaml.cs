@@ -1,5 +1,8 @@
 ﻿using System.Windows;
-
+using WPFDemo.ContactDemo;
+using WPFDemo.ElasticDemo;
+using WPFDemo.FireworksDemo;
+using WPFDemo.FluidDemo;
 using WPFDemo.RobDemo;
 
 namespace WPFDemo
@@ -16,37 +19,37 @@ namespace WPFDemo
 
         private void fireworksDemo_Click(object sender, RoutedEventArgs e)
         {
-            Fireworks fwW = new Fireworks();
+            var fwW = new Fireworks();
             fwW.Show();
         }
 
         private void circlrDemo_Click(object sender, RoutedEventArgs e)
         {
-            Circle cW = new Circle();
+            var cW = new CircleDemo.Circle();
             cW.Show();
         }
 
         private void elasticDemo_Click(object sender, RoutedEventArgs e)
         {
-            Elastic eW = new Elastic();
+            var eW = new Elastic();
             eW.Show();
         }
 
         private void fluidDemo_Click(object sender, RoutedEventArgs e)
         {
-            Fluid fW = new Fluid();
+            var fW = new Fluid();
             fW.Show();
         }
 
         private void contactDemo_Click(object sender, RoutedEventArgs e)
         {
-            Contact cW = new Contact();
+            var cW = new Contact();
             cW.Show();
         }
 
         private void RobDemo_Click(object sender, RoutedEventArgs e)
         {
-            Rob rW = new Rob();
+            var rW = new Rob();
             rW.Show();
         }
     }

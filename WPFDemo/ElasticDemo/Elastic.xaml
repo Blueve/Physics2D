@@ -1,4 +1,4 @@
-﻿<Window x:Class="WPFDemo.Elastic"
+﻿<Window x:Class="WPFDemo.ElasticDemo.Elastic"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Elastic" Height="750" Width="550">
