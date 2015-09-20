@@ -36,6 +36,16 @@ namespace Physics2D.Collision
         /// 碰撞法线
         /// </summary>
         public Vector2D ContactNormal;
+
+        /// <summary>
+        /// 物体A的移动
+        /// </summary>
+        public Vector2D MovementA;
+
+        /// <summary>
+        /// 物体B的移动
+        /// </summary>
+        public Vector2D MovementB;
         #endregion
 
         #region 公开方法
@@ -97,7 +107,7 @@ namespace Physics2D.Collision
             double impulse = deltaVelocity / totalInverseMass;
 
             // 施加冲量
-            Vector2D impulsePerIMass = ContactNormal * impulse;
+            var impulsePerIMass = ContactNormal * impulse;
             PA.Velocity += impulsePerIMass * PA.InverseMass;
 
             if(PB != null)
@@ -111,18 +121,20 @@ namespace Physics2D.Collision
         private void ResolveInterpenetration(double duration)
         {
             // 对象未相交
-            if (Penetration <= .0) return;
+            if (Penetration <= 0) return;
 
             // 不处理两个均为固定或常速运动的物体
             double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? 0);
             if (totalInverseMass <= 0) return;
 
-            Vector2D movePerIMass = ContactNormal * (Penetration / totalInverseMass);
+            var movePerIMass = ContactNormal * (Penetration / totalInverseMass);
 
-            PA.Position += movePerIMass * PA.InverseMass;
+            MovementA = PA.InverseMass * movePerIMass;
+            MovementB = -PB?.InverseMass*movePerIMass ?? Vector2D.Zero;
 
+            PA.Position += MovementA;
             if (PB != null)
-                PB.Position -= movePerIMass * PB.InverseMass;
+                PB.Position += MovementB;
         }
         #endregion
     }
