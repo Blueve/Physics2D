@@ -43,13 +43,13 @@ namespace Physics2D.Collision
                     item.Particle.Position = (Vector2D)intersectionPoint;
 
                     // 产生一组碰撞
-                    Vector2D BA = PointB - PointA;
-                    Vector2D normal = BA * (item.Particle.PrePosition - PointA) * BA / BA.LengthSquared();
+                    var BA = PointB - PointA;
+                    var normal = BA * (item.Particle.PrePosition - PointA) * BA / BA.LengthSquared();
                     normal = (item.Particle.PrePosition - PointA) - normal;
 
                     normal.Normalize();
 
-                    ParticleContact contact = new ParticleContact
+                    var contact = new ParticleContact
                     {
                         PA = item.Particle,
                         Restitution = Restitution,
@@ -65,36 +65,22 @@ namespace Physics2D.Collision
 
                 // 若未发生穿越则计算
                 double rd = item.R;
-
                 double n1 = (PointA - item.Particle.Position) * (PointA - PointB);
                 double n2 = (PointB - item.Particle.Position) * (PointA - PointB);
 
-                if (n1 * n2 > 0f)
-                {
-                    // 线段上的点到圆心的距离不大于到端点的距离
-
-                    // 分别计算两个端点到圆心的距离的平方
-                    double dAO = (item.Particle.Position - PointA).Length();
-                    double dBO = (item.Particle.Position - PointB).Length();
-                    if (rd > dAO || rd > dBO)
-                    {
-                        // 计数
-                        //++count;
-                    }
-                }
-                else
+                if (n1 * n2 <= 0)
                 {
                     // 线段上存在比端点到圆心距离更近的点
 
                     // 计算线段所处直线到圆心的距离
-                    Vector2D BA = PointB - PointA;
-                    Vector2D normal = BA * (item.Particle.Position - PointA) * BA / BA.LengthSquared();
+                    var BA = PointB - PointA;
+                    var normal = BA * (item.Particle.Position - PointA) * BA / BA.LengthSquared();
                     normal = (item.Particle.Position - PointA) - normal;
 
                     if (rd > normal.Length())
                     {
                         // 产生一组碰撞
-                        ParticleContact contact = new ParticleContact
+                        var contact = new ParticleContact
                         {
                             PA = item.Particle,
                             Restitution = Restitution,
