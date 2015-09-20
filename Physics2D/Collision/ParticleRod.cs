@@ -28,9 +28,9 @@ namespace Physics2D.Collision
             double length = CurrentLength();
             double penetration = length - Length;
 
-            if (length == Length) return 0;
+            if (penetration == .0) return 0;
 
-            Vector2D normal = (PB.Position - PA.Position).Normalize();
+            var normal = (PB.Position - PA.Position).Normalize();
 
             if(length <= Length)
             {
@@ -38,7 +38,7 @@ namespace Physics2D.Collision
                 penetration *= -1;
             }
 
-            ParticleContact contact = new ParticleContact
+            var contact = new ParticleContact
             {
                 PA = PA,
                 PB = PB,
