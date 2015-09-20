@@ -28,6 +28,8 @@ namespace WPFDemo.ContactDemo
         public ContactDemo(Image image)
             : base(image)
         {
+            Settings.ContactIteration = 15;
+
             const int num = 5;
 
             var contact = new ParticleBall(1);
