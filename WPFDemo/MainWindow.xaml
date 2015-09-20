@@ -13,7 +13,7 @@
             <Button Margin="5" Height="50" x:Name="ElasticDemo" Click="elasticDemo_Click" Content="弹性材料演示" />
             <Button Margin="5" Height="50" x:Name="FluidDemo" Click="fluidDemo_Click" Content="流体演示" />
             <Button Margin="5" Height="50" x:Name="ContactDemo" Click="contactDemo_Click" Content="简单碰撞演示" />
-            <Button Margin="5" Height="50" x:Name="RobDemo" Click="RobDemo_Click" Content="连杆演示" IsEnabled="False"/>
+            <Button Margin="5" Height="50" x:Name="RobDemo" Click="RobDemo_Click" Content="连杆演示"/>
         </StackPanel>
     </Grid>
 </Window>
