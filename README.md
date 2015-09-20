@@ -14,7 +14,7 @@ Physics2D
   - [x] 可以定制的质体作用力发生器
   - [x] 可以定制的区域作用力
   - [x] 质体碰撞处理
-  - [ ] 质体连杆、绳索
+  - [x] 质体连杆、绳索
   - [ ] 液体模拟
   - [ ] 刚体
   - [ ] 可以定制的刚体作用力发生器
@@ -36,7 +36,7 @@ A physics engine build by C# include:
   - [x] Force generator
   - [x] Force field
   - [x] Particle collision solver
-  - [ ] Particle contact (Link\Rope)
+  - [x] Particle contact (Link\Rope)
   - [ ] Fluid simulation
   - [ ] Rigid body
   - [ ] Rigid body force generator
