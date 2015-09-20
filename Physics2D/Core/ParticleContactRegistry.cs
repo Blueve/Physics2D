@@ -47,17 +47,25 @@ namespace Physics2D.Core
 
         public void ResolveContacts(double duration)
         {
-            // 产生碰撞表
-            _contactList.Clear();
             int limit = Settings.MaxContacts;
-            foreach (int used in _registrations.Select(item => item.FillContact(_contactList, limit)))
+            for (int i = 0; i < Settings.ContactIteration; i++)
             {
-                limit -= used;
-                if (limit <= 0) break;
+                // 产生碰撞表
+                _contactList.Clear();
+                foreach (var item in _registrations)
+                {
+                    limit -= item.FillContact(_contactList, limit);
+                    if (limit <= 0) break;
+                }
+
+                // 当不再产生新的碰撞时退出
+                if(_contactList.Count == 0) break;
+             
+                // 解决质体碰撞
+                _particleContactResolver.Iterations = _contactList.Count * 2;
+                _particleContactResolver.ResolveContacts(_contactList, duration);
             }
-            // 解决质体碰撞
-            _particleContactResolver.Iterations = (Settings.MaxContacts - limit) * 2;
-            _particleContactResolver.ResolveContacts(_contactList, duration);
+
         }
     }
 }

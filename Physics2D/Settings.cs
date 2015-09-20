@@ -11,5 +11,10 @@
         /// 最多碰撞次数
         /// </summary>
         public static int MaxContacts = 200;
+
+        /// <summary>
+        /// 碰撞迭代次数
+        /// </summary>
+        public static int ContactIteration = 2;
     }
 }
