@@ -89,19 +89,19 @@ namespace Physics2D.Collision
 
             // 检查仅由加速度产生的速度
             double accCausedSeparatingVelocity = (PA.Acceleration - (PB?.Acceleration ?? Vector2D.Zero)) * ContactNormal * duration;
-            if (accCausedSeparatingVelocity < .0)
+            if (accCausedSeparatingVelocity < 0)
             {
                 // 补偿由加速度产生的速度
                 newSeparatingVelocity += Restitution * accCausedSeparatingVelocity;
                 // 避免过度补偿
-                if (newSeparatingVelocity < .0) newSeparatingVelocity = .0;
+                if (newSeparatingVelocity < 0) newSeparatingVelocity = 0;
             }
 
             double deltaVelocity = newSeparatingVelocity - separatingVelocity;
-            double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? .0);
+            double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? 0);
 
             // 两个物体全为固定或匀速物体则不处理
-            if (totalInverseMass <= .0) return;
+            if (totalInverseMass <= 0) return;
 
             // 计算冲量
             double impulse = deltaVelocity / totalInverseMass;
