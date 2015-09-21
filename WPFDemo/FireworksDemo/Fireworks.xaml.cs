@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Physics2D;
 
 namespace WPFDemo.FireworksDemo
 {
@@ -22,7 +23,7 @@ namespace WPFDemo.FireworksDemo
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _fireworksDemo.Fire((float)e.GetPosition(ImageSurface).X / 50, (float)e.GetPosition(ImageSurface).Y / 50);
+            _fireworksDemo.Fire(e.GetPosition(ImageSurface).X.ToSimUnits(), e.GetPosition(ImageSurface).Y.ToSimUnits());
         }
 
         private void Checked(object sender, RoutedEventArgs e)

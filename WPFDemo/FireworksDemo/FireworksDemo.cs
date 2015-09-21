@@ -1,15 +1,15 @@
-﻿using Physics2D;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Physics2D;
 using Physics2D.Collision;
 using Physics2D.Common;
 using Physics2D.Factories;
 using Physics2D.Force;
 using Physics2D.Force.Zones;
 using Physics2D.Object;
-using System;
-using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using WPFDemo.Graphic;
 
 namespace WPFDemo.FireworksDemo
@@ -20,7 +20,7 @@ namespace WPFDemo.FireworksDemo
         public const int WaterG = 1;
         public const int WindG = 2;
 
-        private int _type = 0;
+        private int _type;
         public int Type
         {
             get
@@ -69,19 +69,19 @@ namespace WPFDemo.FireworksDemo
 
             _dragZone = new RectangleZone
             (
-                ConvertUnits.ToSimUnits(0),
-                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3.0),
-                ConvertUnits.ToSimUnits(500),
-                ConvertUnits.ToSimUnits(400)
+                0.ToSimUnits(),
+                (WorldHeight * 2 / 3.0).ToSimUnits(),
+                500.ToSimUnits(),
+                400.ToSimUnits()
             );
             _dragZone.ParticleForceGenerators.Add(_drag);
 
             _windZone = new RectangleZone
             (
-                ConvertUnits.ToSimUnits(0),
-                ConvertUnits.ToSimUnits(WorldHeight * 1 / 3.0),
-                ConvertUnits.ToSimUnits(500),
-                ConvertUnits.ToSimUnits(WorldHeight * 2 / 3.0)
+                0.ToSimUnits(),
+                (WorldHeight * 1 / 3.0).ToSimUnits(),
+                500.ToSimUnits(),
+                (WorldHeight * 2 / 3.0).ToSimUnits()
             );
             _windZone.ParticleForceGenerators.Add(_wind);
         }
@@ -138,7 +138,7 @@ namespace WPFDemo.FireworksDemo
                 Slot = 1 / 240.0;
             }
 
-            Random rnd = new Random();
+            var rnd = new Random();
 
             for (int i = 0; i < 10; i++)
             {
@@ -153,10 +153,10 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        private readonly ParticleEdge _contact = new ParticleEdge(0.02,
-                                                        ConvertUnits.ToSimUnits(100),
-                                                        ConvertUnits.ToSimUnits(350),
-                                                        ConvertUnits.ToSimUnits(400),
-                                                        ConvertUnits.ToSimUnits(200));
+        private readonly ParticleEdge _contact = new ParticleEdge(0.2,
+                                                        100.ToSimUnits(),
+                                                        350.ToSimUnits(),
+                                                        400.ToSimUnits(),
+                                                        200.ToSimUnits());
     }
 }

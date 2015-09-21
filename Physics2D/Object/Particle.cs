@@ -9,7 +9,7 @@ namespace Physics2D.Object
         {
             set
             {
-                if (value != .0)
+                if (value != 0)
                 {
                     _mass = value;
                     _inverseMass = 1.0 / value;
@@ -24,7 +24,7 @@ namespace Physics2D.Object
         {
             set
             {
-                _mass = value == .0 ? double.MaxValue : 1.0 / value;
+                _mass = value == 0 ? double.MaxValue : 1.0 / value;
                 _inverseMass = value;
             }
             get { return _inverseMass; }

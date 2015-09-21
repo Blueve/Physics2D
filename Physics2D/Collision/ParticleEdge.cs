@@ -41,7 +41,7 @@ namespace Physics2D.Collision
                 {
                     // 发生穿越则认为发生碰撞 将质体位置退至相交点
                     item.Particle.Position = (Vector2D)intersectionPoint;
-
+                    
                     // 产生一组碰撞
                     var BA = PointB - PointA;
                     var normal = BA * (item.Particle.PrePosition - PointA) * BA / BA.LengthSquared();
