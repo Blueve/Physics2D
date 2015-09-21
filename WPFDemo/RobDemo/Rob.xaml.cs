@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using Physics2D;
+
 namespace WPFDemo.RobDemo
 {
     /// <summary>
@@ -19,7 +21,7 @@ namespace WPFDemo.RobDemo
     /// </summary>
     public partial class Rob : Window
     {
-        private RobDemo _robDemo;
+        private readonly RobDemo _robDemo;
 
         public Rob()
         {
@@ -30,9 +32,19 @@ namespace WPFDemo.RobDemo
             CompositionTarget.Rendering += _robDemo.Update;
         }
 
-        private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImageSurface_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            _robDemo.Fire();
+            _robDemo.Down(e.GetPosition(ImageSurface).X.ToSimUnits(), e.GetPosition(ImageSurface).Y.ToSimUnits());
+        }
+
+        private void ImageSurface_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _robDemo.Up();
+        }
+
+        private void ImageSurface_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            _robDemo.Move(e.GetPosition(ImageSurface).X.ToSimUnits(), e.GetPosition(ImageSurface).Y.ToSimUnits());
         }
     }
 }

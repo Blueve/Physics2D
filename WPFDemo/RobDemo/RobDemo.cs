@@ -25,51 +25,61 @@ namespace WPFDemo.RobDemo
     class RobDemo : PhysicsGraphic, IDrawable
     {
         #region 三角形顶点
-        private readonly Particle _a = new Particle
+        private readonly List<Particle> _poly = new List<Particle>
         {
-            Position = (new Vector2D(200, 0)).ToSimUnits(),
-            InverseMass = 0
+            new Particle {
+                Position = (new Vector2D(200, 0)).ToSimUnits(),
+                Mass = 1
+            },
+            new Particle
+            {
+                Position = (new Vector2D(300, 20)).ToSimUnits(),
+                Mass = 1
+            },
+            new Particle
+            {
+                Position = (new Vector2D(300, 80)).ToSimUnits(),
+                Mass = 1
+            }
         };
-        private readonly Particle _b = new Particle
+
+        #endregion
+
+        #region 边界 
+        private readonly List<ParticleEdge> _edges = new List<ParticleEdge>
         {
-            Position = (new Vector2D(300, 20)).ToSimUnits(),
-            Mass = 1
-        };
-        private readonly Particle _c = new Particle
-        {
-            Position = (new Vector2D(300, 80)).ToSimUnits(),
-            Mass = 1
+            new ParticleEdge(1, 9.ToSimUnits(), 390.ToSimUnits(), 491.ToSimUnits(), 390.ToSimUnits()),
+            new ParticleEdge(1, 10.ToSimUnits(), 10.ToSimUnits(), 10.ToSimUnits(), 391.ToSimUnits()),
+            new ParticleEdge(1, 490.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 391.ToSimUnits())
         };
         #endregion
 
-        #region 底边
-        private readonly ParticleEdge _contact = new ParticleEdge(1,
-                                                        0.ToSimUnits(),
-                                                        390.ToSimUnits(),
-                                                        500.ToSimUnits(),
-                                                        390.ToSimUnits());
-        #endregion
+        private State _state = State.Up;
+
+        enum State
+        {
+            Down, Up
+        }
+
+        private Vector2D _mousePosition = Vector2D.Zero;
 
         public RobDemo(Image image)
             : base(image)
         {
-            Settings.ContactIteration = 15;
-
-            PhysicsWorld += _a;
-            PhysicsWorld += _b;
-            PhysicsWorld += _c;
+            Settings.ContactIteration = 20;
             
-            _contact.AddBall(_a, 1.ToSimUnits());
-            _contact.AddBall(_b, 1.ToSimUnits());
-            _contact.AddBall(_c, 1.ToSimUnits());
-
-            // 连接三个顶点
-            PhysicsWorld.RegistryContactGenerator(new ParticleRod(_a, _b));
-            PhysicsWorld.RegistryContactGenerator(new ParticleRod(_b, _c));
-            PhysicsWorld.RegistryContactGenerator(new ParticleRod(_c, _a));
+            for (int i = 0; i < _poly.Count; i++)
+            {
+                PhysicsWorld += _poly[i];
+                for (int j = i + 1; j < _poly.Count; j++)
+                {
+                    PhysicsWorld.RegistryContactGenerator(new ParticleRod(_poly[i], _poly[j]));
+                }
+                _edges.ForEach(e => e.AddBall(_poly[i], 5.ToSimUnits()));
+            }
 
             // 增加底部边缘
-            PhysicsWorld.RegistryContactGenerator(_contact);
+            _edges.ForEach(e => PhysicsWorld.RegistryContactGenerator(e));
 
             // 增加重力
             PhysicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0, 10)));
@@ -81,27 +91,62 @@ namespace WPFDemo.RobDemo
 
         protected override void UpdatePhysics(double duration)
         {
+            if (_state == State.Down)
+            {
+                var length = Vector2D.Distance(_mousePosition, _poly[0].Position);
+                var normal = (_mousePosition - _poly[0].Position).Normalize();
+
+                _poly[0].AddForce(normal * length * 2 + -Vector2D.UnitY * 30);
+            }
+
             PhysicsWorld.Update(duration);
         }
 
-        public void Fire()
+        public void Down(double x, double y)
         {
-            if (_a.InverseMass == 0) _a.InverseMass = 1;
+            _mousePosition.Set(x, y);
+            _state = State.Down;
+        }
+
+        public void Move(double x, double y)
+        {
+            _mousePosition.Set(x, y);
+        }
+
+        public void Up()
+        {
+            _state = State.Up;
         }
 
         public void Draw(WriteableBitmap bitmap)
         {
-            bitmap.DrawLineAa(
-                _a.Position.X.ToDisplayUnits(), _a.Position.Y.ToDisplayUnits(),
-                _b.Position.X.ToDisplayUnits(), _b.Position.Y.ToDisplayUnits(), Colors.Black);
-            bitmap.DrawLineAa(
-                _c.Position.X.ToDisplayUnits(), _c.Position.Y.ToDisplayUnits(),
-                _b.Position.X.ToDisplayUnits(), _b.Position.Y.ToDisplayUnits(), Colors.Black);
-            bitmap.DrawLineAa(
-                _a.Position.X.ToDisplayUnits(), _a.Position.Y.ToDisplayUnits(),
-                _c.Position.X.ToDisplayUnits(), _c.Position.Y.ToDisplayUnits(), Colors.Black);
 
-            bitmap.DrawLineAa(0, 390, 500, 390, Colors.Black);
+            var points = new List<int>();
+            
+            for (int i = 0; i < _poly.Count; i++)
+            {
+                points.Add(_poly[i].Position.X.ToDisplayUnits());
+                points.Add(_poly[i].Position.Y.ToDisplayUnits());
+                //for (int j = i + 1; j < _poly.Count; j++)
+                //{
+                //    bitmap.DrawLineAa(
+                //        _poly[i].Position.X.ToDisplayUnits(), _poly[i].Position.Y.ToDisplayUnits(),
+                //        _poly[j].Position.X.ToDisplayUnits(), _poly[j].Position.Y.ToDisplayUnits(), Colors.Black);
+                //}
+            }
+            points.Add(points[0]);
+            points.Add(points[1]);
+            bitmap.FillPolygon(points.ToArray(), Colors.Coral);
+
+            foreach (var e in _edges)
+            {
+                bitmap.DrawLineAa(
+                    e.PointA.X.ToDisplayUnits(), e.PointA.Y.ToDisplayUnits(),
+                    e.PointB.X.ToDisplayUnits(), e.PointB.Y.ToDisplayUnits(), Colors.Black);
+                bitmap.DrawLineAa(
+                    e.PointA.X.ToDisplayUnits() + 1, e.PointA.Y.ToDisplayUnits() + 1,
+                    e.PointB.X.ToDisplayUnits() + 1, e.PointB.Y.ToDisplayUnits() + 1, Colors.Black);
+            }
         }
     }
 }

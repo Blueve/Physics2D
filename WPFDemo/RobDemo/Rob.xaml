@@ -11,7 +11,11 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Margin="3" BorderBrush="SteelBlue" BorderThickness="1" Height="400" Width="500">
-            <Image x:Name="ImageSurface" Width="500" Height="400" MouseDown="imageSurface_MouseDown" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+            <Image x:Name="ImageSurface" Width="500" Height="400" 
+                   MouseDown="ImageSurface_OnMouseDown" 
+                   MouseUp="ImageSurface_OnMouseUp" 
+                   MouseMove="ImageSurface_OnMouseMove"
+                   ScrollViewer.VerticalScrollBarVisibility="Disabled" />
         </Border>
     </Grid>
 </Window>
