@@ -28,7 +28,7 @@ namespace WPFDemo.ContactDemo
         public ContactDemo(Image image)
             : base(image)
         {
-            Settings.ContactIteration = 15;
+            Settings.ContactIteration = 5;
 
             const int num = 5;
 
@@ -39,7 +39,7 @@ namespace WPFDemo.ContactDemo
             {
                 Particle fB = PhysicsWorld.CreateFixedParticle((new Vector2D(160 + 40 * i, 0)).ToSimUnits());
                 Particle pB = PhysicsWorld.CreateParticle((new Vector2D(160 + 40 * i, 200)).ToSimUnits(), new Vector2D(0, 0), 2);
-                Ball ball = new Ball
+                var ball = new Ball
                 {
                     FixedParticle = fB,
                     Particle = pB,
