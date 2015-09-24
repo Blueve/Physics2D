@@ -23,9 +23,8 @@ namespace Physics2D.Collision
             _ballList.Add(new Ball {Particle = particle, R = r});
         }
 
-        public override int FillContact(List<ParticleContact> contactList, int limit)
+        public override IEnumerator<ParticleContact> GetEnumerator()
         {
-            var contactCount = 0;
             // 检查所有组合
             for (var i = 0; i < _ballList.Count; i++)
             {
@@ -36,20 +35,16 @@ namespace Physics2D.Collision
                     var l = _ballList[i].R + _ballList[j].R;
                     if (!(d < l)) continue;
                     // 产生一组碰撞
-                    var contact = new ParticleContact
+                    yield return new ParticleContact
                     {
                         PA = _ballList[i].Particle,
                         PB = _ballList[j].Particle,
                         Restitution = Restitution,
-                        Penetration = (l - d)/2,
+                        Penetration = (l - d) / 2,
                         ContactNormal = (_ballList[i].Particle.Position - _ballList[j].Particle.Position).Normalize()
                     };
-                    // 加入碰撞列表
-                    contactList.Add(contact);
-                    ++contactCount;
                 }
             }
-            return contactCount;
         }
 
         internal struct Ball

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,13 @@ namespace Physics2D.Collision
     /// <summary>
     /// 碰撞生成器
     /// </summary>
-    public abstract class ParticleContactGenerator
+    public abstract class ParticleContactGenerator : IEnumerable<ParticleContact>
     {
-        public abstract int FillContact(List<ParticleContact> contactList, int limit);
+        public abstract IEnumerator<ParticleContact> GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

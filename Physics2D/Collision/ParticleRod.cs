@@ -23,22 +23,23 @@ namespace Physics2D.Collision
             PB = pB;
         }
 
-        public override int FillContact(List<ParticleContact> contactList, int limit)
+
+        public override IEnumerator<ParticleContact> GetEnumerator()
         {
             double length = CurrentLength();
             double penetration = length - Length;
 
-            if (penetration == .0) return 0;
+            if (penetration == 0) yield break;
 
             var normal = (PB.Position - PA.Position).Normalize();
 
-            if(length <= Length)
+            if (length <= Length)
             {
                 normal *= -1;
                 penetration *= -1;
             }
 
-            var contact = new ParticleContact
+            yield return new ParticleContact
             {
                 PA = PA,
                 PB = PB,
@@ -46,10 +47,6 @@ namespace Physics2D.Collision
                 Restitution = 0,
                 Penetration = penetration
             };
-
-            contactList.Add(contact);
-
-            return 1;
         }
     }
 }

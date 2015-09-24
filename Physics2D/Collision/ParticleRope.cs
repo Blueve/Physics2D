@@ -29,16 +29,16 @@ namespace Physics2D.Collision
             PB = pB;
         }
 
-        public override int FillContact(List<ParticleContact> contactList, int limit)
+        public override IEnumerator<ParticleContact> GetEnumerator()
         {
             double length = CurrentLength();
 
             // 未超过绳索长度
-            if (length < MaxLength) return 0;
+            if (length < MaxLength) yield break;
 
-            Vector2D normal = (PB.Position -　PA.Position).Normalize();
+            var normal = (PB.Position - PA.Position).Normalize();
 
-            ParticleContact contact = new ParticleContact
+            yield return new ParticleContact
             {
                 PA = PA,
                 PB = PB,
@@ -46,10 +46,6 @@ namespace Physics2D.Collision
                 ContactNormal = normal,
                 Penetration = length - MaxLength
             };
-
-            contactList.Add(contact);
-
-            return 1;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +27,8 @@ namespace Physics2D.Core
         /// </summary>
         private readonly ParticleContactResolver _particleContactResolver = new ParticleContactResolver(0);
 
+        private int _contactCounter = 0;
+
         /// <summary>
         /// 注册碰撞发生器
         /// </summary>
@@ -47,25 +51,43 @@ namespace Physics2D.Core
 
         public void ResolveContacts(double duration)
         {
-            int limit = Settings.MaxContacts;
+            _contactCounter = 0;
             for (int i = 0; i < Settings.ContactIteration; i++)
             {
                 // 产生碰撞表
                 _contactList.Clear();
-                foreach (var item in _registrations)
+                foreach (var contactGenerator in _registrations)
                 {
-                    limit -= item.FillContact(_contactList, limit);
-                    if (limit <= 0) break;
+                    foreach (var contact in contactGenerator)
+                    {
+                        if (!AddToContactList(contact)) goto CONTACT_RESOLVE;
+                    }
                 }
 
                 // 当不再产生新的碰撞时退出
-                if(_contactList.Count == 0) break;
-             
+                if (_contactList.Count == 0) break;
+                
+                CONTACT_RESOLVE:
                 // 解决质体碰撞
                 _particleContactResolver.Iterations = _contactList.Count * 2;
                 _particleContactResolver.ResolveContacts(_contactList, duration);
             }
 
+        }
+
+        /// <summary>
+        /// 向碰撞表中添加一个新的碰撞
+        /// </summary>
+        /// <param name="contact">碰撞信息</param>
+        /// <returns>完成添加后若不允许继续添加则返回false，否则返回true</returns>
+        private bool AddToContactList(ParticleContact contact)
+        {
+            if (_contactCounter++ < Settings.MaxContacts)
+            {
+                _contactList.Add(contact);
+                return true;
+            }
+            return false;
         }
     }
 }
