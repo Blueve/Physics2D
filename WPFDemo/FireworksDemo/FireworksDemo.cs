@@ -20,6 +20,7 @@ namespace WPFDemo.FireworksDemo
         public const int WaterG = 1;
         public const int WindG = 2;
 
+        public const int BallSize = 4;
         private int _type;
         public int Type
         {
@@ -99,7 +100,11 @@ namespace WPFDemo.FireworksDemo
             else if (_type == WindG)
                 bitmap.FillRectangle(0, WorldHeight * 1 / 3, WorldWidth, WorldHeight * 2 / 3, Colors.LightGray);
 
-            bitmap.DrawLineAa(100, 350, 400, 200, Colors.Black);
+            bitmap.DrawLineAa(
+                _contact.PointA.X.ToDisplayUnits(),
+                _contact.PointA.Y.ToDisplayUnits(),
+                _contact.PointB.X.ToDisplayUnits(),
+                _contact.PointB.Y.ToDisplayUnits(), Colors.Black);
 
             for (int i = _objList.Count - 1; i >= 0; i--)
             {
@@ -115,11 +120,11 @@ namespace WPFDemo.FireworksDemo
                 {
                     if(_type == WaterG)
                     {
-                        bitmap.FillEllipseCentered(x, y, 4, 4, y > WorldHeight*2/3 ? Colors.DarkBlue : Colors.Black);
+                        bitmap.FillEllipseCentered(x, y, BallSize, BallSize, y > WorldHeight * 2 / 3 ? Colors.DarkBlue : Colors.Black);
                     }
                     else
                     {
-                        bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
+                        bitmap.FillEllipseCentered(x, y, BallSize, BallSize, Colors.Black);
                     }
                 }
             }
@@ -149,7 +154,7 @@ namespace WPFDemo.FireworksDemo
                     1f
                 );
                 _objList.Add(paritcle);
-                _contact.AddBall(paritcle, 4.ToSimUnits());
+                _contact.AddBall(paritcle, BallSize.ToSimUnits());
             }
         }
 
