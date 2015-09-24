@@ -15,8 +15,8 @@ namespace Physics2D.Core
 
         private struct ParticleForceRegistration
         {
-            public Particle particle;
-            public ParticleForceGenerator forceGenerator;
+            public Particle Particle;
+            public ParticleForceGenerator ForceGenerator;
         }
 
         #endregion 私有部分
@@ -32,8 +32,8 @@ namespace Physics2D.Core
         {
             _registrations.Add(new ParticleForceRegistration
             {
-                particle = particle,
-                forceGenerator = forceGenerator
+                Particle = particle,
+                ForceGenerator = forceGenerator
             });
         }
 
@@ -46,7 +46,7 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void Remove(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            _registrations.RemoveAll(item => item.particle == particle && item.forceGenerator == forceGenerator);
+            _registrations.RemoveAll(item => item.Particle == particle && item.ForceGenerator == forceGenerator);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Physics2D.Core
         /// <param name="particle">粒子</param>
         public void Remove(Particle particle)
         {
-            _registrations.RemoveAll(item => item.particle == particle);
+            _registrations.RemoveAll(item => item.Particle == particle);
         }
 
         #endregion 公开的管理方法
@@ -69,7 +69,7 @@ namespace Physics2D.Core
         /// <param name="durduration"></param>
         public void Update(double durduration)
         {
-            _registrations.ForEach(item => item.forceGenerator.UpdateForce(item.particle, durduration));
+            _registrations.ForEach(item => item.ForceGenerator.UpdateForce(item.Particle, durduration));
         }
 
         #endregion 公开的方法

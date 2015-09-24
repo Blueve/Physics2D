@@ -12,8 +12,8 @@
         /// <returns></returns>
         public static Vector2D PointToLineVector(Vector2D point, Vector2D linePA, Vector2D linePB)
         {
-            Vector2D BA = linePB - linePA;
-            Vector2D normal = BA * (point - linePA) * BA / BA.LengthSquared() - (point - linePA);
+            var BA = linePB - linePA;
+            var normal = BA * (point - linePA) * BA / BA.LengthSquared() - (point - linePA);
 
             return normal;
         }
@@ -32,11 +32,11 @@
             var area1 = SignedTriangleArea(lineA1, lineA2, lineB2);
             var area2 = SignedTriangleArea(lineA1, lineA2, lineB1);
 
-            if(area1 * area2 < 0f)
+            if(area1 * area2 < 0)
             {
                 var area3 = SignedTriangleArea(lineB1, lineB2, lineA1);
                 var area4 = area3 + area2 - area1;
-                if(area3 * area4 < 0f)
+                if(area3 * area4 < 0)
                 {
                     var intersectionScale = area3 / (area3 - area4);
                     var intersectionPoint = (lineA2 - lineA1) * intersectionScale + lineA1;
@@ -57,7 +57,7 @@
         /// <returns></returns>
         public static double SignedTriangleArea(Vector2D a, Vector2D b, Vector2D c)
         {
-            double result = (a.X - c.X) * (b.Y - c.Y) - (a.Y - c.Y) * (b.X - c.X);
+            var result = (a.X - c.X) * (b.Y - c.Y) - (a.Y - c.Y) * (b.X - c.X);
             return result;
         }
     }
