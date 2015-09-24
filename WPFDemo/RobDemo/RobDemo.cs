@@ -75,7 +75,7 @@ namespace WPFDemo.RobDemo
                 {
                     PhysicsWorld.RegistryContactGenerator(new ParticleRod(_poly[i], _poly[j]));
                 }
-                _edges.ForEach(e => e.AddBall(_poly[i], 5.ToSimUnits()));
+                _edges.ForEach(e => e.AddBall(_poly[i], 4.ToSimUnits()));
             }
 
             // 增加底部边缘
