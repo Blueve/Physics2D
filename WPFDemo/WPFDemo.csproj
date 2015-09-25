@@ -173,12 +173,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Physics2D\Physics2D.csproj">
-      <Project>{820adc3c-2fda-4ed6-b625-5bfb94e6bc66}</Project>
-      <Name>Physics2D</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
@@ -189,6 +183,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Physics2D\Physics2D.csproj">
+      <Project>{b6cb3f77-02d2-4543-a51c-51dfeb83ad5d}</Project>
+      <Name>Physics2D</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

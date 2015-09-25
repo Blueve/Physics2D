@@ -25,8 +25,8 @@ namespace WPFDemo.CircleDemo
             (
                 new Vector2D
                 (
-                    ConvertUnits.ToSimUnits(250f),
-                    ConvertUnits.ToSimUnits(200f)
+                    ConvertUnits.ToSimUnits(250),
+                    ConvertUnits.ToSimUnits(200)
                 )
             );
             // 注册绘制对象
