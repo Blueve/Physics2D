@@ -1,6 +1,7 @@
 ﻿using Physics2D.Core;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -47,7 +48,7 @@ namespace WPFDemo.Graphic
 
         public void Update(object sender, EventArgs e)
         {
-            float interval = (float)TimeTracker.Update();
+            var interval = TimeTracker.Update();
             if (!Start) return;
 
             // 更新物理世界

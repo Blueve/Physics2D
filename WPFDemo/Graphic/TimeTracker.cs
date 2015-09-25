@@ -24,7 +24,7 @@ namespace WPFDemo.Graphic
             TimeSpan diffTime = currentTime - ElapsedTime;
 
             DeltaSeconds = diffTime.TotalSeconds;
-            if (TimerInterval > 0.0)
+            if (TimerInterval > 0)
             {
                 if (currentTime != ElapsedTime)
                 {
