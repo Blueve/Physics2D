@@ -60,9 +60,9 @@
     <Compile Include="Force\ParticleElastic.cs" />
     <Compile Include="Force\ParticleForceGenerator.cs" />
     <Compile Include="Force\ParticleGravity.cs" />
-    <Compile Include="Force\Zone\GlobalZone.cs" />
-    <Compile Include="Force\Zone\RectangleZone.cs" />
-    <Compile Include="Force\Zone\Zone.cs" />
+    <Compile Include="Force\Zones\GlobalZone.cs" />
+    <Compile Include="Force\Zones\RectangleZone.cs" />
+    <Compile Include="Force\Zones\Zone.cs" />
     <Compile Include="Object\IUpdatable.cs" />
     <Compile Include="Object\Particle.cs" />
     <Compile Include="Object\PhysicsObject.cs" />
