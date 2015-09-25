@@ -28,7 +28,7 @@ namespace WPFDemo.ContactDemo
         public ContactDemo(Image image)
             : base(image)
         {
-            Settings.ContactIteration = 5;
+            Settings.ContactIteration = 1;
 
             const int num = 5;
 
@@ -54,7 +54,7 @@ namespace WPFDemo.ContactDemo
             // 增加重力和空气阻力
             PhysicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0f, 40)));
 
-            Slot = 1 / 120.0;
+            Slot = 1 / 1000.0;
 
             Start = true;
         }
