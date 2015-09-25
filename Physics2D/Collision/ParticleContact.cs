@@ -79,7 +79,7 @@ namespace Physics2D.Collision
         {
             double separatingVelocity = CalculateSeparatingVelocity();
 
-            if(separatingVelocity > 0)
+            if (separatingVelocity > 0)
             {
                 // 两个物体已经分离或静止
                 return;
@@ -110,8 +110,22 @@ namespace Physics2D.Collision
             var impulsePerIMass = ContactNormal * impulse;
             PA.Velocity += impulsePerIMass * PA.InverseMass;
 
-            if(PB != null)
+            if (PB != null)
                 PB.Velocity -= impulsePerIMass * PB.InverseMass;
+            else
+            {
+                // 静态碰撞的处理
+
+                // 计算PA在碰撞法线上的速度分量
+                var vP = PA.Velocity * ContactNormal;
+                // 计算PA加速度在未来产生的速度在碰撞法线上的分量
+                var vF = PA.Acceleration * duration * ContactNormal;
+                if (Math.Abs(vP + vF) < Math.Abs(vF))
+                {
+                    PA.Velocity -= vP * ContactNormal;
+                }
+            }
+
         }
 
         /// <summary>
