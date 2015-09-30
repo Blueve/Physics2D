@@ -30,11 +30,11 @@ namespace WPFDemo.FireworksDemo
         {
             if (Drag.IsChecked == true)
             {
-                _fireworksDemo.Type = WPFDemo.FireworksDemo.FireworksDemo.WaterG;
+                _fireworksDemo.Type = FireworksDemo.PhysicsType.Water;
             }
             else if (Wind.IsChecked == true)
             {
-                _fireworksDemo.Type = WPFDemo.FireworksDemo.FireworksDemo.WindG;
+                _fireworksDemo.Type = FireworksDemo.PhysicsType.Wind;
             }
         }
     }

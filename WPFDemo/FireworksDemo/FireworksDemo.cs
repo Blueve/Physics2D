@@ -17,12 +17,16 @@ namespace WPFDemo.FireworksDemo
 
     public class FireworksDemo : PhysicsGraphic, IDrawable
     {
-        public const int WaterG = 1;
-        public const int WindG = 2;
+        public enum PhysicsType
+        {
+            None,
+            Water,
+            Wind
+        }
 
         public const int BallSize = 4;
-        private int _type;
-        public int Type
+        private PhysicsType _type = PhysicsType.None;
+        public PhysicsType Type
         {
             get
             {
@@ -32,14 +36,14 @@ namespace WPFDemo.FireworksDemo
             {
                 _type = value;
                 // 设置力场
-                if (_type == WaterG)
+                if (_type == PhysicsType.Water)
                 {
                     if (!PhysicsWorld.ZoneSet.Contains(_dragZone))
                         PhysicsWorld.ZoneSet.Add(_dragZone);
                     if (PhysicsWorld.ZoneSet.Contains(_windZone))
                         PhysicsWorld.ZoneSet.Remove(_windZone);
                 }
-                else if (_type == WindG)
+                else if (_type == PhysicsType.Wind)
                 {
                     if (!PhysicsWorld.ZoneSet.Contains(_windZone))
                         PhysicsWorld.ZoneSet.Add(_windZone);
@@ -95,9 +99,9 @@ namespace WPFDemo.FireworksDemo
         public void Draw(WriteableBitmap bitmap)
         {
             
-            if (_type == WaterG)
+            if (_type == PhysicsType.Water)
                 bitmap.FillRectangle(0, WorldHeight * 2 / 3, WorldWidth, WorldHeight, Colors.SkyBlue);
-            else if (_type == WindG)
+            else if (_type == PhysicsType.Wind)
                 bitmap.FillRectangle(0, WorldHeight * 1 / 3, WorldWidth, WorldHeight * 2 / 3, Colors.LightGray);
 
             bitmap.DrawLineAa(
@@ -118,7 +122,7 @@ namespace WPFDemo.FireworksDemo
                 }
                 else
                 {
-                    if(_type == WaterG)
+                    if(_type == PhysicsType.Water)
                     {
                         bitmap.FillEllipseCentered(x, y, BallSize, BallSize, y > WorldHeight * 2 / 3 ? Colors.DarkBlue : Colors.Black);
                     }
