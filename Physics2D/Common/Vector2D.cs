@@ -1,8 +1,9 @@
-﻿using static System.Math;
+﻿using System;
+using static System.Math;
 
 namespace Physics2D.Common
 {
-    public struct Vector2D
+    public struct Vector2D : IEquatable<Vector2D>
     {
         public double X;
         public double Y;
@@ -62,7 +63,7 @@ namespace Physics2D.Common
             double distance = Distance(value, Zero);
 
             // 零向量标准化仍为零向量
-            if (distance == .0) return result = Zero;
+            if (distance == 0) return result = Zero;
 
             var factor = 1f / distance;
 
@@ -100,18 +101,22 @@ namespace Physics2D.Common
 
         public static Vector2D operator /(Vector2D left, double divisor) => new Vector2D(left.X / divisor, left.Y / divisor);
 
-        public static bool operator ==(Vector2D left, Vector2D right) => Equals(left, right);
+        public static bool operator ==(Vector2D left, Vector2D right) => Abs(left.X - right.X) < Settings.Percision && Abs(left.Y - right.Y) < Settings.Percision;
 
-        public static bool operator !=(Vector2D left, Vector2D right) => !Equals(left, right);
+        public static bool operator !=(Vector2D left, Vector2D right) => !(left == right);
 
         #endregion 运算
 
         #region 重载方法
-
         public override bool Equals(object obj)
         {
-            Vector2D right = (Vector2D)obj;
-            return Abs(X - right.X) < Settings.Percision && Abs(Y - right.Y) < Settings.Percision;
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is Vector2D && Equals((Vector2D)obj);
+        }
+
+        public bool Equals(Vector2D other)
+        {
+            return Abs(X - other.X) < Settings.Percision && Abs(Y - other.Y) < Settings.Percision;
         }
 
         public override string ToString() => $"({X:f2}, {Y:f2})";
