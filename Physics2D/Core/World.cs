@@ -15,7 +15,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 物体集合
         /// </summary>
-        private readonly List<PhysicsObject> _objectSet = new List<PhysicsObject>();
+        private readonly List<PhysicsObject> _objectRegistry = new List<PhysicsObject>();
 
         /// <summary>
         /// 质体作用力管理器
@@ -32,7 +32,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 作用力区域集合
         /// </summary>
-        public readonly List<Zone> ZoneSet = new List<Zone>();
+        public readonly List<Zone> ZoneRegistry = new List<Zone>();
         #endregion 只读属性
 
         #region 公开的管理方法
@@ -42,8 +42,8 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void AddObject(PhysicsObject obj)
         {
-            if (!_objectSet.Contains(obj))
-                _objectSet.Add(obj);
+            if (!_objectRegistry.Contains(obj))
+                _objectRegistry.Add(obj);
         }
 
         /// <summary>
@@ -69,14 +69,14 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void RemoveObject(PhysicsObject obj)
         {
-            if (this._objectSet.Contains(obj))
-                this._objectSet.Remove(obj);
+            if (_objectRegistry.Contains(obj))
+                _objectRegistry.Remove(obj);
 
             // 仅在物体为质体时执行注销操作
             var particle = obj as Particle;
             if (particle != null)
             {
-                this._particleForceRegistry.Remove(particle);
+                _particleForceRegistry.Remove(particle);
             }
         }
 
@@ -123,10 +123,10 @@ namespace Physics2D.Core
             _particleForceRegistry.Update(duration);
 
             // 更新物理对象
-            Parallel.ForEach(_objectSet, item =>
+            Parallel.ForEach(_objectRegistry, item =>
             {
                 // 为物理对象施加区域作用力
-                ZoneSet.ForEach(z => z.TryApplyTo(item, duration));
+                ZoneRegistry.ForEach(z => z.TryApplyTo(item, duration));
                 // 对物理对象进行积分
                 item.Update(duration);
             });
