@@ -23,11 +23,11 @@ namespace WPFDemo.ElasticDemo
 
         public ElasticatedNet(World world, Vector2D startPosition, int width, int height, double gridSize)
         {
-            this._world         = world;
-            this._width         = width;
-            this._height        = height;
-            this._startPosition = startPosition;
-            this._gridSize      = gridSize;
+            _world         = world;
+            _width         = width;
+            _height        = height;
+            _startPosition = startPosition;
+            _gridSize      = gridSize;
 
             _net = new Particle[width, height];
         }

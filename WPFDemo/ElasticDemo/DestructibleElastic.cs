@@ -14,8 +14,8 @@ namespace WPFDemo.ElasticDemo
 
         public DestructibleElastic(double k, double length)
         {
-            this._k = k;
-            this._length = length;
+            _k = k;
+            _length = length;
         }
 
         public void Add(Particle item)

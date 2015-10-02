@@ -12,9 +12,9 @@ namespace Physics2D.Force
     {
         private readonly Vector2D _force;
 
-        public ParticleConstantForce(Vector2D _force)
+        public ParticleConstantForce(Vector2D force)
         {
-            this._force = _force;
+            _force = force;
         }
 
         public override void UpdateForce(Particle particle, double duration)

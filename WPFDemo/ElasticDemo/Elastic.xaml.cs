@@ -9,13 +9,13 @@ namespace WPFDemo.ElasticDemo
     /// </summary>
     public partial class Elastic : Window
     {
-        private WPFDemo.ElasticDemo.ElasticDemo _elasticDemo;
+        private ElasticDemo _elasticDemo;
 
         public Elastic()
         {
             InitializeComponent();
 
-            _elasticDemo = new WPFDemo.ElasticDemo.ElasticDemo(ImageSurface);
+            _elasticDemo = new ElasticDemo(ImageSurface);
 
             ImageSurface.Source = _elasticDemo.Bitmap;
             CompositionTarget.Rendering += _elasticDemo.Update;

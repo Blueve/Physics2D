@@ -8,7 +8,7 @@ namespace Physics2D.Force
 
         public ParticleGravity(Vector2D gravity)
         {
-            this._gravity = gravity;
+            _gravity = gravity;
         }
 
         public override void UpdateForce(Object.Particle particle, double duration)

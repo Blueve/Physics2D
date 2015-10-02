@@ -14,10 +14,10 @@ namespace Physics2D.Force.Zones
 
         public RectangleZone(double x1, double y1, double x2, double y2)
         {
-            this.X1 = x1;
-            this.Y1 = y1;
-            this.X2 = x2;
-            this.Y2 = y2;
+            X1 = x1;
+            Y1 = y1;
+            X2 = x2;
+            Y2 = y2;
         }
 
         protected override bool IsIn(PhysicsObject obj)

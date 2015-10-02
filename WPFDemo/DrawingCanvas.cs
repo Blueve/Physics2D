@@ -20,8 +20,8 @@ namespace WPFDemo
         {
             _visuals.Add(visual);
 
-            base.AddVisualChild(visual);
-            base.AddLogicalChild(visual);
+            AddVisualChild(visual);
+            AddLogicalChild(visual);
         }
     }
 }

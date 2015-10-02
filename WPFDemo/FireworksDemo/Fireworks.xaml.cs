@@ -10,12 +10,12 @@ namespace WPFDemo.FireworksDemo
     /// </summary>
     public partial class Fireworks : Window
     {
-        private WPFDemo.FireworksDemo.FireworksDemo _fireworksDemo;
+        private FireworksDemo _fireworksDemo;
 
         public Fireworks()
         {
             InitializeComponent();
-            _fireworksDemo = new WPFDemo.FireworksDemo.FireworksDemo(ImageSurface);
+            _fireworksDemo = new FireworksDemo(ImageSurface);
 
             ImageSurface.Source = _fireworksDemo.Bitmap;
             CompositionTarget.Rendering += _fireworksDemo.Update;

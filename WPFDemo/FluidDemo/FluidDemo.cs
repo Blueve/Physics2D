@@ -26,7 +26,7 @@ namespace WPFDemo.FluidDemo
             // 创建液体容器
             _water = new Water((int)image.Width, (int)image.Height);
             // 添加到绘制队列
-            this.DrawQueue.Add(_water);
+            DrawQueue.Add(_water);
         }
 
         protected override void UpdatePhysics(double duration)

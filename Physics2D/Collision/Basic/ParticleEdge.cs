@@ -22,7 +22,7 @@ namespace Physics2D.Collision.Basic
 
         public ParticleEdge(double restitution, double x1, double y1, double x2, double y2)
         {
-            this.Restitution = restitution;
+            Restitution = restitution;
             PointA = new Vector2D(x1, y1);
             PointB = new Vector2D(x2, y2);
         }

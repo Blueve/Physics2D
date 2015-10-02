@@ -9,8 +9,8 @@ namespace Physics2D.Force
 
         public ParticleDrag(double k1, double k2)
         {
-            this._k1 = k1;
-            this._k2 = k2;
+            _k1 = k1;
+            _k2 = k2;
         }
 
         public override void UpdateForce(Object.Particle particle, double duration)

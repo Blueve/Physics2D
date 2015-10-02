@@ -16,7 +16,7 @@ namespace WPFDemo.ContactDemo
         {
             InitializeComponent();
 
-            _contactDemo = new WPFDemo.ContactDemo.ContactDemo(ImageSurface);
+            _contactDemo = new ContactDemo(ImageSurface);
             ImageSurface.Source = _contactDemo.Bitmap;
             CompositionTarget.Rendering += _contactDemo.Update;
         }

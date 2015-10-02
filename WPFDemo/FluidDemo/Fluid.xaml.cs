@@ -7,14 +7,14 @@ namespace WPFDemo.FluidDemo
     /// <summary>
     /// Fluid.xaml 的交互逻辑
     /// </summary>
-    public partial class Fluid : Window
+    public partial class Fluid
     {
-        private WPFDemo.FluidDemo.FluidDemo _fluidDemo;
+        private readonly FluidDemo _fluidDemo;
 
         public Fluid()
         {
             InitializeComponent();
-            _fluidDemo = new WPFDemo.FluidDemo.FluidDemo(ImageSurface);
+            _fluidDemo = new FluidDemo(ImageSurface);
 
             ImageSurface.Source = _fluidDemo.Bitmap;
             CompositionTarget.Rendering += _fluidDemo.Update;
