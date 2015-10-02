@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Physics2D.Common;
+﻿using System.Collections.Generic;
 using Physics2D.Object;
 
-namespace Physics2D.Collision
+namespace Physics2D.Collision.Basic
 {
     public class ParticleRod : ParticleLink
     {

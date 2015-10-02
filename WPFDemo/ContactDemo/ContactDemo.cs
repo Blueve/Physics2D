@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 
 using Physics2D;
 using Physics2D.Collision;
+using Physics2D.Collision.Basic;
 using Physics2D.Common;
 using Physics2D.Object;
 using Physics2D.Force;

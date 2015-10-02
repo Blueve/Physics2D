@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Physics2D.Collision.Basic;
 using WPFDemo.Graphic;
 
 namespace WPFDemo.FluidDemo

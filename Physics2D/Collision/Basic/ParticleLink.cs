@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Physics2D.Object;
 
-using Physics2D.Common;
-using Physics2D.Force;
-using Physics2D.Object;
-
-namespace Physics2D.Collision
+namespace Physics2D.Collision.Basic
 {
     public abstract class ParticleLink : ParticleContactGenerator
     {

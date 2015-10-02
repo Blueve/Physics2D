@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Physics2D;
 using Physics2D.Collision;
+using Physics2D.Collision.Basic;
 using Physics2D.Common;
 using Physics2D.Factories;
 using Physics2D.Force;

@@ -39,14 +39,14 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collision\ParticleBall.cs" />
+    <Compile Include="Collision\Basic\ParticleBall.cs" />
     <Compile Include="Collision\ParticleContact.cs" />
     <Compile Include="Collision\ParticleContactGenerator.cs" />
     <Compile Include="Collision\ParticleContactResolver.cs" />
-    <Compile Include="Collision\ParticleEdge.cs" />
-    <Compile Include="Collision\ParticleLink.cs" />
-    <Compile Include="Collision\ParticleRod.cs" />
-    <Compile Include="Collision\ParticleRope.cs" />
+    <Compile Include="Collision\Basic\ParticleEdge.cs" />
+    <Compile Include="Collision\Basic\ParticleLink.cs" />
+    <Compile Include="Collision\Basic\ParticleRod.cs" />
+    <Compile Include="Collision\Basic\ParticleRope.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\Vector2D.cs" />
     <Compile Include="ConvertUnits.cs" />

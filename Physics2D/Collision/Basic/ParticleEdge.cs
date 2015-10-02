@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Physics2D.Common;
 using Physics2D.Object;
-using static Physics2D.Collision.ParticleBall;
-using static Physics2D.Common.MathHelper;
 
-namespace Physics2D.Collision
+namespace Physics2D.Collision.Basic
 {
     public class ParticleEdge : ParticleContactGenerator
     {
@@ -15,12 +12,12 @@ namespace Physics2D.Collision
 
         public double Restitution { get; }
 
-        private readonly List<Ball> _ballList = new List<Ball>();
+        private readonly List<ParticleBall.Ball> _ballList = new List<ParticleBall.Ball>();
 
 
         public void AddBall(Particle particle, double r)
         {
-            _ballList.Add(new Ball { Particle = particle, R = r });
+            _ballList.Add(new ParticleBall.Ball { Particle = particle, R = r });
         }
 
         public ParticleEdge(double restitution, double x1, double y1, double x2, double y2)
@@ -36,7 +33,7 @@ namespace Physics2D.Collision
 
             foreach (var item in _ballList)
             {
-                var intersectionPoint = LineIntersection(item.Particle.PrePosition, item.Particle.Position, PointA, PointB);
+                var intersectionPoint = MathHelper.LineIntersection(item.Particle.PrePosition, item.Particle.Position, PointA, PointB);
 
                 // 检测物体的运动路径是否发生穿越
                 if (intersectionPoint != null)

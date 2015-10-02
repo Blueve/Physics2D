@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Physics2D.Object;
 
-namespace Physics2D.Collision
+namespace Physics2D.Collision.Basic
 {
     /// <summary>
     ///     检测球形质体和球形质体之间的碰撞
