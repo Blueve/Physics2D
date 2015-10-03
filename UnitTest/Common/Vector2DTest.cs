@@ -74,7 +74,7 @@ namespace UnitTest.Common
             Assert.AreEqual(16f, vect2.LengthSquared());
 
             // Test Normalize
-            Assert.AreEqual(Vector2D.UnitX, Vector2D.Normalize(ref vect1, out vect1));
+            Assert.AreEqual(Vector2D.UnitX, Vector2D.Normalize(vect1));
             Assert.AreEqual(Vector2D.UnitY, vect2.Normalize());
         }
     }

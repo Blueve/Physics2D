@@ -58,23 +58,21 @@ namespace Physics2D.Common
             return Distance(this, Zero);
         }
 
-        public static Vector2D Normalize(ref Vector2D value, out Vector2D result)
+        public static Vector2D Normalize(Vector2D value)
         {
             double distance = Distance(value, Zero);
 
             // 零向量标准化仍为零向量
-            if (distance == 0) return result = Zero;
+            if (distance == 0) return Zero;
 
-            var factor = 1f / distance;
+            var factor = 1 / distance;
 
-            result = new Vector2D(value.X * factor, value.Y * factor);
-            return result;
+            return new Vector2D(value.X * factor, value.Y * factor);
         }
 
         public Vector2D Normalize()
         {
-            Normalize(ref this, out this);
-            return this;
+            return Normalize(this); ;
         }
 
         public void Set(double x, double y)
@@ -91,7 +89,7 @@ namespace Physics2D.Common
 
         public static Vector2D operator -(Vector2D left, Vector2D right) => new Vector2D(left.X - right.X, left.Y - right.Y);
 
-        public static Vector2D operator -(Vector2D right) => new Vector2D(0.0f - right.X, 0.0f - right.Y);
+        public static Vector2D operator -(Vector2D right) => new Vector2D(.0 - right.X, .0 - right.Y);
 
         public static double operator *(Vector2D left, Vector2D right) => left.X* right.X + left.Y* right.Y;
 
