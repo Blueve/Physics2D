@@ -61,10 +61,10 @@ namespace WPFDemo.ElasticDemo
                 for (int j = 0; j < _height; j++)
                 {
                     var spring = new DestructibleElastic(12, _gridSize);
-                    if (i > 0          ) spring.Add(_net[i - 1, j]);
-                    if (i < _width - 1 ) spring.Add(_net[i + 1, j]);
-                    if (j > 0          ) spring.Add(_net[i, j - 1]);
-                    if (j < _height - 1) spring.Add(_net[i, j + 1]);
+                    if (i > 0          ) spring.Joint(_net[i - 1, j]);
+                    if (i < _width - 1 ) spring.Joint(_net[i + 1, j]);
+                    if (j > 0          ) spring.Joint(_net[i, j - 1]);
+                    if (j < _height - 1) spring.Joint(_net[i, j + 1]);
                     _world.RegistryForceGenerator(_net[i, j], spring);
                 }
             }

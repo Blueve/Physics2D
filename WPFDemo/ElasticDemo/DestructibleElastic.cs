@@ -18,7 +18,7 @@ namespace WPFDemo.ElasticDemo
             _length = length;
         }
 
-        public void Add(Particle item)
+        public void Joint(Particle item)
         {
             _linked.Add(new LinkedItem
             {
@@ -27,21 +27,20 @@ namespace WPFDemo.ElasticDemo
             });
         }
 
-        public override void UpdateForce(Particle particle, double duration)
+        public override void ApplyTo(Particle particle, double duration)
         {
             for (int i = _linked.Count - 1; i >= 0; i--)
             {
                 if (_linked[i].IsValid)
                 {
-                    Vector2D d = particle.Position - _linked[i].Particle.Position;
+                    var d = particle.Position - _linked[i].Particle.Position;
                     if (d.Length() > 1.5)
                     {
                         _linked[i].IsValid = false;
                         continue;
                     }
                     double force = (_length - d.Length()) * _k;
-                    d.Normalize();
-                    particle.AddForce(d * force);
+                    particle.AddForce(d.Normalize() * force);
                 }
             }
         }
