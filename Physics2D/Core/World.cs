@@ -15,7 +15,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 物体集合
         /// </summary>
-        private readonly List<PhysicsObject> _objectRegistry = new List<PhysicsObject>();
+        private readonly HashSet<PhysicsObject> _objectRegistry = new HashSet<PhysicsObject>();
 
         /// <summary>
         /// 质体作用力管理器
@@ -32,7 +32,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 作用力区域集合
         /// </summary>
-        public readonly List<Zone> ZoneRegistry = new List<Zone>();
+        public readonly HashSet<Zone> ZoneRegistry = new HashSet<Zone>();
         #endregion 只读属性
 
         #region 公开的管理方法
@@ -42,8 +42,7 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void AddObject(PhysicsObject obj)
         {
-            if (!_objectRegistry.Contains(obj))
-                _objectRegistry.Add(obj);
+            _objectRegistry.Add(obj);
         }
 
         /// <summary>
@@ -69,8 +68,7 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void RemoveObject(PhysicsObject obj)
         {
-            if (_objectRegistry.Contains(obj))
-                _objectRegistry.Remove(obj);
+            _objectRegistry.Remove(obj);
 
             // 仅在物体为质体时执行注销操作
             var particle = obj as Particle;
@@ -126,7 +124,10 @@ namespace Physics2D.Core
             Parallel.ForEach(_objectRegistry, item =>
             {
                 // 为物理对象施加区域作用力
-                ZoneRegistry.ForEach(z => z.TryApplyTo(item, duration));
+                foreach (var z in ZoneRegistry)
+                {
+                    z.TryApplyTo(item, duration);
+                }
                 // 对物理对象进行积分
                 item.Update(duration);
             });

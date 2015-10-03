@@ -15,7 +15,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 质体碰撞发生器集合
         /// </summary>
-        private readonly List<ParticleContactGenerator> _registrations = new List<ParticleContactGenerator>();
+        private readonly HashSet<ParticleContactGenerator> _registrations = new HashSet<ParticleContactGenerator>();
 
         /// <summary>
         /// 碰撞表
@@ -35,8 +35,7 @@ namespace Physics2D.Core
         /// <param name="contactGenerator"></param>
         public void Add(ParticleContactGenerator contactGenerator)
         {
-            if (!_registrations.Contains(contactGenerator))
-                _registrations.Add(contactGenerator);
+            _registrations.Add(contactGenerator);
         }
 
         /// <summary>
@@ -45,8 +44,7 @@ namespace Physics2D.Core
         /// <param name="contactGenerator"></param>
         public void Remove(ParticleContactGenerator contactGenerator)
         {
-            if (_registrations.Contains(contactGenerator))
-                _registrations.Remove(contactGenerator);
+            _registrations.Remove(contactGenerator);
         }
 
         public void ResolveContacts(double duration)
