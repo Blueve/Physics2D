@@ -25,8 +25,8 @@ namespace WPFDemo.CircleDemo
             (
                 new Vector2D
                 (
-                    ConvertUnits.ToSimUnits(250),
-                    ConvertUnits.ToSimUnits(200)
+                    250.ToSimUnits(),
+                    200.ToSimUnits()
                 )
             );
             // 注册绘制对象
@@ -37,7 +37,7 @@ namespace WPFDemo.CircleDemo
         {
             foreach (var item in _objList)
             {
-                Vector2D v = _centerObj.Position - item.Position;
+                var v = _centerObj.Position - item.Position;
                 item.AddForce(v.Normalize() * 30);
             }
             PhysicsWorld.Update(duration);
@@ -55,7 +55,7 @@ namespace WPFDemo.CircleDemo
             (
                 new Vector2D(200.ToSimUnits(), 200.ToSimUnits()),
                 new Vector2D(0, 5),
-                1f
+                1
             );
             _objList.Add(item);
         }
