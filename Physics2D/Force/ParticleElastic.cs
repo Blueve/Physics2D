@@ -22,11 +22,11 @@ namespace Physics2D.Force
             _linked.Add(item);
         }
 
-        public override void UpdateForce(Particle particle, double duration)
+        public override void ApplyTo(Particle particle, double duration)
         {
             foreach (var item in _linked)
             {
-                Vector2D d = particle.Position - item.Position;
+                var d = particle.Position - item.Position;
 
                 double force = (_length - d.Length()) * _k;
                 d.Normalize();

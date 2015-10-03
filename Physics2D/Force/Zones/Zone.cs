@@ -26,13 +26,13 @@ namespace Physics2D.Force.Zones
         /// 尝试为给定物体施加作用力
         /// </summary>
         /// <param name="obj">给定物体</param>
-        /// <param name="durduration">施加作用力的时间</param>
-        public void TryApplyTo(PhysicsObject obj, double durduration)
+        /// <param name="duration">施加作用力的时间</param>
+        public void TryApplyTo(PhysicsObject obj, double duration)
         {
             if (!IsIn(obj)) return;
             foreach (var item in ParticleForceGenerators.Where(item => obj is Particle))
             {
-                item.UpdateForce((Particle)obj, durduration);
+                item.ApplyTo((Particle)obj, duration);
             }
         }
     }

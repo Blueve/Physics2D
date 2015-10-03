@@ -11,6 +11,8 @@ namespace Physics2D.Core
     {
         #region 私有部分
 
+        private readonly HashSet<ParticleForceGenerator> _generators = new HashSet<ParticleForceGenerator>(); 
+
         private readonly List<ParticleForceRegistration> _registrations = new List<ParticleForceRegistration>();
 
         private struct ParticleForceRegistration
@@ -30,11 +32,13 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void Add(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            _registrations.Add(new ParticleForceRegistration
-            {
-                Particle = particle,
-                ForceGenerator = forceGenerator
-            });
+            //_registrations.Add(new ParticleForceRegistration
+            //{
+            //    Particle = particle,
+            //    ForceGenerator = forceGenerator
+            //});
+            _generators.Add(forceGenerator);
+            forceGenerator.Add(particle);
         }
 
         /// <summary>
@@ -46,7 +50,8 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void Remove(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            _registrations.RemoveAll(item => item.Particle == particle && item.ForceGenerator == forceGenerator);
+            //_registrations.RemoveAll(item => item.Particle == particle && item.ForceGenerator == forceGenerator);
+            forceGenerator.Remove(particle);
         }
 
         /// <summary>
@@ -56,7 +61,11 @@ namespace Physics2D.Core
         /// <param name="particle">粒子</param>
         public void Remove(Particle particle)
         {
-            _registrations.RemoveAll(item => item.Particle == particle);
+            //_registrations.RemoveAll(item => item.Particle == particle);
+            foreach (var particleForceGenerator in _generators)
+            {
+                particleForceGenerator.Remove(particle);
+            }
         }
 
         #endregion 公开的管理方法
@@ -66,10 +75,14 @@ namespace Physics2D.Core
         /// <summary>
         /// 执行所有的作用力发生器
         /// </summary>
-        /// <param name="durduration"></param>
-        public void Update(double durduration)
+        /// <param name="duration"></param>
+        public void Update(double duration)
         {
-            _registrations.ForEach(item => item.ForceGenerator.UpdateForce(item.Particle, durduration));
+            foreach (var particleForceGenerator in _generators)
+            {
+                particleForceGenerator.Apply(duration);
+            }
+            //_registrations.ForEach(item => item.ForceGenerator.ApplyTo(item.Particle, duration));
         }
 
         #endregion 公开的方法

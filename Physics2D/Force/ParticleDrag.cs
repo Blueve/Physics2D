@@ -1,4 +1,5 @@
 ﻿using Physics2D.Common;
+using Physics2D.Object;
 
 namespace Physics2D.Force
 {
@@ -13,16 +14,14 @@ namespace Physics2D.Force
             _k2 = k2;
         }
 
-        public override void UpdateForce(Object.Particle particle, double duration)
+        public override void ApplyTo(Particle particle, double duration)
         {
             if (particle.Velocity == Vector2D.Zero) return;
-
-            Vector2D force = particle.Velocity;
-            double c = force.Length();
+            
+            double c = particle.Velocity.Length();
             c = _k1 * c + _k2 * c * c;
-            force.Normalize();
-            force *= -c;
-            particle.AddForce(force);
+            
+            particle.AddForce(particle.Velocity.Normalize() * -c);
         }
     }
 }
