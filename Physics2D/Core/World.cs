@@ -16,6 +16,13 @@ namespace Physics2D.Core
         /// 物体集合
         /// </summary>
         private readonly HashSet<PhysicsObject> _objectRegistry = new HashSet<PhysicsObject>();
+        #endregion 私有属性
+
+        #region 只读属性
+        /// <summary>
+        /// 作用力区域集合
+        /// </summary>
+        public readonly HashSet<Zone> ZoneRegistry = new HashSet<Zone>();
 
         /// <summary>
         /// 质体作用力管理器
@@ -25,14 +32,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 质体碰撞管理器
         /// </summary>
-        private readonly ParticleContactRegistry _particleContactRegistry = new ParticleContactRegistry();
-        #endregion 私有属性
-
-        #region 只读属性
-        /// <summary>
-        /// 作用力区域集合
-        /// </summary>
-        public readonly HashSet<Zone> ZoneRegistry = new HashSet<Zone>();
+        public readonly ParticleContactRegistry ParticleContactRegistry = new ParticleContactRegistry();
         #endregion 只读属性
 
         #region 公开的管理方法
@@ -89,15 +89,6 @@ namespace Physics2D.Core
             world.RemoveObject(obj);
             return world;
         }
-
-        /// <summary>
-        /// 注册质体碰撞发生器
-        /// </summary>
-        /// <param name="contactGenerator">碰撞发生器</param>
-        public void RegistryContactGenerator(ParticleContactGenerator contactGenerator)
-        {
-            _particleContactRegistry.Add(contactGenerator);
-        }
         #endregion 公开的管理方法
 
         #region 公开的方法
@@ -123,7 +114,7 @@ namespace Physics2D.Core
             });
 
             // 质体碰撞检测
-            _particleContactRegistry.ResolveContacts(duration);
+            ParticleContactRegistry.ResolveContacts(duration);
         }
         #endregion 公开的方法
     }

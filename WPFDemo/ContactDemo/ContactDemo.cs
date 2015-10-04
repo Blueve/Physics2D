@@ -34,19 +34,19 @@ namespace WPFDemo.ContactDemo
             const int num = 5;
 
             var contact = new ParticleBall(1);
-            PhysicsWorld.RegistryContactGenerator(contact);
+            PhysicsWorld.ParticleContactRegistry.Add(contact);
 
             for(int i = 0; i < num; i++)
             {
-                Particle fB = PhysicsWorld.CreateFixedParticle((new Vector2D(160 + 40 * i, 0)).ToSimUnits());
-                Particle pB = PhysicsWorld.CreateParticle((new Vector2D(160 + 40 * i, 200)).ToSimUnits(), new Vector2D(0, 0), 2);
+                var fB = PhysicsWorld.CreateFixedParticle((new Vector2D(160 + 40 * i, 0)).ToSimUnits());
+                var pB = PhysicsWorld.CreateParticle((new Vector2D(160 + 40 * i, 200)).ToSimUnits(), new Vector2D(0, 0), 2);
                 var ball = new Ball
                 {
                     FixedParticle = fB,
                     Particle = pB,
                     R = 20
                 };
-                PhysicsWorld.RegistryContactGenerator(new ParticleRope(200.ToSimUnits(), 0, fB, pB));
+                PhysicsWorld.ParticleContactRegistry.Add(new ParticleRope(200.ToSimUnits(), 0, fB, pB));
                 contact.AddBall(ball.Particle, ball.R.ToSimUnits());
                 DrawQueue.Add(ball);
                 _ballList.Add(ball);

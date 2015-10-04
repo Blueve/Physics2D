@@ -74,13 +74,13 @@ namespace WPFDemo.RobDemo
                 PhysicsWorld += _poly[i];
                 for (int j = i + 1; j < _poly.Count; j++)
                 {
-                    PhysicsWorld.RegistryContactGenerator(new ParticleRod(_poly[i], _poly[j]));
+                    PhysicsWorld.ParticleContactRegistry.Add(new ParticleRod(_poly[i], _poly[j]));
                 }
                 _edges.ForEach(e => e.AddBall(_poly[i], 4.ToSimUnits()));
             }
 
             // 增加底部边缘
-            _edges.ForEach(e => PhysicsWorld.RegistryContactGenerator(e));
+            _edges.ForEach(e => PhysicsWorld.ParticleContactRegistry.Add(e));
 
             // 增加重力
             PhysicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0, 10)));

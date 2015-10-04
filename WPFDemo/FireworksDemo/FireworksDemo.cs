@@ -139,7 +139,7 @@ namespace WPFDemo.FireworksDemo
                 // 增加重力
                 PhysicsWorld.CreateGlobalZone(_g);
                 // 添加边缘
-                PhysicsWorld.RegistryContactGenerator(_contact);
+                PhysicsWorld.ParticleContactRegistry.Add(_contact);
 
                 Slot = 1 / 240.0;
             }

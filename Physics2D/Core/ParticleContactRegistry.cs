@@ -10,7 +10,7 @@ using Physics2D.Collision;
 
 namespace Physics2D.Core
 {
-    internal class ParticleContactRegistry
+    public sealed class ParticleContactRegistry
     {
         /// <summary>
         /// 质体碰撞发生器集合
@@ -33,20 +33,18 @@ namespace Physics2D.Core
         /// 注册碰撞发生器
         /// </summary>
         /// <param name="contactGenerator"></param>
-        public void Add(ParticleContactGenerator contactGenerator)
-        {
-            _registrations.Add(contactGenerator);
-        }
+        public void Add(ParticleContactGenerator contactGenerator) => _registrations.Add(contactGenerator);
 
         /// <summary>
         /// 移除碰撞发生器
         /// </summary>
         /// <param name="contactGenerator"></param>
-        public void Remove(ParticleContactGenerator contactGenerator)
-        {
-            _registrations.Remove(contactGenerator);
-        }
+        public void Remove(ParticleContactGenerator contactGenerator) => _registrations.Remove(contactGenerator);
 
+        /// <summary>
+        /// 进行碰撞检测并解决碰撞
+        /// </summary>
+        /// <param name="duration"></param>
         public void ResolveContacts(double duration)
         {
             _contactCounter = 0;
