@@ -20,7 +20,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 质体作用力管理器
         /// </summary>
-        private readonly ParticleForceRegistry _particleForceRegistry = new ParticleForceRegistry();
+        public readonly ParticleForceRegistry ParticleForceRegistry = new ParticleForceRegistry();
 
         /// <summary>
         /// 质体碰撞管理器
@@ -74,7 +74,7 @@ namespace Physics2D.Core
             var particle = obj as Particle;
             if (particle != null)
             {
-                _particleForceRegistry.Remove(particle);
+                ParticleForceRegistry.Remove(particle);
             }
         }
 
@@ -88,16 +88,6 @@ namespace Physics2D.Core
         {
             world.RemoveObject(obj);
             return world;
-        }
-
-        /// <summary>
-        /// 注册质体作用力发生器
-        /// </summary>
-        /// <param name="particle">质体</param>
-        /// <param name="forceGenerator">作用力发生器</param>
-        public void RegistryForceGenerator(Particle particle, ParticleForceGenerator forceGenerator)
-        {
-            _particleForceRegistry.Add(particle, forceGenerator);
         }
 
         /// <summary>
@@ -118,7 +108,7 @@ namespace Physics2D.Core
         public void Update(double duration)
         {
             // 为粒子施加作用力
-            _particleForceRegistry.Update(duration);
+            ParticleForceRegistry.Update(duration);
 
             // 更新物理对象
             Parallel.ForEach(_objectRegistry, item =>

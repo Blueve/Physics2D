@@ -65,7 +65,8 @@ namespace WPFDemo.ElasticDemo
                     if (i < _width - 1 ) spring.Joint(_net[i + 1, j]);
                     if (j > 0          ) spring.Joint(_net[i, j - 1]);
                     if (j < _height - 1) spring.Joint(_net[i, j + 1]);
-                    _world.RegistryForceGenerator(_net[i, j], spring);
+                    spring.Add(_net[i, j]);
+                    _world.ParticleForceRegistry.Add(spring);
                 }
             }
             // 对弹性网进行拉扯

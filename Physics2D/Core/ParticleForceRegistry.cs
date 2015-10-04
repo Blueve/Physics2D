@@ -7,16 +7,24 @@ namespace Physics2D.Core
     /// <summary>
     /// 粒子的作用力发生器管理模块
     /// </summary>
-    internal class ParticleForceRegistry
+    public sealed class ParticleForceRegistry
     {
         #region 私有部分
         /// <summary>
         /// 作用力发生器集合
         /// </summary>
-        private readonly HashSet<ParticleForceGenerator> _generators = new HashSet<ParticleForceGenerator>(); 
+        private readonly HashSet<ParticleForceGenerator> _generators = new HashSet<ParticleForceGenerator>();
         #endregion 私有部分
 
         #region 公开的管理方法
+        /// <summary>
+        /// 添加一个新项目
+        /// </summary>
+        /// <param name="forceGenerator">作用力发生器</param>
+        public void Add(ParticleForceGenerator forceGenerator)
+        {
+            _generators.Add(forceGenerator);
+        }
 
         /// <summary>
         /// 添加一个新项目
@@ -30,15 +38,12 @@ namespace Physics2D.Core
         }
 
         /// <summary>
-        /// 删除一个项目
-        /// 依据粒子和作用力发生器进行删除，两项均满足的时候才会执行
-        /// 删除操作
+        /// 删除一个作用力发生器
         /// </summary>
-        /// <param name="particle">粒子</param>
         /// <param name="forceGenerator">作用力发生器</param>
-        public void Remove(Particle particle, ParticleForceGenerator forceGenerator)
+        public void Remove(ParticleForceGenerator forceGenerator)
         {
-            forceGenerator.Remove(particle);
+            _generators.Remove(forceGenerator);
         }
 
         /// <summary>
