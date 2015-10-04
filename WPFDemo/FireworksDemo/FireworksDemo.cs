@@ -39,17 +39,13 @@ namespace WPFDemo.FireworksDemo
                 // 设置力场
                 if (_type == PhysicsType.Water)
                 {
-                    if (!PhysicsWorld.ZoneRegistry.Contains(_dragZone))
-                        PhysicsWorld.ZoneRegistry.Add(_dragZone);
-                    if (PhysicsWorld.ZoneRegistry.Contains(_windZone))
-                        PhysicsWorld.ZoneRegistry.Remove(_windZone);
+                    PhysicsWorld.ZoneRegistry.Add(_dragZone);
+                    PhysicsWorld.ZoneRegistry.Remove(_windZone);
                 }
                 else if (_type == PhysicsType.Wind)
                 {
-                    if (!PhysicsWorld.ZoneRegistry.Contains(_windZone))
-                        PhysicsWorld.ZoneRegistry.Add(_windZone);
-                    if (PhysicsWorld.ZoneRegistry.Contains(_dragZone))
-                        PhysicsWorld.ZoneRegistry.Remove(_dragZone);
+                    PhysicsWorld.ZoneRegistry.Add(_windZone);
+                    PhysicsWorld.ZoneRegistry.Remove(_dragZone);
                 }
             }
         }

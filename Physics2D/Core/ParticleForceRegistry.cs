@@ -10,17 +10,10 @@ namespace Physics2D.Core
     internal class ParticleForceRegistry
     {
         #region 私有部分
-
+        /// <summary>
+        /// 作用力发生器集合
+        /// </summary>
         private readonly HashSet<ParticleForceGenerator> _generators = new HashSet<ParticleForceGenerator>(); 
-
-        private readonly List<ParticleForceRegistration> _registrations = new List<ParticleForceRegistration>();
-
-        private struct ParticleForceRegistration
-        {
-            public Particle Particle;
-            public ParticleForceGenerator ForceGenerator;
-        }
-
         #endregion 私有部分
 
         #region 公开的管理方法
@@ -32,11 +25,6 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void Add(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            //_registrations.Add(new ParticleForceRegistration
-            //{
-            //    Particle = particle,
-            //    ForceGenerator = forceGenerator
-            //});
             _generators.Add(forceGenerator);
             forceGenerator.Add(particle);
         }
@@ -50,7 +38,6 @@ namespace Physics2D.Core
         /// <param name="forceGenerator">作用力发生器</param>
         public void Remove(Particle particle, ParticleForceGenerator forceGenerator)
         {
-            //_registrations.RemoveAll(item => item.Particle == particle && item.ForceGenerator == forceGenerator);
             forceGenerator.Remove(particle);
         }
 
@@ -61,7 +48,6 @@ namespace Physics2D.Core
         /// <param name="particle">粒子</param>
         public void Remove(Particle particle)
         {
-            //_registrations.RemoveAll(item => item.Particle == particle);
             foreach (var particleForceGenerator in _generators)
             {
                 particleForceGenerator.Remove(particle);
@@ -82,7 +68,6 @@ namespace Physics2D.Core
             {
                 particleForceGenerator.Apply(duration);
             }
-            //_registrations.ForEach(item => item.ForceGenerator.ApplyTo(item.Particle, duration));
         }
 
         #endregion 公开的方法
