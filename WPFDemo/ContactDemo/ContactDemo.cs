@@ -34,7 +34,7 @@ namespace WPFDemo.ContactDemo
             const int num = 5;
 
             var contact = new ParticleBall(1);
-            PhysicsWorld.ParticleContactRegistry.Add(contact);
+            PhysicsWorld.ContactGenerators.Add(contact);
 
             for(int i = 0; i < num; i++)
             {
@@ -46,7 +46,7 @@ namespace WPFDemo.ContactDemo
                     Particle = pB,
                     R = 20
                 };
-                PhysicsWorld.ParticleContactRegistry.Add(new ParticleRope(200.ToSimUnits(), 0, fB, pB));
+                PhysicsWorld.ContactGenerators.Add(new ParticleRope(200.ToSimUnits(), 0, fB, pB));
                 contact.AddBall(ball.Particle, ball.R.ToSimUnits());
                 DrawQueue.Add(ball);
                 _ballList.Add(ball);

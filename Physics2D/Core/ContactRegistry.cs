@@ -10,15 +10,16 @@ using Physics2D.Collision;
 
 namespace Physics2D.Core
 {
-    public sealed class ParticleContactRegistry
+    public sealed class ContactRegistry
     {
+        #region 私有部分
         /// <summary>
         /// 质体碰撞发生器集合
         /// </summary>
-        private readonly HashSet<ParticleContactGenerator> _registrations = new HashSet<ParticleContactGenerator>();
+        private readonly HashSet<ParticleContactGenerator> _generators = new HashSet<ParticleContactGenerator>();
 
         /// <summary>
-        /// 碰撞表
+        /// 质体碰撞表
         /// </summary>
         private readonly List<ParticleContact> _contactList = new List<ParticleContact>();
 
@@ -27,19 +28,22 @@ namespace Physics2D.Core
         /// </summary>
         private readonly ParticleContactResolver _particleContactResolver = new ParticleContactResolver(0);
 
+        /// <summary>
+        /// 碰撞计数器
+        /// </summary>
         private int _contactCounter = 0;
-
+        #endregion
         /// <summary>
         /// 注册碰撞发生器
         /// </summary>
         /// <param name="contactGenerator"></param>
-        public void Add(ParticleContactGenerator contactGenerator) => _registrations.Add(contactGenerator);
+        public void Add(ParticleContactGenerator contactGenerator) => _generators.Add(contactGenerator);
 
         /// <summary>
         /// 移除碰撞发生器
         /// </summary>
         /// <param name="contactGenerator"></param>
-        public void Remove(ParticleContactGenerator contactGenerator) => _registrations.Remove(contactGenerator);
+        public void Remove(ParticleContactGenerator contactGenerator) => _generators.Remove(contactGenerator);
 
         /// <summary>
         /// 进行碰撞检测并解决碰撞
@@ -52,7 +56,7 @@ namespace Physics2D.Core
             {
                 // 产生碰撞表
                 _contactList.Clear();
-                foreach (var contactGenerator in _registrations)
+                foreach (var contactGenerator in _generators)
                 {
                     foreach (var contact in contactGenerator)
                     {

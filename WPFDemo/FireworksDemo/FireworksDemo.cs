@@ -39,13 +39,13 @@ namespace WPFDemo.FireworksDemo
                 // 设置力场
                 if (_type == PhysicsType.Water)
                 {
-                    PhysicsWorld.ZoneRegistry.Add(_dragZone);
-                    PhysicsWorld.ZoneRegistry.Remove(_windZone);
+                    PhysicsWorld.Zones.Add(_dragZone);
+                    PhysicsWorld.Zones.Remove(_windZone);
                 }
                 else if (_type == PhysicsType.Wind)
                 {
-                    PhysicsWorld.ZoneRegistry.Add(_windZone);
-                    PhysicsWorld.ZoneRegistry.Remove(_dragZone);
+                    PhysicsWorld.Zones.Add(_windZone);
+                    PhysicsWorld.Zones.Remove(_dragZone);
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace WPFDemo.FireworksDemo
                 // 增加重力
                 PhysicsWorld.CreateGlobalZone(_g);
                 // 添加边缘
-                PhysicsWorld.ParticleContactRegistry.Add(_contact);
+                PhysicsWorld.ContactGenerators.Add(_contact);
 
                 Slot = 1 / 240.0;
             }

@@ -27,12 +27,12 @@ namespace Physics2D.Core
         /// <summary>
         /// 质体作用力管理器
         /// </summary>
-        public readonly ParticleForceRegistry ForceGenerators = new ParticleForceRegistry();
+        public readonly ForceRegistry ForceGenerators = new ForceRegistry();
 
         /// <summary>
         /// 质体碰撞管理器
         /// </summary>
-        public readonly ParticleContactRegistry ContactGenerators = new ParticleContactRegistry();
+        public readonly ContactRegistry ContactGenerators = new ContactRegistry();
         #endregion
 
         #region 物体管理
