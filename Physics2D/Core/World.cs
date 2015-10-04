@@ -15,34 +15,34 @@ namespace Physics2D.Core
         /// <summary>
         /// 物体集合
         /// </summary>
-        private readonly HashSet<PhysicsObject> _objectRegistry = new HashSet<PhysicsObject>();
-        #endregion 私有属性
+        private readonly HashSet<PhysicsObject> _objects = new HashSet<PhysicsObject>();
+        #endregion
 
         #region 只读属性
         /// <summary>
         /// 作用力区域集合
         /// </summary>
-        public readonly HashSet<Zone> ZoneRegistry = new HashSet<Zone>();
+        public readonly HashSet<Zone> Zones = new HashSet<Zone>();
 
         /// <summary>
         /// 质体作用力管理器
         /// </summary>
-        public readonly ParticleForceRegistry ParticleForceRegistry = new ParticleForceRegistry();
+        public readonly ParticleForceRegistry ForceGenerators = new ParticleForceRegistry();
 
         /// <summary>
         /// 质体碰撞管理器
         /// </summary>
-        public readonly ParticleContactRegistry ParticleContactRegistry = new ParticleContactRegistry();
-        #endregion 只读属性
+        public readonly ParticleContactRegistry ContactGenerators = new ParticleContactRegistry();
+        #endregion
 
-        #region 公开的管理方法
+        #region 物体管理
         /// <summary>
         /// 向物理世界中添加一个物体
         /// </summary>
         /// <param name="obj"></param>
         public void AddObject(PhysicsObject obj)
         {
-            _objectRegistry.Add(obj);
+            _objects.Add(obj);
         }
 
         /// <summary>
@@ -68,13 +68,13 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void RemoveObject(PhysicsObject obj)
         {
-            _objectRegistry.Remove(obj);
+            _objects.Remove(obj);
 
             // 仅在物体为质体时执行注销操作
             var particle = obj as Particle;
             if (particle != null)
             {
-                ParticleForceRegistry.Remove(particle);
+                ForceGenerators.Remove(particle);
             }
         }
 
@@ -89,9 +89,9 @@ namespace Physics2D.Core
             world.RemoveObject(obj);
             return world;
         }
-        #endregion 公开的管理方法
+        #endregion
 
-        #region 公开的方法
+        #region 公开方法
         /// <summary>
         /// 按时间间隔更新整个物理世界
         /// </summary>
@@ -99,13 +99,13 @@ namespace Physics2D.Core
         public void Update(double duration)
         {
             // 为粒子施加作用力
-            ParticleForceRegistry.Update(duration);
+            ForceGenerators.Update(duration);
 
             // 更新物理对象
-            Parallel.ForEach(_objectRegistry, item =>
+            Parallel.ForEach(_objects, item =>
             {
                 // 为物理对象施加区域作用力
-                foreach (var z in ZoneRegistry)
+                foreach (var z in Zones)
                 {
                     z.TryApplyTo(item, duration);
                 }
@@ -114,8 +114,8 @@ namespace Physics2D.Core
             });
 
             // 质体碰撞检测
-            ParticleContactRegistry.ResolveContacts(duration);
+            ContactGenerators.ResolveContacts(duration);
         }
-        #endregion 公开的方法
+        #endregion
     }
 }

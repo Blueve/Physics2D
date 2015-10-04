@@ -54,7 +54,7 @@ namespace Physics2D.Factories
         private static void RegistryZone(World world, ParticleForceGenerator particleForceGenerator, Zone zone)
         {
             zone.ParticleForceGenerators.Add(particleForceGenerator);
-            world.ZoneRegistry.Add(zone);
+            world.Zones.Add(zone);
         }
 
         #endregion 私有方法
