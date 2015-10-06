@@ -76,7 +76,7 @@ namespace WPFDemo.FireworksDemo
                 500.ToSimUnits(),
                 400.ToSimUnits()
             );
-            _dragZone.ParticleForceGenerators.Add(_drag);
+            _dragZone.Add(_drag);
 
             _windZone = new RectangleZone
             (
@@ -85,7 +85,7 @@ namespace WPFDemo.FireworksDemo
                 500.ToSimUnits(),
                 (WorldHeight * 2 / 3.0).ToSimUnits()
             );
-            _windZone.ParticleForceGenerators.Add(_wind);
+            _windZone.Add(_wind);
         }
 
         protected override void UpdatePhysics(double duration)

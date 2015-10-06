@@ -13,7 +13,21 @@ namespace Physics2D.Force.Zones
         /// <summary>
         /// 区域内粒子作用力发生器
         /// </summary>
-        public readonly List<ParticleForceGenerator> ParticleForceGenerators = new List<ParticleForceGenerator>();
+        private readonly HashSet<ParticleForceGenerator> _particleForceGenerators = new HashSet<ParticleForceGenerator>();
+
+        /// <summary>
+        /// 添加一个作用力发生器
+        /// </summary>
+        /// <param name="particleForceGenerator"></param>
+        public void Add(ParticleForceGenerator particleForceGenerator)
+            => _particleForceGenerators.Add(particleForceGenerator);
+
+        /// <summary>
+        /// 移除一个作用力发生器
+        /// </summary>
+        /// <param name="particleForceGenerator"></param>
+        public void Remove(ParticleForceGenerator particleForceGenerator)
+            => _particleForceGenerators.Remove(particleForceGenerator);
 
         /// <summary>
         /// 判断给定物体是否存在于当前区域
@@ -30,9 +44,13 @@ namespace Physics2D.Force.Zones
         public void TryApplyTo(PhysicsObject obj, double duration)
         {
             if (!IsIn(obj)) return;
-            foreach (var item in ParticleForceGenerators.Where(item => obj is Particle))
+
+            if (obj is Particle)
             {
-                item.ApplyTo((Particle)obj, duration);
+                foreach (var item in _particleForceGenerators)
+                {
+                    item.ApplyTo((Particle) obj, duration);
+                }
             }
         }
     }
