@@ -12,13 +12,13 @@ namespace Physics2D.Common
 
         public static Vector2D Zero { get; } = new Vector2D();
 
-        public static Vector2D One { get; } = new Vector2D(1.0, 1.0);
+        public static Vector2D One { get; } = new Vector2D(1, 1);
 
-        public static Vector2D UnitX { get; } = new Vector2D(1.0, .0);
+        public static Vector2D UnitX { get; } = new Vector2D(1, 0);
 
-        public static Vector2D UnitY { get; } = new Vector2D(.0, 1.0);
+        public static Vector2D UnitY { get; } = new Vector2D(0, 1);
 
-        #endregion 特殊向量
+        #endregion
 
         #region 构造函数
 
@@ -34,7 +34,7 @@ namespace Physics2D.Common
             Y = vec.Y;
         }
 
-        #endregion 构造函数
+        #endregion
 
         #region 公共方法
 
@@ -43,20 +43,11 @@ namespace Physics2D.Common
             return (value1.X - value2.X) * (value1.X - value2.X) + (value1.Y - value2.Y) * (value1.Y - value2.Y);
         }
 
-        public static double Distance(Vector2D value1, Vector2D value2)
-        {
-            return Sqrt(DistanceSquared(value1, value2));
-        }
+        public static double Distance(Vector2D value1, Vector2D value2) => Sqrt(DistanceSquared(value1, value2));
 
-        public double LengthSquared()
-        {
-            return DistanceSquared(this, Zero);
-        }
+        public double LengthSquared() => DistanceSquared(this, Zero);
 
-        public double Length()
-        {
-            return Distance(this, Zero);
-        }
+        public double Length() => Distance(this, Zero);
 
         public static Vector2D Normalize(Vector2D value)
         {
@@ -70,10 +61,7 @@ namespace Physics2D.Common
             return new Vector2D(value.X * factor, value.Y * factor);
         }
 
-        public Vector2D Normalize()
-        {
-            return Normalize(this); ;
-        }
+        public Vector2D Normalize() =>Normalize(this);
 
         public void Set(double x, double y)
         {
@@ -81,7 +69,7 @@ namespace Physics2D.Common
             Y = y;
         }
 
-        #endregion 公共方法
+        #endregion
 
         #region 运算
 
@@ -105,22 +93,19 @@ namespace Physics2D.Common
 
         #endregion 运算
 
-        #region 重载方法
+        #region 接口实现
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             return obj is Vector2D && Equals((Vector2D)obj);
         }
 
-        public bool Equals(Vector2D other)
-        {
-            return Abs(X - other.X) < Settings.Percision && Abs(Y - other.Y) < Settings.Percision;
-        }
+        public bool Equals(Vector2D other) => Abs(X - other.X) < Settings.Percision && Abs(Y - other.Y) < Settings.Percision;
 
         public override string ToString() => $"({X:f2}, {Y:f2})";
 
         public override int GetHashCode() => base.GetHashCode();
 
-        #endregion 重载方法
+        #endregion
     }
 }

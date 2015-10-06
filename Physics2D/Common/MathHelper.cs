@@ -57,8 +57,7 @@
         /// <returns></returns>
         public static double SignedTriangleArea(Vector2D a, Vector2D b, Vector2D c)
         {
-            var result = (a.X - c.X) * (b.Y - c.Y) - (a.Y - c.Y) * (b.X - c.X);
-            return result;
+            return (a.X - c.X) * (b.Y - c.Y) - (a.Y - c.Y) * (b.X - c.X);
         }
     }
 }
