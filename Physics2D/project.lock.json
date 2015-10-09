@@ -2895,14 +2895,6 @@
           "lib/net45/_._": {}
         }
       },
-      "System.Net.NetworkInformation/4.0.10-beta-23123": {
-        "compile": {
-          "ref/net46/_._": {}
-        },
-        "runtime": {
-          "lib/net46/_._": {}
-        }
-      },
       "System.Net.Primitives/4.0.10": {
         "compile": {
           "ref/net46/_._": {}
@@ -3572,14 +3564,6 @@
         },
         "runtime": {
           "lib/net45/_._": {}
-        }
-      },
-      "System.Net.NetworkInformation/4.0.10-beta-23123": {
-        "compile": {
-          "ref/net46/_._": {}
-        },
-        "runtime": {
-          "lib/net46/_._": {}
         }
       },
       "System.Net.Primitives/4.0.10": {
@@ -12465,38 +12449,6 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "package/services/metadata/core-properties/5daeae3f7319444d8efbd8a0c539559c.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "System.Net.NetworkInformation/4.0.10-beta-23123": {
-      "sha512": "NkKpsUm2MLoxT+YlSwexidAw2jGFIJuc6i4H9pT3nU3TQj7MZVursD/ohWj3nyBxthy7i00XLWkRZAwGao/zsg==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "System.Net.NetworkInformation.nuspec",
-        "lib/DNXCore50/System.Net.NetworkInformation.dll",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/_._",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "ref/dotnet/System.Net.NetworkInformation.dll",
-        "ref/dotnet/System.Net.NetworkInformation.xml",
-        "ref/dotnet/zh-hant/System.Net.NetworkInformation.xml",
-        "ref/dotnet/de/System.Net.NetworkInformation.xml",
-        "ref/dotnet/fr/System.Net.NetworkInformation.xml",
-        "ref/dotnet/it/System.Net.NetworkInformation.xml",
-        "ref/dotnet/ja/System.Net.NetworkInformation.xml",
-        "ref/dotnet/ko/System.Net.NetworkInformation.xml",
-        "ref/dotnet/ru/System.Net.NetworkInformation.xml",
-        "ref/dotnet/zh-hans/System.Net.NetworkInformation.xml",
-        "ref/dotnet/es/System.Net.NetworkInformation.xml",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/_._",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "package/services/metadata/core-properties/3328bb5ab25b4ea996ec8f74eee2a320.psmdcp",
         "[Content_Types].xml"
       ]
     },
