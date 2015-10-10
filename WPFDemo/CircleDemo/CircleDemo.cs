@@ -61,22 +61,6 @@ namespace WPFDemo.CircleDemo
             _objList.Add(item);
         }
 
-        //public override void Render(WriteableBitmap bitmap)
-        //{
-        //    bitmap.FillEllipseCentered
-        //    (
-        //        _centerObj.Position.X.ToDisplayUnits(),
-        //        _centerObj.Position.Y.ToDisplayUnits(), 6, 6, Colors.Red
-        //    );
-        //    for (int i = _objList.Count - 1; i >= 0; i--)
-        //    {
-        //        int x = _objList[i].Position.X.ToDisplayUnits();
-        //        int y = _objList[i].Position.Y.ToDisplayUnits();
-
-        //        bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
-        //    }
-        //}
-
         public void Render(RenderTarget target)
         {
             var solidColorBrush2 = new SharpDX.Direct2D1.SolidColorBrush(target, SharpDX.Color.Blue);
