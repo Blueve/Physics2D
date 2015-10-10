@@ -7,18 +7,19 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using SharpDX;
+using SharpDX.Direct2D1;
 using WPFDemo.Graphic;
 
 namespace WPFDemo.CircleDemo
 {
-    public class CircleDemo : PhysicsGraphic, IDrawable
+    public class CircleDemo : PhysicsCanvas, IRenderable
     {
         private readonly Particle _centerObj;
 
         private readonly List<Particle> _objList = new List<Particle>();
 
-        public CircleDemo(Image image)
-            : base(image)
+        public CircleDemo()
         {
             // 初始化中心点
             _centerObj = PhysicsWorld.CreateFixedParticle
@@ -30,7 +31,7 @@ namespace WPFDemo.CircleDemo
                 )
             );
             // 注册绘制对象
-            DrawQueue.Add(this);
+            RenderQueue.Add(this);
         }
 
         protected override void UpdatePhysics(double duration)
@@ -60,19 +61,41 @@ namespace WPFDemo.CircleDemo
             _objList.Add(item);
         }
 
-        public void Draw(WriteableBitmap bitmap)
+        //public override void Render(WriteableBitmap bitmap)
+        //{
+        //    bitmap.FillEllipseCentered
+        //    (
+        //        _centerObj.Position.X.ToDisplayUnits(),
+        //        _centerObj.Position.Y.ToDisplayUnits(), 6, 6, Colors.Red
+        //    );
+        //    for (int i = _objList.Count - 1; i >= 0; i--)
+        //    {
+        //        int x = _objList[i].Position.X.ToDisplayUnits();
+        //        int y = _objList[i].Position.Y.ToDisplayUnits();
+
+        //        bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
+        //    }
+        //}
+
+        public void Render(RenderTarget target)
         {
-            bitmap.FillEllipseCentered
-            (
-                _centerObj.Position.X.ToDisplayUnits(),
-                _centerObj.Position.Y.ToDisplayUnits(), 6, 6, Colors.Red
-            );
+            var solidColorBrush2 = new SharpDX.Direct2D1.SolidColorBrush(target, SharpDX.Color.Blue);
+            var solidColorBrush1 = new SharpDX.Direct2D1.SolidColorBrush(target, SharpDX.Color.Red);
+            target.FillEllipse(
+                new Ellipse(
+                    new Vector2(
+                        _centerObj.Position.X.ToDisplayUnits(),
+                        _centerObj.Position.Y.ToDisplayUnits()),
+                    6f, 6f ), solidColorBrush1);
             for (int i = _objList.Count - 1; i >= 0; i--)
             {
                 int x = _objList[i].Position.X.ToDisplayUnits();
                 int y = _objList[i].Position.Y.ToDisplayUnits();
 
-                bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
+                target.FillEllipse(
+                new Ellipse(
+                    new Vector2(x, y),
+                    4f, 4f), solidColorBrush2);
             }
         }
     }

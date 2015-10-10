@@ -14,15 +14,15 @@ namespace WPFDemo.CircleDemo
         public Circle()
         {
             InitializeComponent();
-            _circleDemo = new CircleDemo(ImageSurface);
+            //_circleDemo = new CircleDemo(ImageSurface);
 
-            ImageSurface.Source = _circleDemo.Bitmap;
-            CompositionTarget.Rendering += _circleDemo.Update;
+            //ImageSurface.Source = _circleDemo.Bitmap;
+            //CompositionTarget.Rendering += _circleDemo.Update;
         }
 
         private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _circleDemo.Fire();
+            CircleDemo.Fire();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿<Window x:Class="WPFDemo.CircleDemo.Circle"
+        xmlns:Direct2d="clr-namespace:WPFDemo.CircleDemo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Circle" Height="450" Width="550">
@@ -7,7 +8,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Margin="3" BorderBrush="SteelBlue" BorderThickness="1" Height="400" Width="500">
-            <Image x:Name="ImageSurface" Width="500" Height="400" MouseDown="imageSurface_MouseDown" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+            <Direct2d:CircleDemo x:Name="CircleDemo" Width="500" Height="400" MouseDown="imageSurface_MouseDown" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
         </Border>
     </Grid>
 </Window>
