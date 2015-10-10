@@ -41,7 +41,7 @@ namespace Physics2D.Collision
                 var maxItem = contactList[maxI];
                 var movementA = contactList[maxI].MovementA;
                 var movementB = contactList[maxI].MovementB;
-                contactList.ForEach(item =>
+                foreach(var item in contactList)
                 {
                     if (item.PA == maxItem.PA)
                     {
@@ -62,7 +62,7 @@ namespace Physics2D.Collision
                             item.Penetration += movementB * item.ContactNormal;
                         }
                     }
-                });
+                }
             }
         }
 
