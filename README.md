@@ -50,7 +50,7 @@ Physics2D
 Physics2D
 =========
 
-A physics engine build by C# include:
+A physics engine written in C# include:
 
   - Physics Engine
   - Unit Test
