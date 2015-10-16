@@ -139,6 +139,12 @@ namespace WPFDemo.FireworksDemo
                 // 增加重力
                 PhysicsWorld.CreateGlobalZone(_g);
                 // 添加边缘
+                _contact = PhysicsWorld.CreateEdge(
+                    0.2,
+                    100.ToSimUnits(),
+                    350.ToSimUnits(),
+                    400.ToSimUnits(),
+                    200.ToSimUnits());
                 PhysicsWorld.ContactGenerators.Add(_contact);
 
                 Slot = 1 / 240.0;
@@ -159,10 +165,6 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        private readonly ParticleEdge _contact = new ParticleEdge(0.2,
-                                                        100.ToSimUnits(),
-                                                        350.ToSimUnits(),
-                                                        400.ToSimUnits(),
-                                                        200.ToSimUnits());
+        private ParticleEdge _contact;
     }
 }
