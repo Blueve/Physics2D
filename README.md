@@ -32,7 +32,7 @@ var world = new World();
 var particle = world.CreateParticle(Vector2D.Zero, new Vector2D(1, 0), 1);
 
 // 创建一个全局有效的重力场
-var zone = world.CreateGlobalZone(new ParticleGravity(new Vector2D(0, 9.8));
+var zone = world.CreateGravity(9.8);
 
 // 执行 1/60 s
 world.Update(1/60.0);
