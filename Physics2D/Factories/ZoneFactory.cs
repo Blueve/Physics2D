@@ -1,4 +1,6 @@
-﻿using Physics2D.Core;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Physics2D.Common;
+using Physics2D.Core;
 using Physics2D.Force;
 using Physics2D.Force.Zones;
 
@@ -12,7 +14,7 @@ namespace Physics2D.Factories
         #region 工厂方法
 
         /// <summary>
-        /// 创建一个全局作用力区域
+        /// 在物理世界创建一个全局作用力区域
         /// </summary>
         /// <param name="world">物理世界</param>
         /// <param name="particleForceGenerator">作用力发生器</param>
@@ -20,12 +22,11 @@ namespace Physics2D.Factories
         public static GlobalZone CreateGlobalZone(this World world, ParticleForceGenerator particleForceGenerator)
         {
             var zone = new GlobalZone();
-            RegistryZone(world, particleForceGenerator, zone);
-            return zone;
+            return world.CreateZone(zone, particleForceGenerator);
         }
 
         /// <summary>
-        /// 创建一个矩形区域作用力
+        /// 在物理世界创建一个矩形区域作用力
         /// </summary>
         /// <param name="world">物理世界</param>
         /// <param name="particleForceGenerator">作用力发生器</param>
@@ -34,27 +35,43 @@ namespace Physics2D.Factories
         /// <param name="x2"></param>
         /// <param name="y2"></param>
         /// <returns></returns>
-        public static RectangleZone CreateRectangleZone(this World world, ParticleForceGenerator particleForceGenerator, double x1, double y1, double x2, double y2)
+        public static RectangleZone CreateRectangleZone(
+            this World world,
+            ParticleForceGenerator particleForceGenerator,
+            double x1,
+            double y1,
+            double x2,
+            double y2)
         {
             var zone = new RectangleZone(x1, y1, x2, y2);
-            RegistryZone(world, particleForceGenerator, zone);
-            return zone;
+            return world.CreateZone(zone, particleForceGenerator);
         }
 
-        #endregion
-
-        #region 私有方法
+        /// <summary>
+        /// 为物理世界创建重力
+        /// 重力的方向向下
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="g"></param>
+        /// <returns></returns>
+        public static GlobalZone CreateGravity(this World world, double g)
+        {
+            return world.CreateGlobalZone(new ParticleGravity(new Vector2D(0, g)));
+        }
 
         /// <summary>
-        /// 注册区域
+        /// 在物理世界中创建一个区域
         /// </summary>
-        /// <param name="world">物理区域</param>
-        /// <param name="particleForceGenerator">作用力发生器</param>
-        /// <param name="zone">区域</param>
-        private static void RegistryZone(this World world, ParticleForceGenerator particleForceGenerator, Zone zone)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="world"></param>
+        /// <param name="zone"></param>
+        /// <param name="particleForceGenerator"></param>
+        /// <returns></returns>
+        public static T CreateZone<T>(this World world, T zone, ParticleForceGenerator particleForceGenerator) where T : Zone
         {
             zone.Add(particleForceGenerator);
             world.Zones.Add(zone);
+            return zone;
         }
 
         #endregion
