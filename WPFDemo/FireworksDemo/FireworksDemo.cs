@@ -51,7 +51,6 @@ namespace WPFDemo.FireworksDemo
         }
 
         // 空间作用力
-        private readonly ParticleGravity _g = new ParticleGravity(new Vector2D(0, 10));
         private readonly ParticleDrag _drag = new ParticleDrag(2, 1);
         private readonly ParticleConstantForce _wind = new ParticleConstantForce(new Vector2D(20, -5));
 
@@ -137,7 +136,7 @@ namespace WPFDemo.FireworksDemo
             {
                 Start = true;
                 // 增加重力
-                PhysicsWorld.CreateGlobalZone(_g);
+                PhysicsWorld.CreateGravity(9.8);
                 // 添加边缘
                 _contact = PhysicsWorld.CreateEdge(
                     0.2,
