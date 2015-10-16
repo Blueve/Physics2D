@@ -29,10 +29,10 @@ var world = new World();
 
 // 在物理世界里创建一个质体(粒子)
 // 位置 (0, 0) 初速度 (1, 0) 质量 1 kg
-var particle = world.CreateParticle(Vector2D.Zero, new Vector2D(1, 0), 1);
+world.CreateParticle(Vector2D.Zero, new Vector2D(1, 0), 1);
 
 // 创建一个全局有效的重力场
-var zone = world.CreateGravity(9.8);
+world.CreateGravity(9.8);
 
 // 执行 1/60 s
 world.Update(1/60.0);
