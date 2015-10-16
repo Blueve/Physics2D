@@ -60,6 +60,13 @@ namespace Physics2D.Factories
         }
 
 
+        /// <summary>
+        /// 在物理世界中创建一组关联
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="world"></param>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         public static T CreateContact<T>(this World world, T contact)
             where T : ParticleContactGenerator
         {
