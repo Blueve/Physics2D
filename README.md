@@ -40,11 +40,8 @@ world.Update(1/60.0);
 
 添加碰撞
 ```csharp
-// 增加一条长5m深4m的底边, 碰撞恢复系数为0.5
-var edge = new ParticleEdge(0.5, 0, 4, 5, 4);
-
-// 在物理世界中注册这条边
-world.ContactGenerators.Add(edge);
+// 创建一条长5m深4m的底边, 碰撞恢复系数为0.5
+var edge = world.CreateEdge(0.5, 0, 4, 5, 4);
 
 // 将质点视为可与底边接触的球(圆)，半径为0.2m
 edge.AddBall(particle, 0.2);
