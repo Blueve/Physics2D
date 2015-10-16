@@ -53,6 +53,7 @@
     <Compile Include="Core\ContactRegistry.cs" />
     <Compile Include="Core\ForceRegistry.cs" />
     <Compile Include="Core\World.cs" />
+    <Compile Include="Factories\ContactFactory.cs" />
     <Compile Include="Factories\ParticleFactory.cs" />
     <Compile Include="Factories\ZoneFactory.cs" />
     <Compile Include="Force\ParticleConstantForce.cs" />
