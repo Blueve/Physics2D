@@ -74,7 +74,7 @@ namespace WPFDemo.RobDemo
                 PhysicsWorld += _poly[i];
                 for (int j = i + 1; j < _poly.Count; j++)
                 {
-                    PhysicsWorld.ContactGenerators.Add(new ParticleRod(_poly[i], _poly[j]));
+                    PhysicsWorld.CreateRod(_poly[i], _poly[j]);
                 }
                 _edges.ForEach(e => e.AddBall(_poly[i], 4.ToSimUnits()));
             }
