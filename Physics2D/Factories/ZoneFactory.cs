@@ -41,7 +41,7 @@ namespace Physics2D.Factories
             return zone;
         }
 
-        #endregion 工厂方法
+        #endregion
 
         #region 私有方法
 
@@ -57,6 +57,6 @@ namespace Physics2D.Factories
             world.Zones.Add(zone);
         }
 
-        #endregion 私有方法
+        #endregion
     }
 }

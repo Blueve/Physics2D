@@ -21,7 +21,7 @@ namespace Physics2D.Factories
         /// <returns></returns>
         public static Particle CreateParticle(this World world, Vector2D p, Vector2D v, double m)
         {
-            Particle particle = new Particle
+            var particle = new Particle
             {
                 Position = p,
                 Mass = m,
@@ -40,7 +40,7 @@ namespace Physics2D.Factories
         /// <returns></returns>
         public static Particle CreateFixedParticle(this World world, Vector2D p)
         {
-            Particle particle = new Particle
+            var particle = new Particle
             {
                 Position = p,
                 InverseMass = 0f,
@@ -59,7 +59,7 @@ namespace Physics2D.Factories
         /// <returns></returns>
         public static Particle CreateFixedParticle(this World world, Vector2D p, Vector2D v)
         {
-            Particle particle = new Particle
+            var particle = new Particle
             {
                 Position = p,
                 InverseMass = 0f,
@@ -70,6 +70,6 @@ namespace Physics2D.Factories
             return particle;
         }
 
-        #endregion 工厂方法
+        #endregion
     }
 }
