@@ -4,7 +4,7 @@ using Physics2D.Object;
 namespace Physics2D.Collision.Basic
 {
     /// <summary>
-    ///     检测球形质体和球形质体之间的碰撞
+    /// 检测球形质体和球形质体之间的碰撞
     /// </summary>
     public class ParticleBall : ParticleContactGenerator
     {
@@ -17,9 +17,9 @@ namespace Physics2D.Collision.Basic
 
         public double Restitution { get; set; }
 
-        public void AddBall(Particle particle, double r)
+        public void PayAttentionTo(Particle particle, double r)
         {
-            // 添加一个球
+            // 监视一个球
             _ballList.Add(new Ball {Particle = particle, R = r});
         }
 

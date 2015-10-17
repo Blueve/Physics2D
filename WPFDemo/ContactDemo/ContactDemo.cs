@@ -47,14 +47,14 @@ namespace WPFDemo.ContactDemo
                     R = 20
                 };
                 PhysicsWorld.CreateRope(200.ToSimUnits(), 0, fB, pB);
-                contact.AddBall(ball.Particle, ball.R.ToSimUnits());
+                contact.PayAttentionTo(ball.Particle, ball.R.ToSimUnits());
                 DrawQueue.Add(ball);
                 _ballList.Add(ball);
             }
 
             // 增加重力和空气阻力
             PhysicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0f, 40)));
-
+            PhysicsWorld.CreateParticle(Vector2D.Zero, new Vector2D(1, 0), 1);
             Slot = 1 / 1000.0;
 
             Start = true;
