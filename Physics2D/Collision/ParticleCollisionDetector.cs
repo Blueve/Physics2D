@@ -14,7 +14,7 @@ namespace Physics2D.Collision
         {
             contact = null;
 
-            var d = (A.body.Position - B.body.Position).Length();
+            var d = (A.Body.Position - B.Body.Position).Length();
             // 碰撞检测
             var l = A.R + B.R;
 
@@ -22,11 +22,11 @@ namespace Physics2D.Collision
             // 产生一组碰撞
             contact = new ParticleContact
             {
-                PA = A.body,
-                PB = B.body,
-                Restitution = 1,
+                PA = A.Body,
+                PB = B.Body,
+                Restitution = (A.Body.Restitution + B.Body.Restitution) / 2,
                 Penetration = (l - d) / 2,
-                ContactNormal = (A.body.Position - B.body.Position).Normalize()
+                ContactNormal = (A.Body.Position - B.Body.Position).Normalize()
             };
             return 1;
         }
