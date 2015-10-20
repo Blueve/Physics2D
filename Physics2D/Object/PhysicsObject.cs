@@ -28,6 +28,11 @@ namespace Physics2D.Object
         public Vector2D PrePosition;
 
         /// <summary>
+        /// 碰撞回弹系数
+        /// </summary>
+        public double Restitution = 1;
+
+        /// <summary>
         /// 质量
         /// </summary>
         public double Mass
@@ -58,13 +63,15 @@ namespace Physics2D.Object
             get { return _inverseMass; }
         }
 
+        public Shape Shape { get { return _shape; } }
+
         protected double _mass;
         protected double _inverseMass;
 
         /// <summary>
         /// 物体绑定的形状
         /// </summary>
-        private Shape _shape;
+        private Shape _shape = new Point();
 
         /// <summary>
         /// 为物体绑定一个形状
@@ -72,7 +79,7 @@ namespace Physics2D.Object
         /// <param name="shape"></param>
         public void BindShape(Shape shape)
         {
-            shape.body = this;
+            shape.Body = this;
             _shape = shape;
         }
 
