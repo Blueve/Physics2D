@@ -15,12 +15,12 @@ namespace Physics2D.Collision
         /// <summary>
         /// 接触物体A
         /// </summary>
-        public Particle PA;
+        public PhysicsObject PA;
         
         /// <summary>
         /// 接触物体B
         /// </summary>
-        public Particle PB;
+        public PhysicsObject PB;
 
         /// <summary>
         /// 碰撞恢复系数
