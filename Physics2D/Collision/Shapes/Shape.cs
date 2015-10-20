@@ -9,6 +9,11 @@ namespace Physics2D.Collision.Shapes
 {
     public abstract class Shape
     {
-        public PhysicsObject body;
+        public PhysicsObject Body;
+
+        public abstract ShapeType Type
+        {
+            get;
+        }
     }
 }

@@ -11,5 +11,10 @@ namespace Physics2D.Collision.Shapes
     public sealed class Circle : Shape
     {
         public double R;
+
+        public override ShapeType Type
+        {
+            get { return ShapeType.Circle; }
+        }
     }
 }
