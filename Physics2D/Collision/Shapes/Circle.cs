@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Physics2D.Collision.Shapes
 {
-    public sealed class Sphere<T> : Shape<T> where T : PhysicsObject
+    public sealed class Circle : Shape
     {
-        public Vector2D Position;
         public double R;
     }
 }
