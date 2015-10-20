@@ -5,33 +5,7 @@ namespace Physics2D.Object
 {
     public class Particle : PhysicsObject
     {
-        public double Mass
-        {
-            set
-            {
-                if (value != 0)
-                {
-                    _mass = value;
-                    _inverseMass = 1.0 / value;
-                }
-                else
-                    throw new ArgumentOutOfRangeException();
-            }
-            get { return _mass; }
-        }
 
-        public double InverseMass
-        {
-            set
-            {
-                _mass = value == 0 ? double.MaxValue : 1.0 / value;
-                _inverseMass = value;
-            }
-            get { return _inverseMass; }
-        }
-
-        private double _mass;
-        private double _inverseMass;
         private Vector2D _forceAccum;
 
         public void AddForce(Vector2D force)
