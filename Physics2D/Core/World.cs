@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Physics2D.Core
 {
-    sealed public class World
+    public sealed class World
     {
         #region 私有属性
         /// <summary>
         /// 物体集合
         /// </summary>
-        private readonly HashSet<PhysicsObject> _objects = new HashSet<PhysicsObject>();
+        private readonly HashSet<PhysicsObject> _objects;
         #endregion
 
         #region 只读属性
@@ -32,7 +32,15 @@ namespace Physics2D.Core
         /// <summary>
         /// 质体碰撞管理器
         /// </summary>
-        public readonly ContactRegistry ContactGenerators = new ContactRegistry();
+        public readonly ContactRegistry ContactGenerators;
+        #endregion
+
+        #region 构造方法
+        public World()
+        {
+            _objects = new HashSet<PhysicsObject>();
+            ContactGenerators = new ContactRegistry(_objects);
+        }
         #endregion
 
         #region 物体管理

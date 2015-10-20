@@ -5,14 +5,20 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
 using Physics2D.Collision;
+using Physics2D.Object;
+using Physics2D.Collision.Shapes;
 
 namespace Physics2D.Core
 {
     public sealed class ContactRegistry
     {
         #region 私有部分
+        /// <summary>
+        /// 物理世界物体列表的引用
+        /// </summary>
+        private readonly HashSet<PhysicsObject> _objects;
+
         /// <summary>
         /// 质体碰撞发生器集合
         /// </summary>
@@ -32,7 +38,29 @@ namespace Physics2D.Core
         /// 碰撞计数器
         /// </summary>
         private int _contactCounter = 0;
+
+        /// <summary>
+        /// 向碰撞表中添加一个新的碰撞
+        /// </summary>
+        /// <param name="contact">碰撞信息</param>
+        /// <returns>完成添加后若不允许继续添加则返回false，否则返回true</returns>
+        private bool AddToContactList(ParticleContact contact)
+        {
+            if (_contactCounter++ < Settings.MaxContacts)
+            {
+                _contactList.Add(contact);
+                return true;
+            }
+            return false;
+        }
         #endregion
+
+        public ContactRegistry(HashSet<PhysicsObject> objects)
+        {
+            _objects = objects;
+        }
+
+        #region 碰撞发生器的注册与注销
         /// <summary>
         /// 注册碰撞发生器
         /// </summary>
@@ -44,6 +72,7 @@ namespace Physics2D.Core
         /// </summary>
         /// <param name="contactGenerator"></param>
         public void Remove(ParticleContactGenerator contactGenerator) => _generators.Remove(contactGenerator);
+        #endregion
 
         /// <summary>
         /// 进行碰撞检测并解决碰撞
@@ -52,6 +81,15 @@ namespace Physics2D.Core
         public void ResolveContacts(double duration)
         {
             _contactCounter = 0;
+            //TODO: 执行碰撞检测器
+            // 按图元类型进行分选
+            var query = from obj in _objects
+                        where obj.Shape.Type != ShapeType.Point
+                        group obj by obj.Shape.Type into gr
+                        orderby gr.Key
+                        select new { Type = gr.Key, Obj = gr };
+
+            // 执行碰撞发生器
             for (int i = 0; i < Settings.ContactIteration; i++)
             {
                 // 产生碰撞表
@@ -73,21 +111,6 @@ namespace Physics2D.Core
                 _particleContactResolver.ResolveContacts(_contactList, duration);
             }
 
-        }
-
-        /// <summary>
-        /// 向碰撞表中添加一个新的碰撞
-        /// </summary>
-        /// <param name="contact">碰撞信息</param>
-        /// <returns>完成添加后若不允许继续添加则返回false，否则返回true</returns>
-        private bool AddToContactList(ParticleContact contact)
-        {
-            if (_contactCounter++ < Settings.MaxContacts)
-            {
-                _contactList.Add(contact);
-                return true;
-            }
-            return false;
         }
     }
 }
