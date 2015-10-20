@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Physics2D.Collision.Shapes
 {
-    public abstract class Shape<T>
+    public abstract class Shape
     {
-        public T body;
+        public PhysicsObject body;
     }
 }
