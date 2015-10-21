@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collision\Basic\ParticleBall.cs" />
+    <Compile Include="Collision\ContactType.cs" />
     <Compile Include="Collision\ParticleCollisionDetector.cs" />
     <Compile Include="Collision\ParticleContact.cs" />
     <Compile Include="Collision\ParticleContactGenerator.cs" />
