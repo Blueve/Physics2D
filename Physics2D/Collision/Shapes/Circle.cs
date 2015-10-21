@@ -12,6 +12,11 @@ namespace Physics2D.Collision.Shapes
     {
         public double R;
 
+        public Circle(double r)
+        {
+            R = r;
+        }
+
         public override ShapeType Type
         {
             get { return ShapeType.Circle; }
