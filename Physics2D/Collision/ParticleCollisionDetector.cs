@@ -10,7 +10,7 @@ namespace Physics2D.Collision
 {
     public class ParticleCollisionDetector
     {
-        public int CircleAndCircle(Circle A, Circle B, out ParticleContact contact)
+        public static int CircleAndCircle(Circle A, Circle B, out ParticleContact contact)
         {
             contact = null;
 
@@ -18,7 +18,7 @@ namespace Physics2D.Collision
             // 碰撞检测
             var l = A.R + B.R;
 
-            if (!(d < l)) return 0;
+            if (d >= l) return 0;
             // 产生一组碰撞
             contact = new ParticleContact
             {
