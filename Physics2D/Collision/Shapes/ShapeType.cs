@@ -8,9 +8,9 @@ namespace Physics2D.Collision.Shapes
 {
     public enum ShapeType
     {
-        Point,
-        Circle,
-        Edge,
-        Box
+        Point = 0,
+        Circle = 1,
+        Edge = 2,
+        Box = 3
     }
 }
