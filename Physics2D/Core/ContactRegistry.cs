@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Physics2D.Collision;
 using Physics2D.Object;
 using Physics2D.Collision.Shapes;
+using System.Diagnostics;
 
 namespace Physics2D.Core
 {
@@ -38,6 +39,54 @@ namespace Physics2D.Core
         /// 碰撞计数器
         /// </summary>
         private int _contactCounter = 0;
+
+        /// <summary>
+        /// 碰撞类型查询表
+        /// </summary>
+        private static ContactType[,] _contactTypeMap = new[,]
+        {
+            {
+                ContactType.CircleAndCircle,
+                ContactType.CircleAndEdge,
+                ContactType.CircleAndBox
+            },
+            {
+                ContactType.CircleAndEdge,
+                ContactType.EdgeAndEdge,
+                ContactType.EdgeAndBox
+            },
+            {
+                ContactType.CircleAndBox,
+                ContactType.EdgeAndBox,
+                ContactType.BoxAndBox
+            }
+        };
+
+        private void DispatchToDetector(ContactType type, Shape sharpA, Shape sharpB)
+        {
+            Debug.Assert(sharpA.Type <= sharpB.Type);
+
+            ParticleContact contact = null;
+
+            switch(type)
+            {
+                case ContactType.CircleAndCircle:
+                    ParticleCollisionDetector.CircleAndCircle((Circle)sharpA, (Circle)sharpB, out contact);
+                    break;
+                case ContactType.CircleAndEdge:
+                    break;
+                case ContactType.CircleAndBox:
+                    break;
+                case ContactType.EdgeAndEdge:
+                    break;
+                case ContactType.EdgeAndBox:
+                    break;
+                case ContactType.BoxAndBox:
+                    break;
+            }
+            if(contact != null)
+                AddToContactList(contact);
+        }
 
         /// <summary>
         /// 向碰撞表中添加一个新的碰撞
@@ -81,19 +130,35 @@ namespace Physics2D.Core
         public void ResolveContacts(double duration)
         {
             _contactCounter = 0;
-            //TODO: 执行碰撞检测器
-            // 按图元类型进行分选
-            var query = from obj in _objects
-                        where obj.Shape.Type != ShapeType.Point
-                        group obj by obj.Shape.Type into gr
-                        orderby gr.Key
-                        select new { Type = gr.Key, Obj = gr };
-
-            // 执行碰撞发生器
+            
             for (int i = 0; i < Settings.ContactIteration; i++)
             {
                 // 产生碰撞表
                 _contactList.Clear();
+
+                // 执行碰撞检测器
+                var objects = _objects.Where(obj => obj.Shape.Type != ShapeType.Point).ToList();
+                for (int indexA = 0; indexA < objects.Count; indexA++)
+                {
+                    for(int indexB = indexA + 1; indexB < objects.Count; indexB++)
+                    {
+                        ShapeType typeA = objects[indexA].Shape.Type;
+                        ShapeType typeB = objects[indexB].Shape.Type;
+
+                        if(typeA <= typeB)
+                        {
+                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], objects[indexA].Shape, objects[indexB].Shape);
+                        }
+                        else
+                        {
+                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], objects[indexB].Shape, objects[indexA].Shape);
+                        }
+                    }
+                }
+
+
+
+                // 执行碰撞发生器
                 foreach (var contactGenerator in _generators)
                 {
                     foreach (var contact in contactGenerator)
