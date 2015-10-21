@@ -18,6 +18,7 @@ using Physics2D.Factories;
 
 using WPFDemo.Graphic;
 using WPFDemo.ContactDemo;
+using Physics2D.Collision.Shapes;
 
 namespace WPFDemo.ContactDemo
 {
@@ -33,21 +34,22 @@ namespace WPFDemo.ContactDemo
 
             const int num = 5;
 
-            var contact = new ParticleBall(1);
-            PhysicsWorld.ContactGenerators.Add(contact);
-
             for(int i = 0; i < num; i++)
             {
                 var fB = PhysicsWorld.CreateFixedParticle((new Vector2D(160 + 40 * i, 0)).ToSimUnits());
                 var pB = PhysicsWorld.CreateParticle((new Vector2D(160 + 40 * i, 200)).ToSimUnits(), new Vector2D(0, 0), 2);
+                
                 var ball = new Ball
                 {
                     FixedParticle = fB,
                     Particle = pB,
                     R = 20
                 };
+
+                // 为质体绑定形状
+                ball.Particle.BindShape(new Circle(ball.R.ToSimUnits()));
+
                 PhysicsWorld.CreateRope(200.ToSimUnits(), 0, fB, pB);
-                contact.PayAttentionTo(ball.Particle, ball.R.ToSimUnits());
                 DrawQueue.Add(ball);
                 _ballList.Add(ball);
             }

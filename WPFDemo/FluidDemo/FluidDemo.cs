@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Physics2D.Collision.Basic;
 using WPFDemo.Graphic;
+using Physics2D.Collision.Shapes;
 
 namespace WPFDemo.FluidDemo
 {
@@ -63,6 +64,7 @@ namespace WPFDemo.FluidDemo
                         Vector2D.Zero,
                         1
                     );
+                    item.BindShape(new Circle(2.ToSimUnits()));
                     _water.ObjList.Add(item);
                 }
             }
