@@ -11,8 +11,8 @@ namespace Physics2D.Collision
         CircleAndCircle,
         CircleAndEdge,
         CircleAndBox,
-        EdgeAndEdge,
         EdgeAndBox,
-        BoxAndBox
+        BoxAndBox,
+        NotSupport
     }
 }
