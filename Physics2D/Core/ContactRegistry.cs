@@ -21,6 +21,11 @@ namespace Physics2D.Core
         private readonly HashSet<PhysicsObject> _objects;
 
         /// <summary>
+        /// 物理世界边缘表的引用
+        /// </summary>
+        private readonly HashSet<Edge> _edges;
+
+        /// <summary>
         /// 质体碰撞发生器集合
         /// </summary>
         private readonly HashSet<ParticleContactGenerator> _generators = new HashSet<ParticleContactGenerator>();
@@ -52,7 +57,7 @@ namespace Physics2D.Core
             },
             {
                 ContactType.CircleAndEdge,
-                ContactType.EdgeAndEdge,
+                ContactType.NotSupport,
                 ContactType.EdgeAndBox
             },
             {
@@ -62,6 +67,12 @@ namespace Physics2D.Core
             }
         };
 
+        /// <summary>
+        /// 根据碰撞类型为两个指定的形状执行碰撞检测
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="sharpA"></param>
+        /// <param name="sharpB"></param>
         private void DispatchToDetector(ContactType type, Shape sharpA, Shape sharpB)
         {
             Debug.Assert(sharpA.Type <= sharpB.Type);
@@ -74,10 +85,9 @@ namespace Physics2D.Core
                     ParticleCollisionDetector.CircleAndCircle((Circle)sharpA, (Circle)sharpB, out contact);
                     break;
                 case ContactType.CircleAndEdge:
+                    ParticleCollisionDetector.CircleAndEdge((Circle)sharpA, (Edge)sharpB, out contact);
                     break;
                 case ContactType.CircleAndBox:
-                    break;
-                case ContactType.EdgeAndEdge:
                     break;
                 case ContactType.EdgeAndBox:
                     break;
@@ -104,9 +114,10 @@ namespace Physics2D.Core
         }
         #endregion
 
-        public ContactRegistry(HashSet<PhysicsObject> objects)
+        public ContactRegistry(HashSet<PhysicsObject> objects, HashSet<Edge> edges)
         {
             _objects = objects;
+            _edges = edges;
         }
 
         #region 碰撞发生器的注册与注销
@@ -136,27 +147,30 @@ namespace Physics2D.Core
                 // 产生碰撞表
                 _contactList.Clear();
 
-                // 执行碰撞检测器
-                var objects = _objects.Where(obj => obj.Shape.Type != ShapeType.Point).ToList();
-                for (int indexA = 0; indexA < objects.Count; indexA++)
+                // 执行质体碰撞检测器
+                var sharps = (from obj in _objects
+                             where obj is Particle && obj.Shape.Type != ShapeType.Point
+                             select obj.Shape).ToList();
+                sharps.AddRange(_edges);
+
+                //var objects = _objects.Where(obj => obj is Particle && obj.Shape.Type != ShapeType.Point).ToList();
+                for (int indexA = 0; indexA < sharps.Count; indexA++)
                 {
-                    for(int indexB = indexA + 1; indexB < objects.Count; indexB++)
+                    for(int indexB = indexA + 1; indexB < sharps.Count; indexB++)
                     {
-                        ShapeType typeA = objects[indexA].Shape.Type;
-                        ShapeType typeB = objects[indexB].Shape.Type;
+                        ShapeType typeA = sharps[indexA].Type;
+                        ShapeType typeB = sharps[indexB].Type;
 
                         if(typeA <= typeB)
                         {
-                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], objects[indexA].Shape, objects[indexB].Shape);
+                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], sharps[indexA], sharps[indexB]);
                         }
                         else
                         {
-                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], objects[indexB].Shape, objects[indexA].Shape);
+                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], sharps[indexB], sharps[indexA]);
                         }
                     }
                 }
-
-
 
                 // 执行碰撞发生器
                 foreach (var contactGenerator in _generators)

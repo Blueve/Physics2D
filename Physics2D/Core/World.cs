@@ -1,4 +1,5 @@
 ﻿using Physics2D.Collision;
+using Physics2D.Collision.Shapes;
 using Physics2D.Common;
 using Physics2D.Factories;
 using Physics2D.Force;
@@ -16,6 +17,11 @@ namespace Physics2D.Core
         /// 物体集合
         /// </summary>
         private readonly HashSet<PhysicsObject> _objects;
+
+        /// <summary>
+        /// 边缘集合
+        /// </summary>
+        private readonly HashSet<Edge> _edges;
         #endregion
 
         #region 只读属性
@@ -39,7 +45,8 @@ namespace Physics2D.Core
         public World()
         {
             _objects = new HashSet<PhysicsObject>();
-            ContactGenerators = new ContactRegistry(_objects);
+            _edges = new HashSet<Edge>();
+            ContactGenerators = new ContactRegistry(_objects, _edges);
         }
         #endregion
 
@@ -98,6 +105,24 @@ namespace Physics2D.Core
             return world;
         }
         #endregion
+
+        /// <summary>
+        /// 向物理世界添加一条边
+        /// </summary>
+        /// <param name="edge"></param>
+        public void AddEdge(Edge edge)
+        {
+            _edges.Add(edge);
+        }
+
+        /// <summary>
+        /// 从物理世界移除一条边
+        /// </summary>
+        /// <param name="edge"></param>
+        public void RemoveEdge(Edge edge)
+        {
+            _edges.Remove(edge);
+        }
 
         #region 公开方法
         /// <summary>
