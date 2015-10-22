@@ -49,6 +49,7 @@
     <Compile Include="Collision\Basic\ParticleLink.cs" />
     <Compile Include="Collision\Basic\ParticleRod.cs" />
     <Compile Include="Collision\Basic\ParticleRope.cs" />
+    <Compile Include="Collision\Shapes\Edge.cs" />
     <Compile Include="Collision\Shapes\Point.cs" />
     <Compile Include="Collision\Shapes\Shape.cs" />
     <Compile Include="Collision\Shapes\Circle.cs" />
