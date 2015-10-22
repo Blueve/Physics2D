@@ -7,6 +7,8 @@ using Physics2D.Collision;
 using Physics2D.Collision.Basic;
 using Physics2D.Core;
 using Physics2D.Object;
+using Physics2D.Collision.Shapes;
+using Physics2D.Common;
 
 namespace Physics2D.Factories
 {
@@ -14,19 +16,35 @@ namespace Physics2D.Factories
     {
         #region 工厂方法
         /// <summary>
-        /// 在物理世界创建一条质体线段
+        /// 在物理世界创建一条边缘
         /// </summary>
         /// <param name="world"></param>
-        /// <param name="restitution"></param>
         /// <param name="x1"></param>
         /// <param name="y1"></param>
         /// <param name="x2"></param>
         /// <param name="y2"></param>
         /// <returns></returns>
-        public static ParticleEdge CreateEdge(this World world, double restitution, double x1, double y1, double x2, double y2)
+        public static Edge CreateEdge(this World world, Vector2D pointA, Vector2D pointB)
         {
-            var edge = new ParticleEdge(restitution, x1, y1, x2, y2);
-            return world.CreateContact(edge);
+            var edge = new Edge(pointA, pointB);
+            world.AddEdge(edge);
+            return edge;
+        }
+
+        /// <summary>
+        /// 在物理世界创建一条边缘
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <returns></returns>
+        public static Edge CreateEdge(this World world, double x1, double y1, double x2, double y2)
+        {
+            var edge = new Edge(x1, y1, x2, y2);
+            world.AddEdge(edge);
+            return edge;
         }
 
         /// <summary>

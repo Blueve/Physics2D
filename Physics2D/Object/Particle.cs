@@ -5,6 +5,7 @@ namespace Physics2D.Object
 {
     public class Particle : PhysicsObject
     {
+        public bool IsTransparent = false;
 
         private Vector2D _forceAccum;
 
