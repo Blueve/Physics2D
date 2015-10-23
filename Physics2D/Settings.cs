@@ -5,7 +5,7 @@
         /// <summary>
         /// 浮点数精度
         /// </summary>
-        public static double Percision = 1e-6;
+        public static double Percision = 1e-8;
 
         /// <summary>
         /// 最多碰撞次数
