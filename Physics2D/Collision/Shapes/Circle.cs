@@ -12,9 +12,10 @@ namespace Physics2D.Collision.Shapes
     {
         public double R;
 
-        public Circle(double r)
+        public Circle(double r, int id = 0)
         {
             R = r;
+            Id = id;
         }
 
         public override ShapeType Type
