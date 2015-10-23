@@ -8,19 +8,19 @@ namespace Physics2D.Force
         /// <summary>
         /// 受管理的质体集合
         /// </summary>
-        private readonly HashSet<Particle> _objects = new HashSet<Particle>();
+        protected readonly HashSet<Particle> Objects = new HashSet<Particle>();
 
         /// <summary>
         /// 添加新的受力对象
         /// </summary>
         /// <param name="particle">受力对象</param>
-        public void Add(Particle particle) => _objects.Add(particle);
+        public void Add(Particle particle) => Objects.Add(particle);
 
         /// <summary>
         /// 移除受力对象
         /// </summary>
         /// <param name="particle">受力对象</param>
-        public void Remove(Particle particle) => _objects.Remove(particle);
+        public void Remove(Particle particle) => Objects.Remove(particle);
 
         /// <summary>
         /// 为指定质体施加作用力
@@ -35,7 +35,7 @@ namespace Physics2D.Force
         /// <param name="duration"></param>
         public void Apply(double duration)
         {
-            foreach (var particle in _objects)
+            foreach (var particle in Objects)
             {
                 ApplyTo(particle, duration);
             }

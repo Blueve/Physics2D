@@ -48,7 +48,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 碰撞类型查询表
         /// </summary>
-        private static ContactType[,] _contactTypeMap = new[,]
+        private static readonly ContactType[,] ContactTypeMap = new[,]
         {
             {
                 ContactType.CircleAndCircle,
@@ -141,10 +141,10 @@ namespace Physics2D.Core
         public void ResolveContacts(double duration)
         {
             _contactCounter = 0;
-            
+
+            // 产生碰撞表
             for (int i = 0; i < Settings.ContactIteration; i++)
             {
-                // 产生碰撞表
                 _contactList.Clear();
 
                 // 执行质体碰撞检测器
@@ -160,16 +160,16 @@ namespace Physics2D.Core
                         // 对形状标识符一致的物体不执行碰撞检测
                         if (sharps[indexA].Id != 0 && sharps[indexA].Id == sharps[indexB].Id) continue;
 
-                        ShapeType typeA = sharps[indexA].Type;
-                        ShapeType typeB = sharps[indexB].Type;
+                        var typeA = sharps[indexA].Type;
+                        var typeB = sharps[indexB].Type;
 
                         if(typeA <= typeB)
                         {
-                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], sharps[indexA], sharps[indexB]);
+                            DispatchToDetector(ContactTypeMap[(int)typeA, (int)typeB], sharps[indexA], sharps[indexB]);
                         }
                         else
                         {
-                            DispatchToDetector(_contactTypeMap[(int)typeA, (int)typeB], sharps[indexB], sharps[indexA]);
+                            DispatchToDetector(ContactTypeMap[(int)typeA, (int)typeB], sharps[indexB], sharps[indexA]);
                         }
                     }
                 }

@@ -32,28 +32,22 @@ namespace Physics2D.Object
         /// </summary>
         private List<ParticleRod> _pinRods = new List<ParticleRod>();
 
-        private bool _isClose;
+        /// <summary>
+        /// 是否封闭（首尾相连）
+        /// </summary>
+        private readonly bool _isClose;
 
         /// <summary>
         /// 质体顶点表（顺时针）
         /// </summary>
-        public IReadOnlyList<Particle> Vertexs
-        {
-            get { return _vertexs; }
-        }
+        public IReadOnlyList<Particle> Vertexs => _vertexs;
 
         /// <summary>
         /// 刚性连杆表（顺时针）
         /// </summary>
-        public IReadOnlyList<ParticleRod> Rods
-        {
-            get { return _rods; }
-        }
+        public IReadOnlyList<ParticleRod> Rods => _rods;
 
-        public IReadOnlyList<ParticleRod> PinRods
-        {
-            get { return _pinRods; }
-        }
+        public IReadOnlyList<ParticleRod> PinRods => _pinRods;
 
         /// <summary>
         /// 创建一个联合质体
