@@ -12,7 +12,7 @@ namespace Physics2D.Core
 {
     public sealed class World
     {
-        #region 私有属性
+        #region 私有字段
         /// <summary>
         /// 物体集合
         /// </summary>
@@ -24,7 +24,7 @@ namespace Physics2D.Core
         private readonly HashSet<Edge> _edges;
         #endregion
 
-        #region 只读属性
+        #region 只读字段
         /// <summary>
         /// 作用力区域集合
         /// </summary>
@@ -104,8 +104,29 @@ namespace Physics2D.Core
             world.RemoveObject(obj);
             return world;
         }
+
+        /// <summary>
+        /// 向物理世界添加一个定制的物体
+        /// </summary>
+        /// <param name="obj"></param>
+        public void AddCustomObject(CustomObject obj)
+        {
+            AddObject(obj);
+            obj.OnInit(this);
+        }
+
+        /// <summary>
+        /// 从物理世界移除一个定制的物体
+        /// </summary>
+        /// <param name="obj"></param>
+        public void RemoveCustomObject(CustomObject obj)
+        {
+            RemoveObject(obj);
+            obj.OnRemove(this);
+        }
         #endregion
 
+        #region 公开方法
         /// <summary>
         /// 向物理世界添加一条边
         /// </summary>
@@ -123,8 +144,7 @@ namespace Physics2D.Core
         {
             _edges.Remove(edge);
         }
-
-        #region 公开方法
+        
         /// <summary>
         /// 按时间间隔更新整个物理世界
         /// </summary>
