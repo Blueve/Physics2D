@@ -56,8 +56,8 @@ namespace Physics2D.Collision
         /// <param name="duration">持续时间</param>
         public void Resolve(double duration)
         {
-            ResolveVelocity(duration);
             ResolveInterpenetration(duration);
+            ResolveVelocity(duration);
         }
 
         /// <summary>
@@ -137,15 +137,29 @@ namespace Physics2D.Collision
             // 对象未相交
             if (Penetration <= 0) return;
 
-            // 不处理两个均为固定或常速运动的物体
-            double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? 0);
-            if (totalInverseMass <= 0) return;
+            double vA = Math.Abs(PA.Velocity * ContactNormal);
+            double vB = Math.Abs(PB?.Velocity * ContactNormal ?? .0);
+            var totalVec = vA + vB;
 
-            var movePerIMass = ContactNormal * (Penetration / totalInverseMass);
+            // 两质体速度和不为0时根据速度将物体分离
+            if (Math.Abs(totalVec) > Settings.Percision)
+            {
+                var totalInverseVec = 1 / totalVec;
+                MovementA = ContactNormal * Penetration * totalInverseVec * vA;
+                MovementB = -ContactNormal * Penetration * totalInverseVec * vB;
+            }
+            // 两质体速度和为0时根据质量将物体分离
+            else
+            {
+                // 不处理两个均为固定或常速运动的物体
+                double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? 0);
+                if (totalInverseMass <= 0) return;
 
-            MovementA = PA.InverseMass * movePerIMass;
-            MovementB = -PB?.InverseMass*movePerIMass ?? Vector2D.Zero;
+                var movePerIMass = ContactNormal * (Penetration / totalInverseMass);
 
+                MovementA = PA.InverseMass * movePerIMass;
+                MovementB = -PB?.InverseMass * movePerIMass ?? Vector2D.Zero;
+            }
             PA.Position += MovementA;
             if (PB != null)
                 PB.Position += MovementB;
