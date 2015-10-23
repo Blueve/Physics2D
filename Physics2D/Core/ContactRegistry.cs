@@ -149,15 +149,17 @@ namespace Physics2D.Core
 
                 // 执行质体碰撞检测器
                 var sharps = (from obj in _objects
-                             where obj is Particle && obj.Shape.Type != ShapeType.Point
+                             where /*obj is Particle &&*/ obj.Shape.Type != ShapeType.Point
                              select obj.Shape).ToList();
                 sharps.AddRange(_edges);
-
-                //var objects = _objects.Where(obj => obj is Particle && obj.Shape.Type != ShapeType.Point).ToList();
+                
                 for (int indexA = 0; indexA < sharps.Count; indexA++)
                 {
                     for(int indexB = indexA + 1; indexB < sharps.Count; indexB++)
                     {
+                        // 对形状标识符一致的物体不执行碰撞检测
+                        if (sharps[indexA].Id != 0 && sharps[indexA].Id == sharps[indexB].Id) continue;
+
                         ShapeType typeA = sharps[indexA].Type;
                         ShapeType typeB = sharps[indexB].Type;
 
