@@ -28,8 +28,8 @@ Physics2D
 var world = new World();
 
 // 在物理世界里创建一个质体(粒子)
-// 位置 (0, 0) 初速度 (1, 0) 质量 1 kg
-world.CreateParticle(Vector2D.Zero, new Vector2D(1, 0), 1);
+// 位置 (0, 0) 初速度 (1, 0) 质量 1 kg 碰撞恢复系数0.9
+world.CreateParticle(Vector2D.Zero, new Vector2D(1, 0), 1, 0.9);
 
 // 创建一个全局有效的重力场
 world.CreateGravity(9.8);
@@ -40,11 +40,11 @@ world.Update(1/60.0);
 
 添加碰撞
 ```csharp
-// 创建一条长5m深4m的底边, 碰撞恢复系数为0.5
-var edge = world.CreateEdge(0.5, 0, 4, 5, 4);
+// 创建一条长5m深4m的底边
+var edge = world.CreateEdge(0, 4, 5, 4);
 
 // 将质点视为可与底边接触的球(圆)，半径为0.2m
-edge.AddBall(particle, 0.2);
+particle.BindSharp(new Circle(0.2));
 
 // 执行 1/60 s
 world.Update(1/60.0);
