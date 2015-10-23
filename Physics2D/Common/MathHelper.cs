@@ -1,4 +1,7 @@
-﻿namespace Physics2D.Common
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Physics2D.Common
 {
     public static class MathHelper
     {
@@ -58,6 +61,31 @@
         public static double SignedTriangleArea(Vector2D a, Vector2D b, Vector2D c)
         {
             return (a.X - c.X) * (b.Y - c.Y) - (a.Y - c.Y) * (b.X - c.X);
+        }
+
+        /// <summary>
+        /// 测试一个点是否在一个多边形的内部
+        /// </summary>
+        /// <param name="vertexs">多边形的顺时针点集，最后一个点应当与第一个点为同一点</param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static bool IsInside(IReadOnlyList<Vector2D> vertexs, Vector2D point)
+        {
+            int count = 0;
+            int num = vertexs.Count() - 1;
+            if (num < 3)
+            {
+                // TODO: 应当抛出异常
+            }
+            for(int i = 0; i < num; i++)
+            {
+                var slope = (vertexs[i + 1].Y - vertexs[i].Y) / (vertexs[i + 1].X - vertexs[i].X);
+                bool cond1 = (vertexs[i].X <= point.X) && (point.X < vertexs[i + 1].X);
+                bool cond2 = (vertexs[i + 1].X <= point.X) && (point.X < vertexs[i].X);
+                bool above = (point.Y < slope * (point.X - vertexs[i].X) + vertexs[i].Y);
+                if ((cond1 || cond2) && above) count++;
+            }
+            return (count % 2 != 0);
         }
     }
 }
