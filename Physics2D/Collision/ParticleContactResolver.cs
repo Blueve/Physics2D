@@ -25,7 +25,8 @@ namespace Physics2D.Collision
                 for(int i = 0; i < contactList.Count; i++)
                 {
                     // 计算分离速度
-                    double sepV = contactList[i].CalculateSeparatingVelocity();
+                    // TODO: Need updete formula
+                    double sepV = contactList[i].CalculateSeparatingVelocity() - contactList[i].Penetration;
                     if(sepV < max)
                     {
                         max = sepV;
