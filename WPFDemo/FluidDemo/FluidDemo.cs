@@ -73,7 +73,6 @@ namespace WPFDemo.FluidDemo
         }
 
         private bool _flag = false;
-
-        private ParticleBall _contactBall = new ParticleBall(0.02);
+        
     }
 }

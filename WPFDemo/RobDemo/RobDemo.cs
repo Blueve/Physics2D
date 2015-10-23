@@ -19,7 +19,7 @@ using Physics2D.Factories;
 
 using WPFDemo.Graphic;
 using WPFDemo.ContactDemo;
-
+using Physics2D.Collision.Shapes;
 
 namespace WPFDemo.RobDemo
 {
@@ -30,30 +30,41 @@ namespace WPFDemo.RobDemo
         {
             new Particle {
                 Position = (new Vector2D(200, 0)).ToSimUnits(),
-                Mass = 1
+                Mass = 1,
+                Restitution = 1
             },
             new Particle
             {
                 Position = (new Vector2D(300, 20)).ToSimUnits(),
-                Mass = 1
+                Mass = 1,
+                Restitution = 1
             },
             new Particle
             {
                 Position = (new Vector2D(300, 80)).ToSimUnits(),
-                Mass = 1
+                Mass = 1,
+                Restitution = 1
             }
         };
 
+        private readonly List<Vector2D> _vertexs = new List<Vector2D>
+        {
+            new Vector2D(200, 0).ToSimUnits(),
+            new Vector2D(300, 20).ToSimUnits(),
+            new Vector2D(300, 80).ToSimUnits()
+        };
         #endregion
 
         #region 边界 
-        private readonly List<ParticleEdge> _edges = new List<ParticleEdge>
+        private readonly List<Edge> _edges = new List<Edge>
         {
-            new ParticleEdge(1, 9.ToSimUnits(), 390.ToSimUnits(), 491.ToSimUnits(), 390.ToSimUnits()),
-            new ParticleEdge(1, 10.ToSimUnits(), 10.ToSimUnits(), 10.ToSimUnits(), 391.ToSimUnits()),
-            new ParticleEdge(1, 490.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 391.ToSimUnits())
+            new Edge(9.ToSimUnits(), 390.ToSimUnits(), 491.ToSimUnits(), 390.ToSimUnits()),
+            new Edge(10.ToSimUnits(), 10.ToSimUnits(), 10.ToSimUnits(), 391.ToSimUnits()),
+            new Edge(490.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 391.ToSimUnits())
         };
         #endregion
+
+        private readonly CombinedParticle _combinedParticle;
 
         private State _state = State.Up;
 
@@ -64,26 +75,27 @@ namespace WPFDemo.RobDemo
 
         private Vector2D _mousePosition = Vector2D.Zero;
 
+        private Particle _pin;
+
         public RobDemo(Image image)
             : base(image)
         {
             Settings.ContactIteration = 20;
-            
-            for (int i = 0; i < _poly.Count; i++)
+
+            _combinedParticle = new CombinedParticle(_vertexs, Vector2D.Zero, 3, 1, true);
+            PhysicsWorld.AddCustomObject(_combinedParticle);
+
+            // 为顶点绑定形状
+            foreach(var vertex in _combinedParticle.Vertexs)
             {
-                PhysicsWorld += _poly[i];
-                for (int j = i + 1; j < _poly.Count; j++)
-                {
-                    PhysicsWorld.CreateRod(_poly[i], _poly[j]);
-                }
-                _edges.ForEach(e => e.AddBall(_poly[i], 4.ToSimUnits()));
+                vertex.BindShape(new Circle(4.ToSimUnits()));
             }
 
-            // 增加底部边缘
-            _edges.ForEach(e => PhysicsWorld.ContactGenerators.Add(e));
+            // 增加边缘
+            _edges.ForEach(e => PhysicsWorld.AddEdge(e));
 
             // 增加重力
-            PhysicsWorld.CreateGlobalZone(new ParticleGravity(new Vector2D(0, 10)));
+            PhysicsWorld.CreateGravity(9.8);
 
             DrawQueue.Add(this);
             Start = true;
@@ -92,12 +104,11 @@ namespace WPFDemo.RobDemo
 
         protected override void UpdatePhysics(double duration)
         {
-            if (_state == State.Down)
+            if(_state == State.Down)
             {
-                var length = Vector2D.Distance(_mousePosition, _poly[0].Position);
-                var normal = (_mousePosition - _poly[0].Position).Normalize();
-
-                _poly[0].AddForce(normal * length * 2 + -Vector2D.UnitY * 30);
+                var d = _mousePosition - _pin.Position;
+                _combinedParticle.Position = d;
+                _pin.Position = _mousePosition;
             }
 
             PhysicsWorld.Update(duration);
@@ -106,7 +117,15 @@ namespace WPFDemo.RobDemo
         public void Down(double x, double y)
         {
             _mousePosition.Set(x, y);
-            _state = State.Down;
+            
+
+            var points = from v in _combinedParticle.Vertexs
+                         select v.Position;
+            if (MathHelper.IsInside(points.ToList(), _mousePosition))
+            {
+                _pin = _combinedParticle.Pin(PhysicsWorld, _mousePosition);
+                _state = State.Down;
+            }
         }
 
         public void Move(double x, double y)
@@ -117,27 +136,18 @@ namespace WPFDemo.RobDemo
         public void Up()
         {
             _state = State.Up;
+            _combinedParticle.UnPin(PhysicsWorld);
         }
 
         public void Draw(WriteableBitmap bitmap)
         {
-
             var points = new List<int>();
-            
-            for (int i = 0; i < _poly.Count; i++)
+            foreach(var vertex in _combinedParticle.Vertexs)
             {
-                points.Add(_poly[i].Position.X.ToDisplayUnits());
-                points.Add(_poly[i].Position.Y.ToDisplayUnits());
-                //for (int j = i + 1; j < _poly.Count; j++)
-                //{
-                //    bitmap.DrawLineAa(
-                //        _poly[i].Position.X.ToDisplayUnits(), _poly[i].Position.Y.ToDisplayUnits(),
-                //        _poly[j].Position.X.ToDisplayUnits(), _poly[j].Position.Y.ToDisplayUnits(), Colors.Black);
-                //}
+                points.Add(vertex.Position.X.ToDisplayUnits());
+                points.Add(vertex.Position.Y.ToDisplayUnits());
             }
-            points.Add(points[0]);
-            points.Add(points[1]);
-            bitmap.FillPolygon(points.ToArray(), Colors.Coral);
+            bitmap.FillPolygon(points.ToArray(), Colors.LightCoral);
 
             foreach (var e in _edges)
             {
@@ -147,6 +157,13 @@ namespace WPFDemo.RobDemo
                 bitmap.DrawLineAa(
                     e.PointA.X.ToDisplayUnits() + 1, e.PointA.Y.ToDisplayUnits() + 1,
                     e.PointB.X.ToDisplayUnits() + 1, e.PointB.Y.ToDisplayUnits() + 1, Colors.Black);
+            }
+
+            foreach (var e in _combinedParticle.PinRods)
+            {
+                bitmap.DrawLineAa(
+                    e.PA.Position.X.ToDisplayUnits(), e.PA.Position.Y.ToDisplayUnits(),
+                    e.PB.Position.X.ToDisplayUnits(), e.PB.Position.Y.ToDisplayUnits(), Colors.Red);
             }
         }
     }

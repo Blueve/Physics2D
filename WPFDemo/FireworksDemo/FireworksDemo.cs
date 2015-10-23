@@ -12,6 +12,7 @@ using Physics2D.Force;
 using Physics2D.Force.Zones;
 using Physics2D.Object;
 using WPFDemo.Graphic;
+using Physics2D.Collision.Shapes;
 
 namespace WPFDemo.FireworksDemo
 {
@@ -101,10 +102,20 @@ namespace WPFDemo.FireworksDemo
                 bitmap.FillRectangle(0, WorldHeight * 1 / 3, WorldWidth, WorldHeight * 2 / 3, Colors.LightGray);
 
             bitmap.DrawLineAa(
-                _contact.PointA.X.ToDisplayUnits(),
-                _contact.PointA.Y.ToDisplayUnits(),
-                _contact.PointB.X.ToDisplayUnits(),
-                _contact.PointB.Y.ToDisplayUnits(), Colors.Black);
+                _edge.PointA.X.ToDisplayUnits(),
+                _edge.PointA.Y.ToDisplayUnits(),
+                _edge.PointB.X.ToDisplayUnits(),
+                _edge.PointB.Y.ToDisplayUnits(), Colors.Black);
+            //bitmap.DrawLineAa(
+            //    _edge1.PointA.X.ToDisplayUnits(),
+            //    _edge1.PointA.Y.ToDisplayUnits(),
+            //    _edge1.PointB.X.ToDisplayUnits(),
+            //    _edge1.PointB.Y.ToDisplayUnits(), Colors.Black);
+            //bitmap.DrawLineAa(
+            //    _edge2.PointA.X.ToDisplayUnits(),
+            //    _edge2.PointA.Y.ToDisplayUnits(),
+            //    _edge2.PointB.X.ToDisplayUnits(),
+            //    _edge2.PointB.Y.ToDisplayUnits(), Colors.Black);
 
             for (int i = _objList.Count - 1; i >= 0; i--)
             {
@@ -138,15 +149,27 @@ namespace WPFDemo.FireworksDemo
                 // 增加重力
                 PhysicsWorld.CreateGravity(9.8);
                 // 添加边缘
-                _contact = PhysicsWorld.CreateEdge(
-                    0.2,
+                _edge = PhysicsWorld.CreateEdge(
                     100.ToSimUnits(),
                     350.ToSimUnits(),
                     400.ToSimUnits(),
                     200.ToSimUnits());
-                PhysicsWorld.ContactGenerators.Add(_contact);
-
-                Slot = 1 / 240.0;
+                //_edge = PhysicsWorld.CreateEdge(
+                //    100.ToSimUnits(),
+                //    200.ToSimUnits(),
+                //    100.ToSimUnits(),
+                //    300.ToSimUnits());
+                //_edge1 = PhysicsWorld.CreateEdge(
+                //    250.ToSimUnits(),
+                //    200.ToSimUnits(),
+                //    250.ToSimUnits(),
+                //    300.ToSimUnits());
+                //_edge2 = PhysicsWorld.CreateEdge(
+                //    100.ToSimUnits(),
+                //    300.ToSimUnits(),
+                //    250.ToSimUnits(),
+                //    300.ToSimUnits());
+                Slot = 1 / 60.0;
             }
 
             var rnd = new Random();
@@ -157,13 +180,13 @@ namespace WPFDemo.FireworksDemo
                 (
                     new Vector2D(x, y),
                     new Vector2D(rnd.NextDouble() * 6 - 3, rnd.NextDouble() * 6 - 3),
-                    1f
+                    1f, 0.1, true
                 );
+                paritcle.BindShape(new Circle(BallSize.ToSimUnits()));
                 _objList.Add(paritcle);
-                _contact.AddBall(paritcle, BallSize.ToSimUnits());
             }
         }
 
-        private ParticleEdge _contact;
+        private Edge _edge, _edge1, _edge2;
     }
 }

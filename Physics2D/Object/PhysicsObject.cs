@@ -7,6 +7,7 @@ namespace Physics2D.Object
 {
     public abstract class PhysicsObject : IUpdatable
     {
+        #region 公开的字段
         /// <summary>
         /// 位置
         /// </summary>
@@ -31,6 +32,39 @@ namespace Physics2D.Object
         /// 碰撞回弹系数
         /// </summary>
         public double Restitution = 1;
+        #endregion
+
+        #region 保护的字段
+        /// <summary>
+        /// 质量
+        /// </summary>
+        protected double _mass;
+
+        /// <summary>
+        /// 质量的倒数
+        /// </summary>
+        protected double _inverseMass;
+
+        /// <summary>
+        /// 物体绑定的形状
+        /// </summary>
+        protected Shape _shape = new Point();
+
+        /// <summary>
+        /// 物体所受的力的合力
+        /// </summary>
+        protected Vector2D _forceAccum;
+        #endregion
+
+        #region 属性
+        /// <summary>
+        /// 为物体施加力
+        /// </summary>
+        /// <param name="force"></param>
+        public void AddForce(Vector2D force)
+        {
+            _forceAccum += force;
+        }
 
         /// <summary>
         /// 质量
@@ -64,15 +98,9 @@ namespace Physics2D.Object
         }
 
         public Shape Shape { get { return _shape; } }
+        #endregion
 
-        protected double _mass;
-        protected double _inverseMass;
-
-        /// <summary>
-        /// 物体绑定的形状
-        /// </summary>
-        private Shape _shape = new Point();
-
+        #region 公开的方法
         /// <summary>
         /// 为物体绑定一个形状
         /// </summary>
@@ -88,5 +116,6 @@ namespace Physics2D.Object
         /// </summary>
         /// <param name="duration"></param>
         public abstract void Update(double duration);
+        #endregion
     }
 }
