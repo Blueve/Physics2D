@@ -16,7 +16,7 @@ namespace WPFDemo.FluidDemo
     {
         public readonly List<Particle> ObjList = new List<Particle>();
 
-        private const int Threshold = 900;
+        private const int Threshold = 400;
         private const int GridR = 60;
 
         private const int R = 150;
