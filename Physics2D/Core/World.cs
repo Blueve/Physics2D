@@ -21,7 +21,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 边缘集合
         /// </summary>
-        private readonly HashSet<Edge> _edges;
+        private readonly HashSet<Shape> _shapes;
         #endregion
 
         #region 只读字段
@@ -45,8 +45,8 @@ namespace Physics2D.Core
         public World()
         {
             _objects = new HashSet<PhysicsObject>();
-            _edges = new HashSet<Edge>();
-            ContactGenerators = new ContactRegistry(_objects, _edges);
+            _shapes = new HashSet<Shape>();
+            ContactGenerators = new ContactRegistry(_objects, _shapes);
         }
         #endregion
 
@@ -128,21 +128,21 @@ namespace Physics2D.Core
 
         #region 公开方法
         /// <summary>
-        /// 向物理世界添加一条边
+        /// 向物理世界添加一个形状
         /// </summary>
         /// <param name="edge"></param>
-        public void AddEdge(Edge edge)
+        public void AddShape(Shape shape)
         {
-            _edges.Add(edge);
+            _shapes.Add(shape);
         }
 
         /// <summary>
-        /// 从物理世界移除一条边
+        /// 从物理世界移除一个形状
         /// </summary>
         /// <param name="edge"></param>
-        public void RemoveEdge(Edge edge)
+        public void RemoveShape(Shape shape)
         {
-            _edges.Remove(edge);
+            _shapes.Remove(shape);
         }
         
         /// <summary>

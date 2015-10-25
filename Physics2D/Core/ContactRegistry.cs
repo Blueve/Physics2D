@@ -23,7 +23,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 物理世界边缘表的引用
         /// </summary>
-        private readonly HashSet<Edge> _edges;
+        private readonly HashSet<Shape> _shapes;
 
         /// <summary>
         /// 质体碰撞发生器集合
@@ -114,10 +114,10 @@ namespace Physics2D.Core
         }
         #endregion
 
-        public ContactRegistry(HashSet<PhysicsObject> objects, HashSet<Edge> edges)
+        public ContactRegistry(HashSet<PhysicsObject> objects, HashSet<Shape> shapes)
         {
             _objects = objects;
-            _edges = edges;
+            _shapes = shapes;
         }
 
         #region 碰撞发生器的注册与注销
@@ -151,7 +151,7 @@ namespace Physics2D.Core
                 var sharps = (from obj in _objects
                              where /*obj is Particle &&*/ obj.Shape.Type != ShapeType.Point
                              select obj.Shape).ToList();
-                sharps.AddRange(_edges);
+                sharps.AddRange(_shapes);
                 
                 for (int indexA = 0; indexA < sharps.Count; indexA++)
                 {

@@ -92,7 +92,7 @@ namespace WPFDemo.RobDemo
             }
 
             // 增加边缘
-            _edges.ForEach(e => PhysicsWorld.AddEdge(e));
+            _edges.ForEach(e => PhysicsWorld.AddShape(e));
 
             // 增加重力
             PhysicsWorld.CreateGravity(9.8);

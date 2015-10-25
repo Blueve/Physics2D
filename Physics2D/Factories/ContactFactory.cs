@@ -27,7 +27,7 @@ namespace Physics2D.Factories
         public static Edge CreateEdge(this World world, Vector2D pointA, Vector2D pointB)
         {
             var edge = new Edge(pointA, pointB);
-            world.AddEdge(edge);
+            world.AddShape(edge);
             return edge;
         }
 
@@ -43,7 +43,7 @@ namespace Physics2D.Factories
         public static Edge CreateEdge(this World world, double x1, double y1, double x2, double y2)
         {
             var edge = new Edge(x1, y1, x2, y2);
-            world.AddEdge(edge);
+            world.AddShape(edge);
             return edge;
         }
 
