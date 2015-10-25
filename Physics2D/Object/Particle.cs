@@ -21,9 +21,9 @@ namespace Physics2D.Object
 
             // 对位置速度以及加速度进行更新
             Acceleration = _forceAccum * _inverseMass;
-
-            Position += Velocity * duration;
             Velocity += Acceleration * duration;
+            Position += Velocity * duration;
+            
 
             // 清除作用力
             _forceAccum = Vector2D.Zero;
