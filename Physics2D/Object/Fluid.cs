@@ -39,22 +39,33 @@ namespace Physics2D.Object
 
         public Fluid()
         {
-            _smoothR = 30.ToSimUnits();
-            _restDensity = .5;
-            _pressure = 2;
-            _viscosity = 0.075;
-            _particleMass = 1;
+            _smoothR = 125.ToSimUnits();
+            //_restDensity = .5;
+            //_pressure = 2;
+            //_viscosity = 0.075;
+            //_particleMass = 1;
+
             //_smoothR = 0.01;
-            //_restDensity = 1000;
+            _restDensity = 0.02;
             _gasConstantK = 1;
-            //_particleMass = 0.0004;
-            //_viscosity = 1;
+            _particleMass = 0.0008;
+            _viscosity = 1;
 
             _speedLimiting = 200;
 
             _kPoly6 = 4 / (Math.PI * Math.Pow(_smoothR, 8));
             _kSpiky = -30 / (Math.PI * Math.Pow(_smoothR, 5));
-            _kViscosity = 20 / (3 * Math.PI * Math.Pow(_smoothR, 5)) / 2;
+            _kViscosity = 20 / (3 * Math.PI * Math.Pow(_smoothR, 5));
+
+            //_kPoly6 = 315 / (64 * Math.PI * Math.Pow(_smoothR, 9));
+            //_kSpiky = -45 / (Math.PI * Math.Pow(_smoothR, 6));
+            //_kViscosity = 45 / (3 * Math.PI * Math.Pow(_smoothR, 6));
+
+            System.Diagnostics.Debug.WriteLine("Space\t" + ParticleDistance.ToDisplayUnits());
+
+            System.Diagnostics.Debug.WriteLine("kPoly6\t" + _kPoly6);
+            System.Diagnostics.Debug.WriteLine("kSpiky\t" + _kSpiky);
+            System.Diagnostics.Debug.WriteLine("kViscosity\t" + _kViscosity);
         }
 
         public void Add(Particle particle)
@@ -92,16 +103,16 @@ namespace Physics2D.Object
                     var d2 = Vector2D.DistanceSquared(_particles[i].Position, _particles[j].Position);
                     if(h2 > d2)
                     {
-                        //var weight = Math.Pow(h2 - d2, 3);
-                        var weight = Math.Pow(1 - Math.Sqrt(d2) / _smoothR, 2);
+                        var weight = Math.Pow(h2 - d2, 3);
+                        //var weight = Math.Pow(1 - Math.Sqrt(d2) / _smoothR, 2);
                         //if (_particles[i].Neighbors.Count < 7)
                             _particles[i].Density += weight;
                         //if (_particles[j].Neighbors.Count < 7)
                             _particles[j].Density += weight;
 
-                        //if (_particles[i].Neighbors.Count < 7)
+                        if (_particles[i].Neighbors.Count < 80)
                             _particles[i].Neighbors.Add(_particles[j]);
-                        //if(_particles[j].Neighbors.Count < 7)
+                        if(_particles[j].Neighbors.Count < 80)
                             _particles[j].Neighbors.Add(_particles[i]);
                         
                     }
@@ -110,10 +121,10 @@ namespace Physics2D.Object
             // 计算压力
             foreach (var particle in _particles)
             {
-                //particle.Density += Math.Pow(h2, 3);
-                //particle.Density *= _kPoly6 * _particleMass;
+                particle.Density += Math.Pow(h2, 3);
+                particle.Density *= _kPoly6 * _particleMass;
 
-                if (particle.Density < _restDensity) particle.Density = _restDensity;
+                //if (particle.Density < _restDensity) particle.Density = _restDensity;
 
                 particle.Pressure = (particle.Density - _restDensity) * _gasConstantK;
             }
@@ -125,35 +136,35 @@ namespace Physics2D.Object
                 {
                     var neighbor = _particles[i].Neighbors[j];
 
-                    var d = Vector2D.Distance(_particles[i].Position, neighbor.Position);
-                    var weight = 1 - d / _smoothR;
-                    var pressure = 80 * weight * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density) * _pressure;
-                    var pij = _particles[i].Position - neighbor.Position;
-                    _particles[i].AddForce(pij / (d + 0.0000001) * pressure);
-
-                    var viscosity = 70 * weight / neighbor.Density * _viscosity;
-                    var vij = _particles[i].Velocity - neighbor.Velocity;
-                    _particles[i].AddForce(-vij * viscosity);
-
-                    //var r = Vector2D.Distance(_particles[i].Position, neighbor.Position);
+                    //var d = Vector2D.Distance(_particles[i].Position, neighbor.Position);
+                    //var weight = 1 - d / _smoothR;
+                    //var pressure = 80 * weight * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density) * _pressure;
                     //var pij = _particles[i].Position - neighbor.Position;
-                    //var hr = _smoothR - r;
-                    //var h2r2 = h2 - r * r;
+                    //_particles[i].AddForce(pij / (d + 0.0000001) * pressure);
 
-                    //var pterm = -_particleMass * _kSpiky * hr * hr * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density);
-                    //force += pij * pterm / r;
+                    //var viscosity = 70 * weight / neighbor.Density * _viscosity;
+                    //var vij = _particles[i].Velocity - neighbor.Velocity;
+                    //_particles[i].AddForce(-vij * viscosity);
 
-                    //var vterm = _particleMass * _kViscosity * _viscosity * hr / (_particles[i].Density * neighbor.Density);
-                    //force += (neighbor.Velocity - _particles[i].Velocity) * vterm;
+                    var r = Vector2D.Distance(_particles[i].Position, neighbor.Position);
+                    var pij = _particles[i].Position - neighbor.Position;
+                    var hr = _smoothR - r;
+                    var h2r2 = h2 - r * r;
+
+                    var pterm = -_particleMass * _kSpiky * hr * hr * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density);
+                    force += pij * pterm / r;
+
+                    var vterm = _particleMass * _kViscosity * _viscosity * hr / (_particles[i].Density * neighbor.Density);
+                    force += (neighbor.Velocity - _particles[i].Velocity) * vterm;
                 }
-                //_particles[i].AddForce(force * _particleMass);
+                _particles[i].AddForce(force * _particleMass);
             }
 
-            foreach (var particle in _particles)
-            {
+            //foreach (var particle in _particles)
+            //{
                 //particle.AddForce(new Vector2D(0, 9.8) * _particleMass);
                 //particle.Update(duration);
-            }
+            //}
             //    System.Diagnostics.Debug.WriteLine(
             //    _particles[0].Density.ToString() + "\t" +
             //    _particles[1].Density.ToString());
