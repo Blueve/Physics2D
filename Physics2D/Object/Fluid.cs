@@ -79,7 +79,6 @@ namespace Physics2D.Object
             };
             
             p.BindShape(new Circle(4.ToSimUnits(), 1));
-
             _particles.Add(p);
 
             if(_world != null)
@@ -125,7 +124,7 @@ namespace Physics2D.Object
                 particle.Density *= _kPoly6 * _particleMass;
 
                 //if (particle.Density < _restDensity) particle.Density = _restDensity;
-
+                System.Diagnostics.Debug.WriteLine(particle.Density);
                 particle.Pressure = (particle.Density - _restDensity) * _gasConstantK;
             }
             // 计算合力
@@ -183,7 +182,6 @@ namespace Physics2D.Object
             foreach (var particle in _particles)
             {
                 _world.AddObject(particle);
-                //_world.AddShape(particle.Shape);
             }
         }
 
@@ -197,40 +195,6 @@ namespace Physics2D.Object
             public readonly List<FluidParticle> Neighbors = new List<FluidParticle>();
             public double Density = 0;
             public double Pressure = 0;
-
-            public Vector2D VelocityE;
-
-            private double _speedLimiting = 200;
-
-            //public override void Update(double duration)
-            //{
-            //    // 修正速度
-            //    var sl2 = _speedLimiting * _speedLimiting;
-
-            //    PrePosition = Position;
-
-            //    // 对位置速度以及加速度进行更新
-            //    Acceleration = _forceAccum * _inverseMass;
-
-            //    // 修正加速度
-            //    var acc2 = Acceleration.LengthSquared();
-            //    if (acc2 > sl2)
-            //    {
-            //        Acceleration *= _speedLimiting / Math.Sqrt(acc2);
-            //    }
-
-
-
-            //    // 记录速度
-            //    var vNext = Velocity + Acceleration * duration;
-            //    VelocityE = (vNext + Velocity) / 2;
-            //    Velocity = vNext;
-
-            //    Position += Velocity * duration;
-
-            //    // 清除作用力
-            //    _forceAccum = Vector2D.Zero;
-            //}
         }
     }
 }
