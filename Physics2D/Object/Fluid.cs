@@ -39,23 +39,25 @@ namespace Physics2D.Object
 
         public Fluid()
         {
-            _smoothR = 125.ToSimUnits();
+            
             //_restDensity = .5;
             //_pressure = 2;
             //_viscosity = 0.075;
             //_particleMass = 1;
 
             //_smoothR = 0.01;
-            _restDensity = 0.02;
+            _restDensity = 1000;
             _gasConstantK = 1;
-            _particleMass = 0.0008;
+            _particleMass = 100;
             _viscosity = 1;
 
-            _speedLimiting = 200;
+            _smoothR = 0.01;
 
             _kPoly6 = 4 / (Math.PI * Math.Pow(_smoothR, 8));
             _kSpiky = -30 / (Math.PI * Math.Pow(_smoothR, 5));
             _kViscosity = 20 / (3 * Math.PI * Math.Pow(_smoothR, 5));
+
+            
 
             //_kPoly6 = 315 / (64 * Math.PI * Math.Pow(_smoothR, 9));
             //_kSpiky = -45 / (Math.PI * Math.Pow(_smoothR, 6));
@@ -75,7 +77,7 @@ namespace Physics2D.Object
                 Position = particle.Position,
                 Velocity = particle.Velocity,
                 Mass = _particleMass,
-                Restitution = 1
+                Restitution = 0.5
             };
             
             p.BindShape(new Circle(4.ToSimUnits(), 1));
@@ -92,72 +94,137 @@ namespace Physics2D.Object
         {
             var h2 = _smoothR * _smoothR;
 
-            // 计算密度
-            for (int i = 0; i < _particles.Count; i++)
+            // 重置粒子状态
+            foreach(var particle in _particles)
             {
-                _particles[i].Neighbors.Clear();
-                _particles[i].Density = 0;
-                for (int j = 0; j < i; j++)
-                {
-                    var d2 = Vector2D.DistanceSquared(_particles[i].Position, _particles[j].Position);
-                    if(h2 > d2)
-                    {
-                        var weight = Math.Pow(h2 - d2, 3);
-                        //var weight = Math.Pow(1 - Math.Sqrt(d2) / _smoothR, 2);
-                        //if (_particles[i].Neighbors.Count < 7)
-                            _particles[i].Density += weight;
-                        //if (_particles[j].Neighbors.Count < 7)
-                            _particles[j].Density += weight;
+                particle.Density = 0;
+                particle.Neighbors.Clear();
+            }
+            // 计算密度
+            for(int i = 0; i < _particles.Count; i++)
+            {
+                double sum = 0;
 
-                        if (_particles[i].Neighbors.Count < 80)
-                            _particles[i].Neighbors.Add(_particles[j]);
-                        if(_particles[j].Neighbors.Count < 80)
-                            _particles[j].Neighbors.Add(_particles[i]);
-                        
+                var pI = _particles[i];
+                for(int j = 0; j < _particles.Count; j++)
+                {
+                    var pJ = _particles[j];
+
+                    if(pI == pJ)
+                    {
+                        sum += Math.Pow(h2, 3);
+                    }
+                    else
+                    {
+                        var pI_pJ = pI.Position - pJ.Position;
+                        var r2 = pI_pJ.LengthSquared();
+                        if(h2 > r2)
+                        {
+                            var h2_r2 = h2 - r2;
+                            sum += Math.Pow(h2_r2, 3) / (_smoothR * _smoothR * Math.PI);
+
+                            pI.Neighbors.Add(pJ);
+                        }
                     }
                 }
+                pI.Density = _kPoly6 * _particleMass * sum;
+                pI.Pressure = (pI.Density - _restDensity) * _gasConstantK;
             }
             // 计算压力
-            foreach (var particle in _particles)
+            for(int i = 0; i < _particles.Count; i++)
             {
-                particle.Density += Math.Pow(h2, 3);
-                particle.Density *= _kPoly6 * _particleMass;
+                var pI = _particles[i];
+                Vector2D forceSum = Vector2D.Zero;
 
-                //if (particle.Density < _restDensity) particle.Density = _restDensity;
-                System.Diagnostics.Debug.WriteLine(particle.Density);
-                particle.Pressure = (particle.Density - _restDensity) * _gasConstantK;
-            }
-            // 计算合力
-            for (int i = 0; i < _particles.Count; i++)
-            {
-                var force = Vector2D.Zero;
-                for (int j = 0; j < _particles[i].Neighbors.Count; j++)
+                for(int j = 0; j < pI.Neighbors.Count; j++)
                 {
-                    var neighbor = _particles[i].Neighbors[j];
+                    var pJ = pI.Neighbors[j];
+                    
+                    var ri_rj = (pI.Position - pJ.Position);
+                    var r = ri_rj.Length();
+                    var h_r = _smoothR - r;
+                    var h2_r2 = h2 - r * r;
 
-                    //var d = Vector2D.Distance(_particles[i].Position, neighbor.Position);
-                    //var weight = 1 - d / _smoothR;
-                    //var pressure = 80 * weight * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density) * _pressure;
-                    //var pij = _particles[i].Position - neighbor.Position;
-                    //_particles[i].AddForce(pij / (d + 0.0000001) * pressure);
+                    //var pterm = -_particleMass * _kSpiky * h_r * h_r * (pI.Pressure + pJ.Pressure) / (2 * pI.Density * pJ.Density);
+                    //forceSum += ri_rj * pterm / r;
 
-                    //var viscosity = 70 * weight / neighbor.Density * _viscosity;
-                    //var vij = _particles[i].Velocity - neighbor.Velocity;
-                    //_particles[i].AddForce(-vij * viscosity);
+                    //var vterm = _kViscosity * _viscosity * h_r * _particleMass / (pI.Density * pJ.Density);
+                    //forceSum += (pJ.Velocity - pI.Velocity) * vterm;
 
-                    var r = Vector2D.Distance(_particles[i].Position, neighbor.Position);
-                    var pij = _particles[i].Position - neighbor.Position;
-                    var hr = _smoothR - r;
-                    var h2r2 = h2 - r * r;
+                    var pterm = -_particleMass * _kSpiky * h_r * h_r * (pI.Pressure + pJ.Pressure) / (2 * pJ.Density);
+                    forceSum += pterm * (ri_rj) / r;
 
-                    var pterm = -_particleMass * _kSpiky * hr * hr * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density);
-                    force += pij * pterm / r;
-
-                    var vterm = _particleMass * _kViscosity * _viscosity * hr / (_particles[i].Density * neighbor.Density);
-                    force += (neighbor.Velocity - _particles[i].Velocity) * vterm;
+                    var vterm = _viscosity * _particleMass * (pI.Velocity - pJ.Velocity) / pJ.Density * _kViscosity * h_r;
+                    forceSum += vterm;
                 }
-                _particles[i].AddForce(force * _particleMass);
+                pI.AddForce(forceSum);
             }
+            //// 计算密度
+            //for (int i = 0; i < _particles.Count; i++)
+            //{
+            //    _particles[i].Neighbors.Clear();
+            //    _particles[i].Density = 0;
+            //    for (int j = 0; j < i; j++)
+            //    {
+            //        var d2 = Vector2D.DistanceSquared(_particles[i].Position, _particles[j].Position);
+            //        if(h2 > d2)
+            //        {
+            //            var weight = Math.Pow(h2 - d2, 3);
+            //            //var weight = Math.Pow(1 - Math.Sqrt(d2) / _smoothR, 2);
+            //            //if (_particles[i].Neighbors.Count < 7)
+            //                _particles[i].Density += weight;
+            //            //if (_particles[j].Neighbors.Count < 7)
+            //                _particles[j].Density += weight;
+
+            //            if (_particles[i].Neighbors.Count < 80)
+            //                _particles[i].Neighbors.Add(_particles[j]);
+            //            if(_particles[j].Neighbors.Count < 80)
+            //                _particles[j].Neighbors.Add(_particles[i]);
+                        
+            //        }
+            //    }
+            //}
+            //// 计算压力
+            //foreach (var particle in _particles)
+            //{
+            //    particle.Density += Math.Pow(h2, 3);
+            //    particle.Density *= _kPoly6 * _particleMass;
+
+            //    //if (particle.Density < _restDensity) particle.Density = _restDensity;
+            //    System.Diagnostics.Debug.WriteLine(particle.Density);
+            //    particle.Pressure = (particle.Density - _restDensity) * _gasConstantK;
+            //}
+            // 计算合力
+            //for (int i = 0; i < _particles.Count; i++)
+            //{
+            //    var force = Vector2D.Zero;
+            //    for (int j = 0; j < _particles[i].Neighbors.Count; j++)
+            //    {
+            //        var neighbor = _particles[i].Neighbors[j];
+
+            //        //var d = Vector2D.Distance(_particles[i].Position, neighbor.Position);
+            //        //var weight = 1 - d / _smoothR;
+            //        //var pressure = 80 * weight * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density) * _pressure;
+            //        //var pij = _particles[i].Position - neighbor.Position;
+            //        //_particles[i].AddForce(pij / (d + 0.0000001) * pressure);
+
+            //        //var viscosity = 70 * weight / neighbor.Density * _viscosity;
+            //        //var vij = _particles[i].Velocity - neighbor.Velocity;
+            //        //_particles[i].AddForce(-vij * viscosity);
+
+            //        var r = Vector2D.Distance(_particles[i].Position, neighbor.Position);
+            //        var pij = _particles[i].Position - neighbor.Position;
+            //        var hr = _smoothR - r;
+            //        var h2r2 = h2 - r * r;
+
+            //        var pterm = -_particleMass * _kSpiky * hr * hr * (_particles[i].Pressure + neighbor.Pressure) / (2 * _particles[i].Density * neighbor.Density);
+            //        force += pij * pterm / r;
+
+            //        var vterm = _particleMass * _kViscosity * _viscosity * hr / (_particles[i].Density * neighbor.Density);
+            //        force += (neighbor.Velocity - _particles[i].Velocity) * vterm;
+            //    }
+            //    _particles[i].AddForce(force * _particleMass);
+            //}
 
             //foreach (var particle in _particles)
             //{
@@ -190,11 +257,16 @@ namespace Physics2D.Object
             throw new NotImplementedException();
         }
 
+        #region 嵌套类型
+        /// <summary>
+        /// 流体粒子
+        /// </summary>
         class FluidParticle : Particle
         {
             public readonly List<FluidParticle> Neighbors = new List<FluidParticle>();
             public double Density = 0;
             public double Pressure = 0;
         }
+        #endregion
     }
 }
