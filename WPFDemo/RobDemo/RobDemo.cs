@@ -29,19 +29,19 @@ namespace WPFDemo.RobDemo
         private readonly List<Particle> _poly = new List<Particle>
         {
             new Particle {
-                Position = (new Vector2D(200, 0)).ToSimUnits(),
+                Position = (new Vector2D(200, 20)).ToSimUnits(),
                 Mass = 1,
                 Restitution = 1
             },
             new Particle
             {
-                Position = (new Vector2D(300, 20)).ToSimUnits(),
+                Position = (new Vector2D(300, 40)).ToSimUnits(),
                 Mass = 1,
                 Restitution = 1
             },
             new Particle
             {
-                Position = (new Vector2D(300, 80)).ToSimUnits(),
+                Position = (new Vector2D(300, 100)).ToSimUnits(),
                 Mass = 1,
                 Restitution = 1
             }
@@ -49,18 +49,19 @@ namespace WPFDemo.RobDemo
 
         private readonly List<Vector2D> _vertexs = new List<Vector2D>
         {
-            new Vector2D(200, 0).ToSimUnits(),
-            new Vector2D(300, 20).ToSimUnits(),
-            new Vector2D(300, 80).ToSimUnits()
+            new Vector2D(200, 20).ToSimUnits(),
+            new Vector2D(300, 40).ToSimUnits(),
+            new Vector2D(300, 100).ToSimUnits()
         };
         #endregion
 
         #region 边界 
         private readonly List<Edge> _edges = new List<Edge>
         {
-            new Edge(9.ToSimUnits(), 390.ToSimUnits(), 491.ToSimUnits(), 390.ToSimUnits()),
-            new Edge(10.ToSimUnits(), 10.ToSimUnits(), 10.ToSimUnits(), 391.ToSimUnits()),
-            new Edge(490.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 391.ToSimUnits())
+            new Edge(10.ToSimUnits(), 390.ToSimUnits(), 490.ToSimUnits(), 390.ToSimUnits()),
+            new Edge(10.ToSimUnits(), 10.ToSimUnits(), 10.ToSimUnits(), 390.ToSimUnits()),
+            new Edge(490.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 390.ToSimUnits()),
+            new Edge(10.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 10.ToSimUnits())
         };
         #endregion
 
@@ -107,6 +108,7 @@ namespace WPFDemo.RobDemo
             if(_state == State.Down)
             {
                 var d = _mousePosition - _pin.Position;
+                _combinedParticle.Velocity = d / duration;
                 _combinedParticle.Position = d;
                 _pin.Position = _mousePosition;
             }
@@ -121,7 +123,7 @@ namespace WPFDemo.RobDemo
 
             var points = from v in _combinedParticle.Vertexs
                          select v.Position;
-            if (MathHelper.IsInside(points.ToList(), _mousePosition))
+            if (MathHelper.IsInside(points.ToList(), new Vector2D(x, y)))
             {
                 _pin = _combinedParticle.Pin(PhysicsWorld, _mousePosition);
                 _state = State.Down;
@@ -130,12 +132,17 @@ namespace WPFDemo.RobDemo
 
         public void Move(double x, double y)
         {
-            _mousePosition.Set(x, y);
+            if(_state == State.Down)
+                _mousePosition.Set(x, y);
         }
 
         public void Up()
         {
             _state = State.Up;
+            foreach (var vertex in _combinedParticle.Vertexs)
+            {
+                vertex.Velocity = _combinedParticle.Velocity;
+            }
             _combinedParticle.UnPin(PhysicsWorld);
         }
 
