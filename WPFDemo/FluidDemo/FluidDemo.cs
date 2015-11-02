@@ -18,7 +18,7 @@ namespace WPFDemo.FluidDemo
 {
     public class FluidDemo : PhysicsGraphic, IDrawable
     {
-        private readonly Physics2D.Object.Fluid _fluid = new Physics2D.Object.Fluid();
+        private readonly Physics2D.Object.Fluid _fluid;
         private int _pNum = 20;
 
         private readonly Water _water;
@@ -28,7 +28,8 @@ namespace WPFDemo.FluidDemo
         public FluidDemo(Image image)
             : base(image)
         {
-            //ConvertUnits.SetDisplayUnitToSimUnitRatio(5);
+            Slot = 1 / 120.0;
+            _fluid = new Physics2D.Object.Fluid();
 
             _edge0 = PhysicsWorld.CreateEdge(
                 50.ToSimUnits(),
@@ -53,12 +54,13 @@ namespace WPFDemo.FluidDemo
             // 创建液体容器
             _water = new Water((int)image.Width, (int)image.Height);
             // 添加到绘制队列
-            DrawQueue.Add(_water);
+            //DrawQueue.Add(_water);
 
-            var particleDistance = 18;//_fluid.ParticleDistance.ToDisplayUnits();
-            for(int i = 250; i < 350; i += particleDistance)
+            //var particleDistance = 18;
+            var particleDistance = _fluid.ParticleDistance.ToDisplayUnits();
+            for(int i = 150; i < 350; i += particleDistance)
             {
-                for(int j = 100; j < 340; j += particleDistance)
+                for(int j = 150; j < 340; j += particleDistance)
                 {
                     var p = new Particle
                     {
