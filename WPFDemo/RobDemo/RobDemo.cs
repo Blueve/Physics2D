@@ -71,7 +71,7 @@ namespace WPFDemo.RobDemo
 
         enum State
         {
-            Down, Up
+            Down, Pinned, Up
         }
 
         private Vector2D _mousePosition = Vector2D.Zero;
@@ -100,12 +100,11 @@ namespace WPFDemo.RobDemo
 
             DrawQueue.Add(this);
             Start = true;
-
         }
 
         protected override void UpdatePhysics(double duration)
         {
-            if(_state == State.Down)
+            if(_state == State.Pinned)
             {
                 var d = _mousePosition - _pin.Position;
                 _combinedParticle.Velocity = d / duration;
@@ -119,35 +118,34 @@ namespace WPFDemo.RobDemo
         public void Down(double x, double y)
         {
             _mousePosition.Set(x, y);
-            
 
             var points = from v in _combinedParticle.Vertexs
                          select v.Position;
-            if (MathHelper.IsInside(points.ToList(), new Vector2D(x, y)))
+            if (_state != State.Down && MathHelper.IsInside(points.ToList(), _mousePosition))
             {
                 _pin = _combinedParticle.Pin(PhysicsWorld, _mousePosition);
-                _state = State.Down;
+                _state = State.Pinned;
             }
+            else
+                _state = State.Down;
         }
 
         public void Move(double x, double y)
         {
-            if(_state == State.Down)
+            if(_state == State.Pinned)
                 _mousePosition.Set(x, y);
         }
 
         public void Up()
         {
+            if(_state == State.Pinned)
+                _combinedParticle.UnPin(PhysicsWorld);
             _state = State.Up;
-            foreach (var vertex in _combinedParticle.Vertexs)
-            {
-                vertex.Velocity = _combinedParticle.Velocity;
-            }
-            _combinedParticle.UnPin(PhysicsWorld);
         }
 
         public void Draw(WriteableBitmap bitmap)
         {
+            // 绘制物体
             var points = new List<int>();
             foreach(var vertex in _combinedParticle.Vertexs)
             {
@@ -156,16 +154,15 @@ namespace WPFDemo.RobDemo
             }
             bitmap.FillPolygon(points.ToArray(), Colors.LightCoral);
 
+            // 绘制边缘
             foreach (var e in _edges)
             {
                 bitmap.DrawLineAa(
                     e.PointA.X.ToDisplayUnits(), e.PointA.Y.ToDisplayUnits(),
                     e.PointB.X.ToDisplayUnits(), e.PointB.Y.ToDisplayUnits(), Colors.Black);
-                bitmap.DrawLineAa(
-                    e.PointA.X.ToDisplayUnits() + 1, e.PointA.Y.ToDisplayUnits() + 1,
-                    e.PointB.X.ToDisplayUnits() + 1, e.PointB.Y.ToDisplayUnits() + 1, Colors.Black);
             }
 
+            // 绘制PinRod
             foreach (var e in _combinedParticle.PinRods)
             {
                 bitmap.DrawLineAa(
