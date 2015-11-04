@@ -114,10 +114,6 @@ namespace Physics2D.Object
             {
                 world.RemoveObject(vertex);
             }
-            foreach (var rod in _rods)
-            {
-                world.ContactGenerators.Remove(rod);
-            }
         }
 
         /// <summary>
@@ -142,7 +138,6 @@ namespace Physics2D.Object
         /// <returns></returns>
         public Particle Pin(World world, Vector2D position)
         {
-            
             var pin = new Particle
             {
                 Position = position,
@@ -164,11 +159,17 @@ namespace Physics2D.Object
         /// <param name="world"></param>
         public void UnPin(World world)
         {
-            foreach (var pin in _pinRods)
+            // 移除连接
+            foreach(var rod in _pinRods)
             {
-                world.ContactGenerators.Remove(pin);
+                world.ContactGenerators.Remove(rod);
             }
             _pinRods.Clear();
+            // 恢复速度
+            foreach (var vertex in _vertexs)
+            {
+                vertex.Velocity = Velocity;
+            }
         }
     }
 }
