@@ -26,26 +26,6 @@ namespace WPFDemo.RobDemo
     class RobDemo : PhysicsGraphic, IDrawable
     {
         #region 三角形顶点
-        private readonly List<Particle> _poly = new List<Particle>
-        {
-            new Particle {
-                Position = (new Vector2D(200, 20)).ToSimUnits(),
-                Mass = 1,
-                Restitution = 1
-            },
-            new Particle
-            {
-                Position = (new Vector2D(300, 40)).ToSimUnits(),
-                Mass = 1,
-                Restitution = 1
-            },
-            new Particle
-            {
-                Position = (new Vector2D(300, 100)).ToSimUnits(),
-                Mass = 1,
-                Restitution = 1
-            }
-        };
 
         private readonly List<Vector2D> _vertexs = new List<Vector2D>
         {
@@ -55,13 +35,13 @@ namespace WPFDemo.RobDemo
         };
         #endregion
 
-        #region 边界 
-        private readonly List<Edge> _edges = new List<Edge>
+        #region 边界
+        private readonly List<Vector2D> _edgePoints = new List<Vector2D>
         {
-            new Edge(10.ToSimUnits(), 390.ToSimUnits(), 490.ToSimUnits(), 390.ToSimUnits()),
-            new Edge(10.ToSimUnits(), 10.ToSimUnits(), 10.ToSimUnits(), 390.ToSimUnits()),
-            new Edge(490.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 390.ToSimUnits()),
-            new Edge(10.ToSimUnits(), 10.ToSimUnits(), 490.ToSimUnits(), 10.ToSimUnits())
+            new Vector2D(10, 10).ToSimUnits(),
+            new Vector2D(490, 10).ToSimUnits(),
+            new Vector2D(490, 390).ToSimUnits(),
+            new Vector2D(10, 390).ToSimUnits()
         };
         #endregion
 
@@ -93,7 +73,7 @@ namespace WPFDemo.RobDemo
             }
 
             // 增加边缘
-            _edges.ForEach(e => PhysicsWorld.AddEdge(e));
+            PhysicsWorld.CreatPolygonEdge(_edgePoints.ToArray());
 
             // 增加重力
             PhysicsWorld.CreateGravity(9.8);
@@ -155,12 +135,15 @@ namespace WPFDemo.RobDemo
             bitmap.FillPolygon(points.ToArray(), Colors.LightCoral);
 
             // 绘制边缘
-            foreach (var e in _edges)
+            points.Clear();
+            foreach(var point in _edgePoints)
             {
-                bitmap.DrawLineAa(
-                    e.PointA.X.ToDisplayUnits(), e.PointA.Y.ToDisplayUnits(),
-                    e.PointB.X.ToDisplayUnits(), e.PointB.Y.ToDisplayUnits(), Colors.Black);
+                points.Add(point.X.ToDisplayUnits());
+                points.Add(point.Y.ToDisplayUnits());
             }
+            points.Add(_edgePoints[0].X.ToDisplayUnits());
+            points.Add(_edgePoints[0].Y.ToDisplayUnits());
+            bitmap.DrawPolyline(points.ToArray(), Colors.Black);
 
             // 绘制PinRod
             foreach (var e in _combinedParticle.PinRods)
