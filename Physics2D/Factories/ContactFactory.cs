@@ -48,6 +48,30 @@ namespace Physics2D.Factories
         }
 
         /// <summary>
+        /// 在物理世界创建一个由边缘围成的封闭多边形
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="points">多边形点集(逆时针)</param>
+        /// <returns></returns>
+        public static IEnumerable<Edge> CreatPolygonEdge(this World world, params Vector2D[] points)
+        {
+            List<Edge> result = new List<Edge>();
+
+            if(points.Length < 3)
+            {
+                //TODO:应当抛出异常
+            }
+
+            for(int i = 1; i < points.Length; i++)
+            {
+                result.Add(world.CreateEdge(points[i - 1], points[i]));
+            }
+            result.Add(world.CreateEdge(points[points.Length - 1], points[0]));
+
+            return result;
+        }
+
+        /// <summary>
         /// 在物理世界创建一条质体绳索
         /// 该绳索由两个质体（质点）组成，两个质体的距离被限定在指定的数值内
         /// </summary>
