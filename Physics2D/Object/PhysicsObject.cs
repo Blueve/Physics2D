@@ -5,7 +5,7 @@ using System;
 
 namespace Physics2D.Object
 {
-    public abstract class PhysicsObject : IUpdatable
+    public abstract class PhysicsObject
     {
         #region 公开的字段
         /// <summary>
