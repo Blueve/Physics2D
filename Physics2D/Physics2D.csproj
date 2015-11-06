@@ -71,9 +71,9 @@
     <Compile Include="Force\Zones\Zone.cs" />
     <Compile Include="Object\CombinedParticle.cs" />
     <Compile Include="Object\CustomObject.cs" />
-    <Compile Include="Object\IUpdatable.cs" />
     <Compile Include="Object\Particle.cs" />
     <Compile Include="Object\PhysicsObject.cs" />
+    <Compile Include="Object\Tools\IPin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
