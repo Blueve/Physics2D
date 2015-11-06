@@ -8,6 +8,7 @@ using Physics2D.Collision.Shapes;
 using Physics2D.Collision.Basic;
 using Physics2D.Factories;
 using Physics2D.Common;
+using Physics2D.Object.Tools;
 
 namespace Physics2D.Object
 {
@@ -15,8 +16,9 @@ namespace Physics2D.Object
     /// 由多个质点组合成的物体
     /// 质点由刚性连杆连接，可获得类似刚体的自由度
     /// </summary>
-    public class CombinedParticle : CustomObject
+    public class CombinedParticle : CustomObject, IPin
     {
+        #region 私有字段
         /// <summary>
         /// 质体顶点表（顺时针）
         /// </summary>
@@ -36,7 +38,9 @@ namespace Physics2D.Object
         /// 是否封闭（首尾相连）
         /// </summary>
         private readonly bool _isClose;
+        #endregion
 
+        #region 公开的属性
         /// <summary>
         /// 质体顶点表（顺时针）
         /// </summary>
@@ -47,8 +51,15 @@ namespace Physics2D.Object
         /// </summary>
         public IReadOnlyList<ParticleRod> Rods => _rods;
 
-        public IReadOnlyList<ParticleRod> PinRods => _pinRods;
+        /// <summary>
+        /// 是否封闭（首尾相连）
+        /// </summary>
+        public bool IsClose => _isClose;
 
+        public IReadOnlyList<ParticleRod> PinRods => _pinRods;
+        #endregion
+
+        #region 构造方法
         /// <summary>
         /// 创建一个联合质体
         /// </summary>
@@ -87,7 +98,9 @@ namespace Physics2D.Object
                 _rods.Add(new ParticleRod(_vertexs[i - 1], _vertexs[i]));
             }
         }
+        #endregion
 
+        #region 自定义物体接口实现
         /// <summary>
         /// 装载到物理世界
         /// </summary>
@@ -115,13 +128,17 @@ namespace Physics2D.Object
                 world.RemoveObject(vertex);
             }
         }
+        #endregion
 
+        #region 物体抽象方法实现
         /// <summary>
         /// 更新物体
         /// </summary>
         /// <param name="duration"></param>
         public override void Update(double duration)
         {
+            // 组织质体的位移被视为所有质体的偏移量
+            // 该偏移量在每次施加偏移过后置0
             var N = _isClose ? _vertexs.Count - 1 : _vertexs.Count;
             for (int i = 0; i < N; i++)
             {
@@ -129,7 +146,9 @@ namespace Physics2D.Object
             }
             Position = Vector2D.Zero;
         }
+        #endregion
 
+        #region 固定物体接口实现
         /// <summary>
         /// 让该物体与指定Pin点连接
         /// </summary>
@@ -144,7 +163,9 @@ namespace Physics2D.Object
                 InverseMass = 0
             };
 
-            var N = _isClose ? _vertexs.Count - 1 : _vertexs.Count;
+            // 对于封闭图形，任意连接两个点即可固定住形状
+            // 对于不封闭图形，需要每个点都连接才可固定
+            var N = _isClose ? 2 : _vertexs.Count;
             for(int i = 0; i < N; i++)
             {
                 _pinRods.Add(world.CreateRod(_vertexs[i], pin));
@@ -171,5 +192,16 @@ namespace Physics2D.Object
                 vertex.Velocity = Velocity;
             }
         }
+
+        Handle IPin.Pin(World world, Vector2D position)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IPin.UnPin(World world)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }
