@@ -27,7 +27,7 @@ namespace Physics2D.Core
         /// <summary>
         /// Pin集合
         /// </summary>
-        private readonly Dictionary<IPin, Handle> _pins;
+        private readonly Dictionary<IPin, Handle> _pins = new Dictionary<IPin, Handle>();
         #endregion
 
         #region 只读字段
@@ -174,8 +174,11 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void UnPin(IPin obj)
         {
-            if(_pins.ContainsKey(obj))
+            if (_pins.ContainsKey(obj))
+            {
                 obj.UnPin(this);
+                _pins.Remove(obj);
+            }
             else
             {
                 //TODO: 应当抛出异常，不允许对未Pin的物体解除Pin
