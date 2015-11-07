@@ -23,6 +23,11 @@ namespace Physics2D.Core
         /// 边缘集合
         /// </summary>
         private readonly HashSet<Edge> _edges;
+
+        /// <summary>
+        /// Pin集合
+        /// </summary>
+        private readonly Dictionary<IPin, Handle> _pins;
         #endregion
 
         #region 只读字段
@@ -144,14 +149,37 @@ namespace Physics2D.Core
             _edges.Remove(edge);
         }
 
+        /// <summary>
+        /// 将制定物体Pin在物理世界
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public Handle Pin(IPin obj, Vector2D position)
         {
-            return obj.Pin(this, position);
+            if(!_pins.ContainsKey(obj))
+            {
+                _pins[obj] = obj.Pin(this, position);
+            }
+            else
+            {
+                //TODO:应当抛出异常，不允许对同一物体Pin多次
+            }
+            return _pins[obj];
         }
 
+        /// <summary>
+        /// 解除指定物体在物理世界的Pin
+        /// </summary>
+        /// <param name="obj"></param>
         public void UnPin(IPin obj)
         {
-            obj.UnPin(this);
+            if(_pins.ContainsKey(obj))
+                obj.UnPin(this);
+            else
+            {
+                //TODO: 应当抛出异常，不允许对未Pin的物体解除Pin
+            }
         }
 
         #endregion
