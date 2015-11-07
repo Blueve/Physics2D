@@ -13,6 +13,7 @@ using Physics2D.Collision;
 using Physics2D.Collision.Basic;
 using Physics2D.Common;
 using Physics2D.Object;
+using Physics2D.Object.Tools;
 using Physics2D.Force;
 using Physics2D.Force.Zones;
 using Physics2D.Factories;
@@ -56,7 +57,7 @@ namespace WPFDemo.RobDemo
 
         private Vector2D _mousePosition = Vector2D.Zero;
 
-        private Particle _pin;
+        private Handle _pin;
 
         public RobDemo(Image image)
             : base(image)
@@ -103,7 +104,7 @@ namespace WPFDemo.RobDemo
                          select v.Position;
             if (_state != State.Down && MathHelper.IsInside(points.ToList(), _mousePosition))
             {
-                _pin = _combinedParticle.Pin(PhysicsWorld, _mousePosition);
+                _pin = PhysicsWorld.Pin(_combinedParticle, _mousePosition);
                 _state = State.Pinned;
             }
             else
@@ -118,8 +119,8 @@ namespace WPFDemo.RobDemo
 
         public void Up()
         {
-            if(_state == State.Pinned)
-                _combinedParticle.UnPin(PhysicsWorld);
+            if (_state == State.Pinned)
+                PhysicsWorld.UnPin(_combinedParticle);
             _state = State.Up;
         }
 
