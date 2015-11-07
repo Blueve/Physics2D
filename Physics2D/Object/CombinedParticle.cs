@@ -193,14 +193,46 @@ namespace Physics2D.Object
             }
         }
 
+        private Particle _pin;
+
         Handle IPin.Pin(World world, Vector2D position)
         {
-            throw new NotImplementedException();
+            _pin = new Particle
+            {
+                Position = position,
+                InverseMass = 0
+            };
+
+            // 对于封闭图形，任意连接两个点即可固定住形状
+            // 对于不封闭图形，需要每个点都连接才可固定
+            var N = _isClose ? 2 : _vertexs.Count;
+            for (int i = 0; i < N; i++)
+            {
+                _pinRods.Add(world.CreateRod(_vertexs[i], _pin));
+            }
+
+            var handle = new Handle(position);
+            handle.PropertyChanged += 
+                (obj, e) => {
+                    _pin.Position = ((Handle)obj).Position;
+                    };
+
+            return handle;
         }
 
         void IPin.UnPin(World world)
         {
-            throw new NotImplementedException();
+            // 移除连接
+            foreach (var rod in _pinRods)
+            {
+                world.ContactGenerators.Remove(rod);
+            }
+            _pinRods.Clear();
+            // 恢复速度
+            foreach (var vertex in _vertexs)
+            {
+                vertex.Velocity = Velocity;
+            }
         }
         #endregion
     }
