@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Physics2D.Object.Tools
 {
-    interface IPin
+    public interface IPin
     {
         /// <summary>
         /// 把自己固定到物理世界中
