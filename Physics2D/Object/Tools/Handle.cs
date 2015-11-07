@@ -16,14 +16,12 @@ namespace Physics2D.Object.Tools
         public Vector2D Position
         {
             get { return _position; }
-            set
-            {
-                if(value != _position)
-                {
-                    _position = value;
-                    SetProperty(ref _position, value);
-                }
-            }
+            set { SetProperty(ref _position, value); }
+        }
+
+        public Handle(Vector2D position)
+        {
+            _position = position;
         }
 
         protected bool SetProperty<T>(ref T storge, T value, [CallerMemberName]string propertyName = null)
