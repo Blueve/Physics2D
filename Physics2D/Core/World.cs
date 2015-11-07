@@ -5,6 +5,7 @@ using Physics2D.Factories;
 using Physics2D.Force;
 using Physics2D.Force.Zones;
 using Physics2D.Object;
+using Physics2D.Object.Tools;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -124,9 +125,7 @@ namespace Physics2D.Core
             RemoveObject(obj);
             obj.OnRemove(this);
         }
-        #endregion
 
-        #region 公开方法
         /// <summary>
         /// 向物理世界添加一条边
         /// </summary>
@@ -144,7 +143,20 @@ namespace Physics2D.Core
         {
             _edges.Remove(edge);
         }
-        
+
+        public Handle Pin(IPin obj, Vector2D position)
+        {
+            return obj.Pin(this, position);
+        }
+
+        public void UnPin(IPin obj)
+        {
+            obj.UnPin(this);
+        }
+
+        #endregion
+
+        #region 公开方法
         /// <summary>
         /// 按时间间隔更新整个物理世界
         /// </summary>
