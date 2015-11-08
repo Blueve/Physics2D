@@ -19,17 +19,16 @@ namespace Physics2D.Collision
             int iterationsUsed = 0;
             while(iterationsUsed++ < Iterations)
             {
-                // 找到分离速度最大的一组碰撞 优先处理
+                // 找到权值最大的一组碰撞 优先处理
                 double max = 0;
                 int maxI = contactList.Count;
                 for(int i = 0; i < contactList.Count; i++)
                 {
-                    // 计算分离速度
-                    // TODO: Need updete formula
-                    double sepV = contactList[i].CalculateSeparatingVelocity() - contactList[i].Penetration;
-                    if(sepV < max)
+                    // 计算权值 = 分离速度 * 时间 - 相交深度
+                    double weight = contactList[i].CalculateSeparatingVelocity() * duration - contactList[i].Penetration;
+                    if(weight < max)
                     {
-                        max = sepV;
+                        max = weight;
                         maxI = i;
                     }
                 }
@@ -42,7 +41,7 @@ namespace Physics2D.Collision
                 var maxItem = contactList[maxI];
                 var movementA = contactList[maxI].MovementA;
                 var movementB = contactList[maxI].MovementB;
-                contactList.ForEach(item =>
+                foreach(var item in contactList)
                 {
                     if (item.PA == maxItem.PA)
                     {
@@ -63,7 +62,7 @@ namespace Physics2D.Collision
                             item.Penetration += movementB * item.ContactNormal;
                         }
                     }
-                });
+                }
             }
         }
 
