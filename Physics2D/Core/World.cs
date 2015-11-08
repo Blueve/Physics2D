@@ -177,6 +177,7 @@ namespace Physics2D.Core
             if (_pins.ContainsKey(obj))
             {
                 obj.UnPin(this);
+                _pins[obj].Release();
                 _pins.Remove(obj);
             }
             else
@@ -184,7 +185,6 @@ namespace Physics2D.Core
                 //TODO: 应当抛出异常，不允许对未Pin的物体解除Pin
             }
         }
-
         #endregion
 
         #region 公开方法
