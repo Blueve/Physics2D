@@ -81,7 +81,7 @@ namespace Physics2D.Collision
 
             if (separatingVelocity > 0)
             {
-                // 两个物体已经分离或静止
+                // 两个物体正在分离
                 return;
             }
 
