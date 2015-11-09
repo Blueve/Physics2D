@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Physics2D.Collision.Shapes;
 using Physics2D.Common;
 using Physics2D.Object;
 using System;
@@ -9,7 +10,7 @@ namespace UnitTest.Object
     public class ParticleTest
     {
         [TestMethod]
-        public void TestParticleConstructor()
+        public void TestConstructor()
         {
             Particle obj = new Particle
             {
@@ -21,7 +22,7 @@ namespace UnitTest.Object
         }
 
         [TestMethod]
-        public void TestParticleSetMass()
+        public void TestSetMass()
         {
             Particle obj = new Particle
             {
@@ -56,7 +57,7 @@ namespace UnitTest.Object
         }
 
         [TestMethod]
-        public void TestParticleUpdate()
+        public void TestUpdate()
         {
             Particle obj = new Particle
             {
@@ -75,6 +76,19 @@ namespace UnitTest.Object
             Assert.AreEqual(new Vector2D(2, 0), obj.Position);
             Assert.AreEqual(new Vector2D(1, 0), obj.Velocity);
             Assert.AreEqual(new Vector2D(0, 0), obj.Acceleration);
+        }
+
+        [TestMethod]
+        public void TestBindShape()
+        {
+            Particle obj = new Particle
+            {
+                Position = new Vector2D(0, 50)
+            };
+            obj.BindShape(new Circle(10));
+
+            Assert.IsNotNull(obj.Shape as Circle);
+            Assert.IsTrue(obj.Shape.Body == obj);
         }
     }
 }
