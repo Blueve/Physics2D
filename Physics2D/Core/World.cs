@@ -6,6 +6,7 @@ using Physics2D.Force;
 using Physics2D.Force.Zones;
 using Physics2D.Object;
 using Physics2D.Object.Tools;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -163,7 +164,7 @@ namespace Physics2D.Core
             }
             else
             {
-                //TODO:应当抛出异常，不允许对同一物体Pin多次
+                throw new InvalidOperationException("Can't pin target object which was alreadly pinned.");
             }
             return _pins[obj];
         }
@@ -182,7 +183,7 @@ namespace Physics2D.Core
             }
             else
             {
-                //TODO: 应当抛出异常，不允许对未Pin的物体解除Pin
+                throw new InvalidOperationException("Can't unpin target object which was not pinned.");
             }
         }
         #endregion

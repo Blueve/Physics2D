@@ -9,6 +9,7 @@ using Physics2D.Collision.Basic;
 using Physics2D.Factories;
 using Physics2D.Common;
 using Physics2D.Object.Tools;
+using Physics2D.Common.Exceptions;
 
 namespace Physics2D.Object
 {
@@ -68,13 +69,20 @@ namespace Physics2D.Object
         /// <param name="mass"></param>
         /// <param name="restitution"></param>
         /// <param name="isClose"></param>
-        public CombinedParticle(IEnumerable<Vector2D> vertexs, Vector2D velocity, double mass, double restitution, bool isClose)
+        public CombinedParticle(List<Vector2D> vertexs, Vector2D velocity, double mass, double restitution, bool isClose)
         {
-            var num = vertexs.Count();
+            var num = vertexs.Count;
             if(num < 2)
             {
-                // TODO: 需要抛出异常
+                throw new InvalidArgumentException(
+                    $"Can't create a combined particle by given vertexs. vertexs.Count = {vertexs.Count}", nameof(vertexs));
             }
+            else if(isClose && num < 3)
+            {
+                throw new InvalidArgumentException(
+                    $"Can't create a closed combined particle by given vertexs. vertexs.Count = {vertexs.Count}", nameof(vertexs));
+            }
+
             foreach(var vertex in vertexs)
             {
                 _vertexs.Add(new Particle

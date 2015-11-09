@@ -9,6 +9,7 @@ using Physics2D.Core;
 using Physics2D.Object;
 using Physics2D.Collision.Shapes;
 using Physics2D.Common;
+using Physics2D.Common.Exceptions;
 
 namespace Physics2D.Factories
 {
@@ -59,7 +60,8 @@ namespace Physics2D.Factories
 
             if(points.Length < 3)
             {
-                //TODO:应当抛出异常
+                throw new InvalidArgumentException(
+                    $"Can't create a polygon by given points. points.Length = {points.Length}", nameof(points));
             }
 
             for(int i = 1; i < points.Length; i++)
@@ -67,7 +69,6 @@ namespace Physics2D.Factories
                 result.Add(world.CreateEdge(points[i - 1], points[i]));
             }
             result.Add(world.CreateEdge(points[points.Length - 1], points[0]));
-
             return result;
         }
 

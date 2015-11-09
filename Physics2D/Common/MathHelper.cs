@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Physics2D.Common.Exceptions;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Physics2D.Common
@@ -73,9 +74,11 @@ namespace Physics2D.Common
         {
             int count = 0;
             int num = vertexs.Count() - 1;
+            
             if (num < 3)
             {
-                // TODO: 应当抛出异常
+                // 当点集不能围成多边形时该函数永假
+                return false;
             }
             for(int i = 0; i < num; i++)
             {
