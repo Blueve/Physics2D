@@ -79,7 +79,7 @@ namespace Physics2D.Object
                     _inverseMass = 1.0 / value;
                 }
                 else
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("Particle's mass cannot be zero.");
             }
             get { return _mass; }
         }
