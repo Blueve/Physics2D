@@ -52,6 +52,7 @@
     <Compile Include="Collision\Shapes\Shape.cs" />
     <Compile Include="Collision\Shapes\Circle.cs" />
     <Compile Include="Collision\Shapes\ShapeType.cs" />
+    <Compile Include="Common\Exceptions\InvalidArgumentException.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\Vector2D.cs" />
     <Compile Include="ConvertUnits.cs" />
