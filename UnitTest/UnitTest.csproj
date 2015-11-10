@@ -57,6 +57,7 @@
     <Compile Include="Common\Vector2DTest.cs" />
     <Compile Include="Object\ParticleTest.cs" />
     <Compile Include="Object\Tools\HandleTest.cs" />
+    <Compile Include="Object\CombinedParticleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
