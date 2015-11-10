@@ -55,6 +55,10 @@
   <ItemGroup>
     <Compile Include="Common\MathHelperTest.cs" />
     <Compile Include="Common\Vector2DTest.cs" />
+    <Compile Include="Force\ParticleConstantForceTest.cs" />
+    <Compile Include="Force\ParticleDragTest.cs" />
+    <Compile Include="Force\ParticleElasticTest.cs" />
+    <Compile Include="Force\ParticleGravityTest.cs" />
     <Compile Include="Object\ParticleTest.cs" />
     <Compile Include="Object\Tools\HandleTest.cs" />
     <Compile Include="Object\CombinedParticleTest.cs" />
