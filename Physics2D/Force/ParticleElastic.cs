@@ -17,7 +17,7 @@ namespace Physics2D.Force
             _length = length;
         }
 
-        public void Add(Particle item)
+        public void LinkWith(Particle item)
         {
             _linked.Add(item);
         }
