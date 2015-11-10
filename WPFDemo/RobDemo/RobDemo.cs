@@ -57,14 +57,14 @@ namespace WPFDemo.RobDemo
 
         private Vector2D _mousePosition = Vector2D.Zero;
 
-        private Handle _pin;
+        private Handle _handle;
 
         public RobDemo(Image image)
             : base(image)
         {
             Settings.ContactIteration = 20;
 
-            _combinedParticle = new CombinedParticle(_vertexs, Vector2D.Zero, 3, 1, true);
+            _combinedParticle = new CombinedParticle(_vertexs, 3, 1, true);
             PhysicsWorld.AddCustomObject(_combinedParticle);
 
             // 为顶点绑定形状
@@ -87,10 +87,9 @@ namespace WPFDemo.RobDemo
         {
             if(_state == State.Pinned)
             {
-                var d = _mousePosition - _pin.Position;
+                var d = _mousePosition - _handle.Position;
                 _combinedParticle.Velocity = d / duration;
-                _combinedParticle.Position = d;
-                _pin.Position = _mousePosition;
+                _handle.Position = _mousePosition;
             }
 
             PhysicsWorld.Update(duration);
@@ -104,7 +103,7 @@ namespace WPFDemo.RobDemo
                          select v.Position;
             if (_state != State.Down && MathHelper.IsInside(points.ToList(), _mousePosition))
             {
-                _pin = PhysicsWorld.Pin(_combinedParticle, _mousePosition);
+                _handle = PhysicsWorld.Pin(_combinedParticle, _mousePosition);
                 _state = State.Pinned;
             }
             else
