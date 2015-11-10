@@ -69,7 +69,7 @@ namespace Physics2D.Object
         /// <param name="mass"></param>
         /// <param name="restitution"></param>
         /// <param name="isClose"></param>
-        public CombinedParticle(List<Vector2D> vertexs, Vector2D velocity, double mass, double restitution, bool isClose)
+        public CombinedParticle(List<Vector2D> vertexs, double mass = 1, double restitution = 1, bool isClose = true)
         {
             var num = vertexs.Count;
             if(num < 2)
@@ -88,7 +88,6 @@ namespace Physics2D.Object
                 _vertexs.Add(new Particle
                 {
                     Position = vertex,
-                    Velocity = velocity,
                     Mass = mass / num,
                     Restitution = restitution
                 });
@@ -157,13 +156,8 @@ namespace Physics2D.Object
         #endregion
 
         #region 固定物体接口实现
-        /// <summary>
-        /// 让该物体与指定Pin点连接
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="position"></param>
-        /// <returns></returns>
-        public Particle Pin(World world, Vector2D position)
+
+        Handle IPin.Pin(World world, Vector2D position)
         {
             var pin = new Particle
             {
@@ -171,59 +165,22 @@ namespace Physics2D.Object
                 InverseMass = 0
             };
 
-            // 对于封闭图形，任意连接两个点即可固定住形状
+            // 对于封闭图形，任意连接三个点即可固定住形状
             // 对于不封闭图形，需要每个点都连接才可固定
-            var N = _isClose ? 2 : _vertexs.Count;
-            for(int i = 0; i < N; i++)
+            var N = _isClose ? 3 : _vertexs.Count;
+            for (int i = 0; i < N; i++)
             {
                 _pinRods.Add(world.CreateRod(_vertexs[i], pin));
             }
-            
-            return pin;
-        }
-
-        /// <summary>
-        /// 取消该物体与所有Pin的连接
-        /// </summary>
-        /// <param name="world"></param>
-        public void UnPin(World world)
-        {
-            // 移除连接
-            foreach(var rod in _pinRods)
-            {
-                world.ContactGenerators.Remove(rod);
-            }
-            _pinRods.Clear();
-            // 恢复速度
-            foreach (var vertex in _vertexs)
-            {
-                vertex.Velocity = Velocity;
-            }
-        }
-
-        private Particle _pin;
-
-        Handle IPin.Pin(World world, Vector2D position)
-        {
-            _pin = new Particle
-            {
-                Position = position,
-                InverseMass = 0
-            };
-
-            // 对于封闭图形，任意连接两个点即可固定住形状
-            // 对于不封闭图形，需要每个点都连接才可固定
-            var N = _isClose ? 2 : _vertexs.Count;
-            for (int i = 0; i < N; i++)
-            {
-                _pinRods.Add(world.CreateRod(_vertexs[i], _pin));
-            }
 
             var handle = new Handle(position);
-            handle.PropertyChanged += 
-                (obj, e) => {
-                    _pin.Position = ((Handle)obj).Position;
-                    };
+            handle.PropertyChanged += (obj, e) => 
+            {
+                var p = ((Handle)obj).Position;
+                var d = p - pin.Position;
+                Position = d;
+                pin.Position = p;
+            };
 
             return handle;
         }

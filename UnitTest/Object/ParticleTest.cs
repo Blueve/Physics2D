@@ -40,15 +40,12 @@ namespace UnitTest.Object
             // Zero
             try
             {
-                obj.Mass = 0f;
+                obj.Mass = 0;
             }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.IsNotNull(ex);
-            }
+            catch (ArgumentOutOfRangeException) { }
             catch (Exception)
             {
-                throw new AssertFailedException();
+                Assert.Fail();
             }
 
             obj.InverseMass = 0;

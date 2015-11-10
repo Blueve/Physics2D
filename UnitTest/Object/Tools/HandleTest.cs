@@ -11,10 +11,10 @@ namespace UnitTest.Object.Tools
         [TestMethod]
         public void TestConstructor()
         {
-            Handle handle = new Handle(new Vector2D(0, 0));
+            Handle handle = new Handle(new Vector2D(1, 0));
 
             Assert.IsNotNull(handle);
-            Assert.AreEqual(new Vector2D(0, 0), handle.Position);
+            Assert.AreEqual(new Vector2D(1, 0), handle.Position);
         }
 
         [TestMethod]

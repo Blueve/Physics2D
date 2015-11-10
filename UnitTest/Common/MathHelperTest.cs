@@ -64,9 +64,10 @@ namespace UnitTest.Common
             {
                 MathHelper.IsInside(vertexs, new Vector2D(25, 25));
             }
-            catch(InvalidArgumentException e)
+            catch(InvalidArgumentException) { }
+            catch(Exception)
             {
-                Assert.AreEqual("vertexs", e.ParamName);
+                Assert.Fail();
             }
         }
     }
