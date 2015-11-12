@@ -53,6 +53,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Collision\Shapes\CircleTest.cs" />
+    <Compile Include="Collision\Shapes\EdgeTest.cs" />
+    <Compile Include="Collision\Shapes\PointTest.cs" />
+    <Compile Include="Collision\Shapes\ShapeTest.cs" />
+    <Compile Include="Collision\ParticleContactResolverTest.cs" />
     <Compile Include="Common\MathHelperTest.cs" />
     <Compile Include="Common\Vector2DTest.cs" />
     <Compile Include="Force\ParticleConstantForceTest.cs" />
