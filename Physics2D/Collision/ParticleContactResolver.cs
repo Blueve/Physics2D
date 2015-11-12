@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+[assembly: InternalsVisibleTo("UnitTest")]
+
 namespace Physics2D.Collision
 {
+    
     internal class ParticleContactResolver
     {
         public ParticleContactResolver(int iterations)
@@ -19,7 +23,7 @@ namespace Physics2D.Collision
             int iterationsUsed = 0;
             while(iterationsUsed++ < Iterations)
             {
-                // 找到权值最大的一组碰撞 优先处理
+                // 找到权值最小（碰撞程度最为严重）的一组碰撞 优先处理
                 double max = 0;
                 int maxI = contactList.Count;
                 for(int i = 0; i < contactList.Count; i++)
@@ -49,7 +53,7 @@ namespace Physics2D.Collision
                     }
                     else if (item.PA == maxItem.PB)
                     {
-                        item.Penetration -= movementB*item.ContactNormal;
+                        item.Penetration -= movementB * item.ContactNormal;
                     }
                     if (item.PB != null)
                     {
