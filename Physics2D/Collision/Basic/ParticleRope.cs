@@ -32,14 +32,7 @@ namespace Physics2D.Collision.Basic
 
             var normal = (PB.Position - PA.Position).Normalize();
 
-            yield return new ParticleContact
-            {
-                PA = PA,
-                PB = PB,
-                Restitution = Restitution,
-                ContactNormal = normal,
-                Penetration = length - MaxLength
-            };
+            yield return new ParticleContact(PA, PB, Restitution, length - MaxLength, normal);
         }
     }
 }

@@ -47,14 +47,8 @@ namespace UnitTest.Collision
                     Mass = 1
                 }
             };
-            var contact = new ParticleContact
-            {
-                PA = p[0],
-                PB = p[1],
-                ContactNormal = new Vector2D(-1, 0),
-                Penetration = 1,
-                Restitution = 1
-            };
+            var contact = new ParticleContact(p[0], p[1], 1, 1, new Vector2D(-1, 0));
+
             var contactList = new List<ParticleContact>();
             resolver.ResolveContacts(contactList, 1 / 60.0);
             
@@ -81,14 +75,7 @@ namespace UnitTest.Collision
             };
             contactList = new List<ParticleContact>
             {
-                new ParticleContact
-                {
-                    PA = p[1],
-                    PB = p[0],
-                    ContactNormal = new Vector2D(1, 0),
-                    Penetration = 1,
-                    Restitution = 1
-                }
+                new ParticleContact(p[1], p[0], 1, 1, new Vector2D(1, 0))
             };
             resolver.ResolveContacts(contactList, 1 / 60.0);
             Assert.AreEqual(new Vector2D(-1, 0), p[0].Position, "函数满足对称性");
@@ -98,6 +85,7 @@ namespace UnitTest.Collision
             
         }
 
+        [TestMethod]
         public void TestResovleMultiContacts()
         {
             var resolver = new ParticleContactResolver(100);
@@ -124,22 +112,8 @@ namespace UnitTest.Collision
             };
             var contactList = new List<ParticleContact>
             {
-                new ParticleContact
-                {
-                    PA = p[0],
-                    PB = p[1],
-                    ContactNormal = new Vector2D(-1, 0),
-                    Penetration = 1,
-                    Restitution = 1
-                },
-                new ParticleContact
-                {
-                    PA = p[2],
-                    PB = p[1],
-                    ContactNormal = new Vector2D(1, 0),
-                    Penetration = 1,
-                    Restitution = 1
-                }
+                new ParticleContact(p[0], p[1], 1, 1, new Vector2D(-1, 0)),
+                new ParticleContact(p[2], p[1], 1, 1, new Vector2D(1, 0))
             };
             resolver.ResolveContacts(contactList, 1 / 60.0);
             Assert.AreEqual(new Vector2D(-1, 0), p[0].Position, "物体0向左分离");
@@ -174,22 +148,8 @@ namespace UnitTest.Collision
             };
             var contactList = new List<ParticleContact>
             {
-                new ParticleContact
-                {
-                    PA = p[0],
-                    PB = p[1],
-                    ContactNormal = new Vector2D(-1, 0),
-                    Penetration = 1,
-                    Restitution = 1
-                },
-                new ParticleContact
-                {
-                    PA = p[1],
-                    PB = p[2],
-                    ContactNormal = new Vector2D(-1, 0),
-                    Penetration = 0,
-                    Restitution = 1
-                }
+                new ParticleContact(p[0], p[1], 1, 1, new Vector2D(-1, 0)),
+                new ParticleContact(p[1], p[2], 1, 0, new Vector2D(-1, 0))
             };
             resolver.ResolveContacts(contactList, 1 / 60.0);
             Assert.AreEqual(new Vector2D(-1, 0), p[0].Position, "物体0向左分离");

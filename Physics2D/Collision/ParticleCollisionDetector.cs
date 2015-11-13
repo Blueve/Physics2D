@@ -30,14 +30,11 @@ namespace Physics2D.Collision
 
             if (d >= l) return 0;
             // 产生一组碰撞
-            contact = new ParticleContact
-            {
-                PA = A.Body,
-                PB = B.Body,
-                Restitution = (A.Body.Restitution + B.Body.Restitution) / 2,
-                Penetration = (l - d) / 2,
-                ContactNormal = (A.Body.Position - B.Body.Position).Normalize()
-            };
+            contact = new ParticleContact(
+                A.Body, B.Body, 
+                (A.Body.Restitution + B.Body.Restitution) / 2, 
+                (l - d) / 2, 
+                (A.Body.Position - B.Body.Position).Normalize());
             return 1;
         }
 
@@ -63,13 +60,7 @@ namespace Physics2D.Collision
                 var normal = BA * (circle.Body.PrePosition - edge.PointA) * BA / BA.LengthSquared();
                 normal = (circle.Body.PrePosition - edge.PointA) - normal;
 
-                contact = new ParticleContact
-                {
-                    PA = circle.Body,
-                    Restitution = circle.Body.Restitution,
-                    Penetration = circle.R,
-                    ContactNormal = normal.Normalize()
-                };
+                contact = new ParticleContact(circle.Body, null, circle.Body.Restitution, circle.R, normal.Normalize());
                 return 1;
             }
 
@@ -86,13 +77,7 @@ namespace Physics2D.Collision
                 var d = normal.Length();
                 if (circle.R > d)
                 {
-                    contact = new ParticleContact
-                    {
-                        PA = circle.Body,
-                        Restitution = circle.Body.Restitution,
-                        Penetration = circle.R - d,
-                        ContactNormal = normal.Normalize()
-                    };
+                    contact = new ParticleContact(circle.Body, null, circle.Body.Restitution, circle.R - d, normal.Normalize());
                     return 1;
                 }
                 
@@ -104,13 +89,11 @@ namespace Physics2D.Collision
                 var dBO = (circle.Body.Position - edge.PointB).LengthSquared();
                 if (circle.R * circle.R > Math.Min(dAO, dBO))
                 {
-                    contact = new ParticleContact
-                    {
-                        PA = circle.Body,
-                        Restitution = circle.Body.Restitution,
-                        Penetration = circle.R - Math.Sqrt(dAO < dBO ? dAO : dBO),
-                        ContactNormal = circle.Body.Position - (dAO < dBO ? edge.PointA : edge.PointB)
-                    };
+                    contact = new ParticleContact(
+                        circle.Body, null, 
+                        circle.Body.Restitution, 
+                        circle.R - Math.Sqrt(dAO < dBO ? dAO : dBO), 
+                        circle.Body.Position - (dAO < dBO ? edge.PointA : edge.PointB));
                     return 1;
                 }
             }

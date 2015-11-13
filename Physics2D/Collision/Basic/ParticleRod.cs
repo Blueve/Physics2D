@@ -33,14 +33,7 @@ namespace Physics2D.Collision.Basic
                 penetration *= -1;
             }
 
-            yield return new ParticleContact
-            {
-                PA = PA,
-                PB = PB,
-                ContactNormal = normal,
-                Restitution = 0,
-                Penetration = penetration
-            };
+            yield return new ParticleContact(PA, PB, 0, penetration, normal);
         }
     }
 }
