@@ -11,7 +11,7 @@ namespace Physics2D.Collision
 {
     public class ParticleContact
     {
-        #region 公共属性
+        #region 公共字段
         /// <summary>
         /// 接触物体A
         /// </summary>
@@ -46,6 +46,22 @@ namespace Physics2D.Collision
         /// 物体B的移动
         /// </summary>
         public Vector2D MovementB;
+        #endregion
+
+        #region 构造方法
+        public ParticleContact(
+            PhysicsObject a, PhysicsObject b, 
+            double restitution, 
+            double penetration, 
+            Vector2D contactNormal)
+        {
+            PA = a;
+            PB = b;
+            Restitution = restitution;
+            Penetration = penetration;
+            ContactNormal = contactNormal;
+            MovementA = MovementB = Vector2D.Zero;
+        }
         #endregion
 
         #region 公开方法
@@ -117,15 +133,14 @@ namespace Physics2D.Collision
                 // 静态碰撞的处理
 
                 // 计算PA在碰撞法线上的速度分量
-                var vP = PA.Velocity * ContactNormal;
-                // 计算PA加速度在未来产生的速度在碰撞法线上的分量
-                var vF = PA.Acceleration * duration * ContactNormal;
-                if (Math.Abs(vP + vF) < Math.Abs(vF))
-                {
-                    PA.Velocity -= vP * ContactNormal;
-                }
+                //var vP = PA.Velocity * ContactNormal;
+                //// 计算PA加速度在未来产生的速度在碰撞法线上的分量
+                //var vF = PA.Acceleration * duration * ContactNormal;
+                //if (Math.Abs(vP + vF) < Math.Abs(vF))
+                //{
+                //    PA.Velocity -= vP * ContactNormal;
+                //}
             }
-
         }
 
         /// <summary>
