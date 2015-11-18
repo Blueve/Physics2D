@@ -65,6 +65,7 @@
     <Compile Include="Force\ParticleDragTest.cs" />
     <Compile Include="Force\ParticleElasticTest.cs" />
     <Compile Include="Force\ParticleGravityTest.cs" />
+    <Compile Include="Force\Zones\GlobalZoneTest.cs" />
     <Compile Include="Object\ParticleTest.cs" />
     <Compile Include="Object\Tools\HandleTest.cs" />
     <Compile Include="Object\CombinedParticleTest.cs" />
