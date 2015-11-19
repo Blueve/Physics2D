@@ -53,6 +53,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Collision\Basic\ParticleRopeTest.cs" />
+    <Compile Include="Collision\Basic\ParticleRodTest.cs" />
     <Compile Include="Collision\Shapes\CircleTest.cs" />
     <Compile Include="Collision\Shapes\EdgeTest.cs" />
     <Compile Include="Collision\Shapes\PointTest.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Force\ParticleElasticTest.cs" />
     <Compile Include="Force\ParticleGravityTest.cs" />
     <Compile Include="Force\Zones\GlobalZoneTest.cs" />
+    <Compile Include="Force\Zones\RectangleZoneTest.cs" />
     <Compile Include="Object\ParticleTest.cs" />
     <Compile Include="Object\Tools\HandleTest.cs" />
     <Compile Include="Object\CombinedParticleTest.cs" />
