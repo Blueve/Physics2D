@@ -237,5 +237,47 @@ namespace UnitTest.Collision
             Assert.AreEqual(new Vector2D(-1, 0), p[0].Position, "物体0后退");
             Assert.AreEqual(new Vector2D(2, 0), p[1].Position, "物体1位置不变");
         }
+
+        [TestMethod]
+        public void TestResolveInterpenetrationWithTwoFixedObject()
+        {
+            var p = new List<Particle>
+            {
+                new Particle
+                {
+                    Position = new Vector2D(0, 0),
+                    Velocity = new Vector2D(1, 0),
+                    InverseMass = 0
+                },
+                new Particle
+                {
+                    Position = new Vector2D(2, 0),
+                    Velocity = new Vector2D(0, 0),
+                    InverseMass = 0
+                }
+            };
+            var contact = new ParticleContact(p[0], p[1], 0.5, 1, new Vector2D(-1, 0));
+            var resolveVelocity = new PrivateObject(contact);
+            resolveVelocity.Invoke("ResolveInterpenetration", 1 / 60.0);
+
+            Assert.AreEqual(new Vector2D(0, 0), p[0].Position, "物体0位置不变");
+            Assert.AreEqual(new Vector2D(2, 0), p[1].Position, "物体1位置不变");
+        }
+
+        [TestMethod]
+        public void TestResolveInterpenetrationWithOneStaticObject()
+        {
+            var p = new Particle
+            {
+                Position = new Vector2D(0, 0),
+                Velocity = new Vector2D(0, 0),
+                Mass = 1
+            };
+            var contact = new ParticleContact(p, null, 1, 1, new Vector2D(-1, 0));
+            var resolveVelocity = new PrivateObject(contact);
+            resolveVelocity.Invoke("ResolveInterpenetration", 1 / 60.0);
+
+            Assert.AreEqual(new Vector2D(-1, 0), p.Position);
+        }
     }
 }
