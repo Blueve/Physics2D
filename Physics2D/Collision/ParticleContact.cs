@@ -156,6 +156,10 @@ namespace Physics2D.Collision
             double vB = Math.Abs(PB?.Velocity * ContactNormal ?? .0);
             var totalVec = vA + vB;
 
+            // 不处理两个均为固定或常速运动的物体
+            double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? 0);
+            if (totalInverseMass <= 0) return;
+
             // 两质体速度和不为0时根据速度将物体分离
             if (Math.Abs(totalVec) > Settings.Percision)
             {
@@ -166,10 +170,6 @@ namespace Physics2D.Collision
             // 两质体速度和为0时根据质量将物体分离
             else
             {
-                // 不处理两个均为固定或常速运动的物体
-                double totalInverseMass = PA.InverseMass + (PB?.InverseMass ?? 0);
-                if (totalInverseMass <= 0) return;
-
                 var movePerIMass = ContactNormal * (Penetration / totalInverseMass);
 
                 MovementA = PA.InverseMass * movePerIMass;
