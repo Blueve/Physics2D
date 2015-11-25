@@ -7,11 +7,11 @@ namespace Physics2D.Collision.Basic
         /// <summary>
         /// 质体A
         /// </summary>
-        public Particle PA;
+        public Particle ParticleA;
         /// <summary>
         /// 质体B
         /// </summary>
-        public Particle PB;
+        public Particle ParticleB;
 
         /// <summary>
         /// 返回当前连接的长度
@@ -19,7 +19,7 @@ namespace Physics2D.Collision.Basic
         /// <returns></returns>
         protected double CurrentLength()
         {
-            return (PA.Position - PB.Position).Length();
+            return (ParticleA.Position - ParticleB.Position).Length();
         }
     }
 }

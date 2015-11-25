@@ -16,8 +16,8 @@ namespace UnitTest.Collision.Basic
             var pB = new Particle { Mass = 1, Position = new Vector2D(5, 0) };
             var rod = new ParticleRod(pA, pB);
             
-            Assert.AreEqual(pA, rod.PA);
-            Assert.AreEqual(pB, rod.PB);
+            Assert.AreEqual(pA, rod.ParticleA);
+            Assert.AreEqual(pB, rod.ParticleB);
         }
 
         [TestMethod]

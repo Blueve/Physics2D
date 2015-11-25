@@ -19,8 +19,8 @@ namespace Physics2D.Collision.Basic
         {
             MaxLength = maxLength;
             Restitution = restitution;
-            PA = pA;
-            PB = pB;
+            ParticleA = pA;
+            ParticleB = pB;
         }
 
         public override IEnumerator<ParticleContact> GetEnumerator()
@@ -30,9 +30,9 @@ namespace Physics2D.Collision.Basic
             // 未超过绳索长度
             if (length < MaxLength) yield break;
 
-            var normal = (PB.Position - PA.Position).Normalize();
+            var normal = (ParticleB.Position - ParticleA.Position).Normalize();
 
-            yield return new ParticleContact(PA, PB, Restitution, length - MaxLength, normal);
+            yield return new ParticleContact(ParticleA, ParticleB, Restitution, length - MaxLength, normal);
         }
     }
 }

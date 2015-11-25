@@ -17,8 +17,8 @@ namespace UnitTest.Collision.Basic
             var rope = new ParticleRope(10, 0.5, pA, pB);
 
             Assert.AreEqual(10, rope.MaxLength);
-            Assert.AreEqual(pA, rope.PA);
-            Assert.AreEqual(pB, rope.PB);
+            Assert.AreEqual(pA, rope.ParticleA);
+            Assert.AreEqual(pB, rope.ParticleB);
             Assert.AreEqual(0.5, rope.Restitution);
         }
 

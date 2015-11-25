@@ -13,8 +13,8 @@ namespace Physics2D.Collision.Basic
         public ParticleRod(Particle pA, Particle pB)
         {
             Length = (pB.Position - pA.Position).Length();
-            PA = pA;
-            PB = pB;
+            ParticleA = pA;
+            ParticleB = pB;
         }
 
 
@@ -25,7 +25,7 @@ namespace Physics2D.Collision.Basic
 
             if (penetration == 0) yield break;
 
-            var normal = (PB.Position - PA.Position).Normalize();
+            var normal = (ParticleB.Position - ParticleA.Position).Normalize();
 
             if (length <= Length)
             {
@@ -33,7 +33,7 @@ namespace Physics2D.Collision.Basic
                 penetration *= -1;
             }
 
-            yield return new ParticleContact(PA, PB, 0, penetration, normal);
+            yield return new ParticleContact(ParticleA, ParticleB, 0, penetration, normal);
         }
     }
 }
