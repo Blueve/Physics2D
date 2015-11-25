@@ -54,7 +54,7 @@ namespace Physics2D.Factories
         /// <param name="world"></param>
         /// <param name="points">多边形点集(逆时针)</param>
         /// <returns></returns>
-        public static IEnumerable<Edge> CreatPolygonEdge(this World world, params Vector2D[] points)
+        public static IEnumerable<Edge> CreatePolygonEdge(this World world, params Vector2D[] points)
         {
             List<Edge> result = new List<Edge>();
 

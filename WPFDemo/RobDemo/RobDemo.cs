@@ -74,7 +74,7 @@ namespace WPFDemo.RobDemo
             }
 
             // 增加边缘
-            PhysicsWorld.CreatPolygonEdge(_edgePoints.ToArray());
+            PhysicsWorld.CreatePolygonEdge(_edgePoints.ToArray());
 
             // 增加重力
             PhysicsWorld.CreateGravity(9.8);
@@ -149,8 +149,8 @@ namespace WPFDemo.RobDemo
             foreach (var e in _combinedParticle.PinRods)
             {
                 bitmap.DrawLineAa(
-                    e.PA.Position.X.ToDisplayUnits(), e.PA.Position.Y.ToDisplayUnits(),
-                    e.PB.Position.X.ToDisplayUnits(), e.PB.Position.Y.ToDisplayUnits(), Colors.Red);
+                    e.ParticleA.Position.X.ToDisplayUnits(), e.ParticleA.Position.Y.ToDisplayUnits(),
+                    e.ParticleB.Position.X.ToDisplayUnits(), e.ParticleB.Position.Y.ToDisplayUnits(), Colors.Red);
             }
         }
     }
