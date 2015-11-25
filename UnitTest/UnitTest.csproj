@@ -63,6 +63,7 @@
     <Compile Include="Collision\ParticleContactTest.cs" />
     <Compile Include="Common\MathHelperTest.cs" />
     <Compile Include="Common\Vector2DTest.cs" />
+    <Compile Include="Factories\ContactFactoryTest.cs" />
     <Compile Include="Force\ParticleConstantForceTest.cs" />
     <Compile Include="Force\ParticleDragTest.cs" />
     <Compile Include="Force\ParticleElasticTest.cs" />
