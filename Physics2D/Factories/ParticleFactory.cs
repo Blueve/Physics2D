@@ -59,7 +59,7 @@ namespace Physics2D.Factories
         /// <param name="p">初位置</param>
         /// <param name="v">初速度</param>
         /// <returns></returns>
-        public static Particle CreateFixedParticle(this World world, Vector2D p, Vector2D v)
+        public static Particle CreateUnstoppableParticle(this World world, Vector2D p, Vector2D v)
         {
             var particle = new Particle
             {
