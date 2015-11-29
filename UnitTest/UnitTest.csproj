@@ -65,6 +65,7 @@
     <Compile Include="Common\Vector2DTest.cs" />
     <Compile Include="Factories\ContactFactoryTest.cs" />
     <Compile Include="Factories\ParticleFactoryTest.cs" />
+    <Compile Include="Factories\ZoneFactoryTest.cs" />
     <Compile Include="Force\ParticleConstantForceTest.cs" />
     <Compile Include="Force\ParticleDragTest.cs" />
     <Compile Include="Force\ParticleElasticTest.cs" />
