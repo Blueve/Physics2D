@@ -18,24 +18,20 @@ namespace Physics2D.Collision
         /// <param name="B"></param>
         /// <param name="contact"></param>
         /// <returns></returns>
-        public static int CircleAndCircle(Circle A, Circle B, out ParticleContact contact)
+        public static ParticleContact CircleAndCircle(Circle A, Circle B)
         {
-            contact = null;
-            if (((Particle)A.Body).IsTransparent || ((Particle)B.Body).IsTransparent)
-                return 0;
-
             var d = (A.Body.Position - B.Body.Position).Length();
             // 碰撞检测
             var l = A.R + B.R;
 
-            if (d >= l) return 0;
+            if (d >= l) return null;
+
             // 产生一组碰撞
-            contact = new ParticleContact(
+            return new ParticleContact(
                 A.Body, B.Body, 
                 (A.Body.Restitution + B.Body.Restitution) / 2, 
-                (l - d) / 2, 
+                l - d, 
                 (A.Body.Position - B.Body.Position).Normalize());
-            return 1;
         }
 
         /// <summary>
@@ -45,10 +41,8 @@ namespace Physics2D.Collision
         /// <param name="edge"></param>
         /// <param name="contact"></param>
         /// <returns></returns>
-        public static int CircleAndEdge(Circle circle, Edge edge, out ParticleContact contact)
+        public static ParticleContact CircleAndEdge(Circle circle, Edge edge)
         {
-            contact = null;
-
             var BA = edge.PointB - edge.PointA;
             var intersectionPoint = MathHelper.LineIntersection(circle.Body.PrePosition, circle.Body.Position, edge.PointA, edge.PointB);
 
@@ -60,8 +54,7 @@ namespace Physics2D.Collision
                 var normal = BA * (circle.Body.PrePosition - edge.PointA) * BA / BA.LengthSquared();
                 normal = (circle.Body.PrePosition - edge.PointA) - normal;
 
-                contact = new ParticleContact(circle.Body, null, circle.Body.Restitution, circle.R, normal.Normalize());
-                return 1;
+                return new ParticleContact(circle.Body, null, circle.Body.Restitution, circle.R, normal.Normalize());
             }
 
             // 若未发生穿越则计算
@@ -73,12 +66,25 @@ namespace Physics2D.Collision
                 // 圆心的投影在线上
                 var normal = BA * (circle.Body.Position - edge.PointA) * BA / BA.LengthSquared();
                 normal = (circle.Body.Position - edge.PointA) - normal;
+
+                // TODO: 处理穿越情况
+                //// 圆前一帧的位置到边沿及其延长线的法线
+                //var preNormal = BA * (circle.Body.PrePosition - edge.PointA) * BA / BA.LengthSquared();
+                //preNormal = (circle.Body.PrePosition - edge.PointA) - normal;
+                //preNormal.Normalize();
+
                 // 线到圆心的距离
                 var d = normal.Length();
                 if (circle.R > d)
                 {
-                    contact = new ParticleContact(circle.Body, null, circle.Body.Restitution, circle.R - d, normal.Normalize());
-                    return 1;
+                    //normal.Normalize();
+                    //if (normal * preNormal < 0)
+                    //    normal = preNormal;
+                    return new ParticleContact(
+                        circle.Body, null, 
+                        circle.Body.Restitution, 
+                        circle.R - d, 
+                        normal.Normalize());
                 }
                 
             }
@@ -89,16 +95,16 @@ namespace Physics2D.Collision
                 var dBO = (circle.Body.Position - edge.PointB).LengthSquared();
                 if (circle.R * circle.R > Math.Min(dAO, dBO))
                 {
-                    contact = new ParticleContact(
+                    var normal = circle.Body.Position - (dAO < dBO ? edge.PointA : edge.PointB);
+                    return new ParticleContact(
                         circle.Body, null, 
                         circle.Body.Restitution, 
                         circle.R - Math.Sqrt(dAO < dBO ? dAO : dBO), 
-                        circle.Body.Position - (dAO < dBO ? edge.PointA : edge.PointB));
-                    return 1;
+                        normal.Normalize());
                 }
             }
             
-            return 0;
+            return null;
         }
     }
 }
