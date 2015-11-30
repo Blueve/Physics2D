@@ -82,10 +82,10 @@ namespace Physics2D.Core
             switch(type)
             {
                 case ContactType.CircleAndCircle:
-                    ParticleCollisionDetector.CircleAndCircle(sharpA as Circle, sharpB as Circle, out contact);
+                    contact = ParticleCollisionDetector.CircleAndCircle(sharpA as Circle, sharpB as Circle);
                     break;
                 case ContactType.CircleAndEdge:
-                    ParticleCollisionDetector.CircleAndEdge(sharpA as Circle, sharpB as Edge, out contact);
+                    contact = ParticleCollisionDetector.CircleAndEdge(sharpA as Circle, sharpB as Edge);
                     break;
                 case ContactType.CircleAndBox:
                     break;
