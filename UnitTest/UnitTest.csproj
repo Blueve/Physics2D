@@ -61,6 +61,7 @@
     <Compile Include="Collision\Shapes\ShapeTest.cs" />
     <Compile Include="Collision\ParticleContactResolverTest.cs" />
     <Compile Include="Collision\ParticleContactTest.cs" />
+    <Compile Include="Collision\ParticleCollisionDetectorTest.cs" />
     <Compile Include="Common\MathHelperTest.cs" />
     <Compile Include="Common\Vector2DTest.cs" />
     <Compile Include="Factories\ContactFactoryTest.cs" />
