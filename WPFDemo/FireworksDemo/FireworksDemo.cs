@@ -19,6 +19,9 @@ namespace WPFDemo.FireworksDemo
 
     public class FireworksDemo : PhysicsGraphic, IDrawable
     {
+        /// <summary>
+        /// 选项状态枚举
+        /// </summary>
         public enum PhysicsType
         {
             None,
@@ -26,8 +29,19 @@ namespace WPFDemo.FireworksDemo
             Wind
         }
 
+        /// <summary>
+        /// 粒子半径
+        /// </summary>
         public const int BallSize = 4;
+
+        /// <summary>
+        /// 当前选项
+        /// </summary>
         private PhysicsType _type = PhysicsType.None;
+
+        /// <summary>
+        /// 当前选项
+        /// </summary>
         public PhysicsType Type
         {
             get
@@ -58,8 +72,16 @@ namespace WPFDemo.FireworksDemo
         private readonly Zone _dragZone;
         private readonly Zone _windZone;
 
-        // 粒子队列
+        /// <summary>
+        /// 物体列表
+        /// </summary>
         private readonly List<Particle> _objList = new List<Particle>();
+
+        /// <summary>
+        /// 粒子形状Id
+        /// 所有粒子都使用相同的Id，从而使粒子之间可以交叠
+        /// </summary>
+        private readonly int _shapeId = Shape.NewId();
 
         private const int WorldHeight = 400;
         private const int WorldWidth = 500;
@@ -170,19 +192,21 @@ namespace WPFDemo.FireworksDemo
                 //    250.ToSimUnits(),
                 //    300.ToSimUnits());
                 Slot = 1 / 60.0;
+
+
             }
 
             var rnd = new Random();
-
+            
             for (int i = 0; i < 10; i++)
             {
                 var paritcle = PhysicsWorld.CreateParticle
                 (
                     new Vector2D(x, y),
                     new Vector2D(rnd.NextDouble() * 6 - 3, rnd.NextDouble() * 6 - 3),
-                    1f, 0.1, true
+                    1f, 0.1
                 );
-                paritcle.BindShape(new Circle(BallSize.ToSimUnits()));
+                paritcle.BindShape(new Circle(BallSize.ToSimUnits(), _shapeId));
                 _objList.Add(paritcle);
             }
         }
