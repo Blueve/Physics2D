@@ -19,7 +19,9 @@ namespace Physics2D.Factories
         /// <param name="world">物理世界</param>
         /// <param name="particleForceGenerator">作用力发生器</param>
         /// <returns></returns>
-        public static GlobalZone CreateGlobalZone(this World world, ParticleForceGenerator particleForceGenerator)
+        public static GlobalZone CreateGlobalZone(
+            this World world, 
+            ParticleForceGenerator particleForceGenerator)
         {
             var zone = new GlobalZone();
             return world.CreateZone(zone, particleForceGenerator);
@@ -67,7 +69,11 @@ namespace Physics2D.Factories
         /// <param name="zone"></param>
         /// <param name="particleForceGenerator"></param>
         /// <returns></returns>
-        public static T CreateZone<T>(this World world, T zone, ParticleForceGenerator particleForceGenerator) where T : Zone
+        public static T CreateZone<T>(
+            this World world, 
+            T zone, 
+            ParticleForceGenerator particleForceGenerator) 
+            where T : Zone
         {
             zone.Add(particleForceGenerator);
             world.Zones.Add(zone);
