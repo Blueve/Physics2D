@@ -45,58 +45,7 @@ namespace Physics2D.Core
         /// </summary>
         private int _contactCounter = 0;
 
-        /// <summary>
-        /// 碰撞类型查询表
-        /// </summary>
-        private static readonly ContactType[,] ContactTypeMap = new[,]
-        {
-            {
-                ContactType.CircleAndCircle,
-                ContactType.CircleAndEdge,
-                ContactType.CircleAndBox
-            },
-            {
-                ContactType.CircleAndEdge,
-                ContactType.NotSupport,
-                ContactType.EdgeAndBox
-            },
-            {
-                ContactType.CircleAndBox,
-                ContactType.EdgeAndBox,
-                ContactType.BoxAndBox
-            }
-        };
-
-        /// <summary>
-        /// 根据碰撞类型为两个指定的形状执行碰撞检测
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="sharpA"></param>
-        /// <param name="sharpB"></param>
-        private void DispatchToDetector(ContactType type, Shape sharpA, Shape sharpB)
-        {
-            Debug.Assert(sharpA.Type <= sharpB.Type);
-
-            ParticleContact contact = null;
-
-            switch(type)
-            {
-                case ContactType.CircleAndCircle:
-                    contact = ParticleCollisionDetector.CircleAndCircle(sharpA as Circle, sharpB as Circle);
-                    break;
-                case ContactType.CircleAndEdge:
-                    contact = ParticleCollisionDetector.CircleAndEdge(sharpA as Circle, sharpB as Edge);
-                    break;
-                case ContactType.CircleAndBox:
-                    break;
-                case ContactType.EdgeAndBox:
-                    break;
-                case ContactType.BoxAndBox:
-                    break;
-            }
-            if(contact != null)
-                AddToContactList(contact);
-        }
+        
 
         /// <summary>
         /// 向碰撞表中添加一个新的碰撞
@@ -114,11 +63,13 @@ namespace Physics2D.Core
         }
         #endregion
 
+        #region 构造方法
         public ContactRegistry(HashSet<PhysicsObject> objects, HashSet<Edge> edges)
         {
             _objects = objects;
             _edges = edges;
         }
+        #endregion
 
         #region 碰撞发生器的注册与注销
         /// <summary>
@@ -147,31 +98,13 @@ namespace Physics2D.Core
             {
                 _contactList.Clear();
 
+                List<Shape> shapes = CollectAllShapes(_objects, _edges);
+
                 // 执行质体碰撞检测器
-                var sharps = (from obj in _objects
-                             where /*obj is Particle &&*/ obj.Shape.Type != ShapeType.Point
-                             select obj.Shape).ToList();
-                sharps.AddRange(_edges);
-                
-                for (int indexA = 0; indexA < sharps.Count; indexA++)
+                var contacts = ExcuteParticleCollisionDetector(shapes);
+                while (contacts.MoveNext())
                 {
-                    for(int indexB = indexA + 1; indexB < sharps.Count; indexB++)
-                    {
-                        // 对形状标识符一致的物体不执行碰撞检测
-                        if (sharps[indexA].Id != 0 && sharps[indexA].Id == sharps[indexB].Id) continue;
-
-                        var typeA = sharps[indexA].Type;
-                        var typeB = sharps[indexB].Type;
-
-                        if(typeA <= typeB)
-                        {
-                            DispatchToDetector(ContactTypeMap[(int)typeA, (int)typeB], sharps[indexA], sharps[indexB]);
-                        }
-                        else
-                        {
-                            DispatchToDetector(ContactTypeMap[(int)typeA, (int)typeB], sharps[indexB], sharps[indexA]);
-                        }
-                    }
+                    AddToContactList(contacts.Current);
                 }
 
                 // 执行碰撞发生器
@@ -185,7 +118,7 @@ namespace Physics2D.Core
 
                 // 当不再产生新的碰撞时退出
                 if (_contactList.Count == 0) break;
-                
+
                 CONTACT_RESOLVE:
                 // 解决质体碰撞
                 _particleContactResolver.Iterations = _contactList.Count * 2;
@@ -193,5 +126,92 @@ namespace Physics2D.Core
             }
 
         }
+
+        public static List<Shape> CollectAllShapes(HashSet<PhysicsObject> objects, HashSet<Edge> edges)
+        {
+            var shapes = (from obj in objects
+                          where /*obj is Particle &&*/ obj.Shape.Type != ShapeType.Point
+                          select obj.Shape).ToList();
+            shapes.AddRange(edges);
+            return shapes;
+        }
+
+        public static IEnumerator<ParticleContact> ExcuteParticleCollisionDetector(List<Shape> sharps)
+        {
+            ParticleContact contact;
+            for (int indexA = 0; indexA < sharps.Count; indexA++)
+            {
+                for (int indexB = indexA + 1; indexB < sharps.Count; indexB++)
+                {
+                    // 对形状标识符一致的物体不执行碰撞检测
+                    if (sharps[indexA].Id != 0 && sharps[indexA].Id == sharps[indexB].Id) continue;
+
+                    var typeA = sharps[indexA].Type;
+                    var typeB = sharps[indexB].Type;
+
+                    if (typeA <= typeB)
+                    {
+                        contact = DispatchToDetector(ContactTypeMap[(int)typeA, (int)typeB], sharps[indexA], sharps[indexB]);
+                    }
+                    else
+                    {
+                        contact = DispatchToDetector(ContactTypeMap[(int)typeA, (int)typeB], sharps[indexB], sharps[indexA]);
+                    }
+                    if (contact != null) yield return contact;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 根据碰撞类型为两个指定的形状执行碰撞检测
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="sharpA"></param>
+        /// <param name="sharpB"></param>
+        public static ParticleContact DispatchToDetector(ContactType type, Shape sharpA, Shape sharpB)
+        {
+            Debug.Assert(sharpA.Type <= sharpB.Type);
+
+            ParticleContact contact = null;
+
+            switch (type)
+            {
+                case ContactType.CircleAndCircle:
+                    contact = ParticleCollisionDetector.CircleAndCircle(sharpA as Circle, sharpB as Circle);
+                    break;
+                case ContactType.CircleAndEdge:
+                    contact = ParticleCollisionDetector.CircleAndEdge(sharpA as Circle, sharpB as Edge);
+                    break;
+                case ContactType.CircleAndBox:
+                    throw new NotImplementedException("未实现圆与盒的碰撞检测");
+                case ContactType.EdgeAndBox:
+                    throw new NotImplementedException("未实现边沿与盒的碰撞检测");
+                case ContactType.BoxAndBox:
+                    throw new NotImplementedException("未实现盒与盒的碰撞检测");
+            }
+            return contact;
+        }
+
+        /// <summary>
+        /// 碰撞类型查询表
+        /// </summary>
+        public static readonly ContactType[,] ContactTypeMap = new[,]
+        {
+            {
+                ContactType.CircleAndCircle,
+                ContactType.CircleAndEdge,
+                ContactType.CircleAndBox
+            },
+            {
+                ContactType.CircleAndEdge,
+                ContactType.NotSupport,
+                ContactType.EdgeAndBox
+            },
+            {
+                ContactType.CircleAndBox,
+                ContactType.EdgeAndBox,
+                ContactType.BoxAndBox
+            }
+        };
     }
 }
