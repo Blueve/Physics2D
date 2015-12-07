@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using Physics2D.Collision;
 using Physics2D.Object;
 using Physics2D.Collision.Shapes;
+using Physics2D.Common.Events;
 using System.Diagnostics;
 
 namespace Physics2D.Core
 {
     public sealed class ContactRegistry
     {
-        #region 私有部分
+        #region 私有字段
         /// <summary>
         /// 物理世界物体列表的引用
         /// </summary>
@@ -44,9 +45,9 @@ namespace Physics2D.Core
         /// 碰撞计数器
         /// </summary>
         private int _contactCounter = 0;
+        #endregion
 
-        
-
+        #region 私有方法
         /// <summary>
         /// 向碰撞表中添加一个新的碰撞
         /// </summary>
@@ -61,6 +62,13 @@ namespace Physics2D.Core
             }
             return false;
         }
+        #endregion
+
+        #region 公开字段
+        /// <summary>
+        /// 检测到碰撞
+        /// </summary>
+        public event ContactHandle OnContact;
         #endregion
 
         #region 构造方法
@@ -121,12 +129,14 @@ namespace Physics2D.Core
 
                 CONTACT_RESOLVE:
                 // 解决质体碰撞
+                OnContact?.Invoke(this, new ContactEventArgs(_contactList));
                 _particleContactResolver.Iterations = _contactList.Count * 2;
                 _particleContactResolver.ResolveContacts(_contactList, duration);
             }
 
         }
 
+        #region 静态方法
         public static List<Shape> CollectAllShapes(HashSet<PhysicsObject> objects, HashSet<Edge> edges)
         {
             var shapes = (from obj in objects
@@ -191,7 +201,9 @@ namespace Physics2D.Core
             }
             return contact;
         }
+        #endregion
 
+        #region 静态查询表
         /// <summary>
         /// 碰撞类型查询表
         /// </summary>
@@ -213,5 +225,6 @@ namespace Physics2D.Core
                 ContactType.BoxAndBox
             }
         };
+        #endregion
     }
 }
