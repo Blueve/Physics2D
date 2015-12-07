@@ -71,7 +71,6 @@ namespace UnitTest.Core
             pA.BindShape(new Circle(5));
             pB.BindShape(new Circle(5));
             var objects = new HashSet<PhysicsObject> { pA, pB };
-
             var edge = new Edge(0, 4, 4, 4);
             var edges = new HashSet<Edge> { edge };
 
@@ -100,6 +99,24 @@ namespace UnitTest.Core
         public void TestResolveContacts()
         {
             Settings.ContactIteration = 1;
+
+            var pA = new Particle { Mass = 1, Position = new Vector2D(0, 0) };
+            var pB = new Particle { Mass = 1, Position = new Vector2D(2, 0) };
+            pA.BindShape(new Circle(5));
+            pB.BindShape(new Circle(5));
+            var objects = new HashSet<PhysicsObject> { pA, pB };
+
+            var edge = new Edge(0, 4, 4, 4);
+            var edges = new HashSet<Edge> { edge };
+
+            var contactRegistry = new ContactRegistry(objects, edges);
+            contactRegistry.OnContact += (s, a) =>
+            {
+                Assert.AreEqual(contactRegistry, s);
+                Assert.AreEqual(3, a.ContactList.Count);
+            };
+
+            contactRegistry.ResolveContacts(1 / 60.0);
         }
     }
 }
