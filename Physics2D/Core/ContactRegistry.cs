@@ -68,7 +68,7 @@ namespace Physics2D.Core
         /// <summary>
         /// 检测到碰撞
         /// </summary>
-        public event ContactHandle OnContact;
+        public event ContactHandle OnContactEvent;
         #endregion
 
         #region 构造方法
@@ -129,12 +129,20 @@ namespace Physics2D.Core
 
                 CONTACT_RESOLVE:
                 // 解决质体碰撞
-                OnContact?.Invoke(this, new ContactEventArgs(_contactList));
+                OnContact(new ContactEventArgs(_contactList));
                 _particleContactResolver.Iterations = _contactList.Count * 2;
                 _particleContactResolver.ResolveContacts(_contactList, duration);
             }
 
         }
+
+        #region 事件触发方法
+        private void OnContact(ContactEventArgs args)
+        {
+            var handler = OnContactEvent;
+            if (handler != null) handler(this, args);
+        }
+        #endregion
 
         #region 静态方法
         public static List<Shape> CollectAllShapes(HashSet<PhysicsObject> objects, HashSet<Edge> edges)
@@ -192,12 +200,12 @@ namespace Physics2D.Core
                 case ContactType.CircleAndEdge:
                     contact = ParticleCollisionDetector.CircleAndEdge(sharpA as Circle, sharpB as Edge);
                     break;
-                case ContactType.CircleAndBox:
-                    throw new NotImplementedException("未实现圆与盒的碰撞检测");
-                case ContactType.EdgeAndBox:
-                    throw new NotImplementedException("未实现边沿与盒的碰撞检测");
-                case ContactType.BoxAndBox:
-                    throw new NotImplementedException("未实现盒与盒的碰撞检测");
+                //case ContactType.CircleAndBox:
+                //    throw new NotImplementedException("未实现圆与盒的碰撞检测");
+                //case ContactType.EdgeAndBox:
+                //    throw new NotImplementedException("未实现边沿与盒的碰撞检测");
+                //case ContactType.BoxAndBox:
+                //    throw new NotImplementedException("未实现盒与盒的碰撞检测");
             }
             return contact;
         }
