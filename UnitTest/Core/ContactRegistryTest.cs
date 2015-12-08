@@ -7,6 +7,7 @@ using Physics2D.Object;
 using Physics2D.Common;
 using Physics2D;
 using System.Collections.Generic;
+using Physics2D.Collision.Basic;
 
 namespace UnitTest.Core
 {
@@ -110,10 +111,73 @@ namespace UnitTest.Core
             var edges = new HashSet<Edge> { edge };
 
             var contactRegistry = new ContactRegistry(objects, edges);
-            contactRegistry.OnContact += (s, a) =>
+            contactRegistry.OnContactEvent += (s, a) =>
             {
                 Assert.AreEqual(contactRegistry, s);
                 Assert.AreEqual(3, a.ContactList.Count);
+            };
+
+            contactRegistry.ResolveContacts(1 / 60.0);
+        }
+
+        [TestMethod]
+        public void TestResolveContactsWithContactGenerator()
+        {
+            Settings.ContactIteration = 1;
+
+            var pA = new Particle { Mass = 1, Position = new Vector2D(0, 0) };
+            var pB = new Particle { Mass = 1, Position = new Vector2D(2, 0) };
+            pA.BindShape(new Circle(5));
+            pB.BindShape(new Circle(5));
+            
+            var contactRegistry = new ContactRegistry(new HashSet<PhysicsObject>(), new HashSet<Edge>());
+            contactRegistry.Add(new ParticleRope(2, 0, pA, pB));
+            contactRegistry.OnContactEvent += (s, a) =>
+            {
+                Assert.AreEqual(contactRegistry, s);
+                Assert.AreEqual(1, a.ContactList.Count);
+            };
+            contactRegistry.ResolveContacts(1 / 60.0);
+        }
+
+        [TestMethod]
+        public void TestResolveContactsNotAddMoreContact()
+        {
+            Settings.ContactIteration = 1;
+            Settings.MaxContacts = 0;
+
+            var pA = new Particle { Mass = 1, Position = new Vector2D(0, 0) };
+            var pB = new Particle { Mass = 1, Position = new Vector2D(2, 0) };
+            pA.BindShape(new Circle(5));
+            pB.BindShape(new Circle(5));
+
+            var contactRegistry = new ContactRegistry(new HashSet<PhysicsObject>(), new HashSet<Edge>());
+            contactRegistry.Add(new ParticleRope(2, 0, pA, pB));
+            contactRegistry.OnContactEvent += (s, a) =>
+            {
+                Assert.AreEqual(contactRegistry, s);
+                Assert.AreEqual(0, a.ContactList.Count);
+            };
+            contactRegistry.ResolveContacts(1 / 60.0);
+        }
+
+        [TestMethod]
+        public void TestResolveContactsStopIteration()
+        {
+            Settings.ContactIteration = 2;
+
+            var pA = new Particle { Mass = 1, Position = new Vector2D(0, 0) };
+            var pB = new Particle { Mass = 1, Position = new Vector2D(2, 0) };
+            pA.BindShape(new Circle(5));
+            pB.BindShape(new Circle(5));
+            var objects = new HashSet<PhysicsObject> { pA, pB };
+           
+
+            var contactRegistry = new ContactRegistry(objects, new HashSet<Edge>());
+            contactRegistry.OnContactEvent += (s, a) =>
+            {
+                Assert.AreEqual(contactRegistry, s);
+                Assert.AreEqual(1, a.ContactList.Count);
             };
 
             contactRegistry.ResolveContacts(1 / 60.0);
