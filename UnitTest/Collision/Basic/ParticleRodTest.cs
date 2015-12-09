@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Physics2D.Collision.Basic;
 using Physics2D.Object;
 using Physics2D.Common;
+using System.Collections;
+using Physics2D.Collision;
 
 namespace UnitTest.Collision.Basic
 {
@@ -41,6 +43,14 @@ namespace UnitTest.Collision.Basic
 
             pB.Position = new Vector2D(4, 0);
             foreach (var contact in rod)
+            {
+                Assert.AreEqual(1, contact.Penetration);
+                Assert.AreEqual(new Vector2D(-1, 0), contact.ContactNormal);
+            }
+
+            pB.Position = new Vector2D(4, 0);
+            IEnumerable iEnum = rod;
+            foreach (ParticleContact contact in iEnum)
             {
                 Assert.AreEqual(1, contact.Penetration);
                 Assert.AreEqual(new Vector2D(-1, 0), contact.ContactNormal);
