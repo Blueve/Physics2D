@@ -65,7 +65,7 @@ namespace WPFDemo.RobDemo
             Settings.ContactIteration = 20;
 
             _combinedParticle = new CombinedParticle(_vertexs, 3, 1, true);
-            PhysicsWorld.AddCustomObject(_combinedParticle);
+            PhysicsWorld.AddObject(_combinedParticle);
 
             // 为顶点绑定形状
             foreach(var vertex in _combinedParticle.Vertexs)

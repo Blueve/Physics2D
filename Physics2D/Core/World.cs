@@ -116,9 +116,9 @@ namespace Physics2D.Core
         /// 向物理世界添加一个定制的物体
         /// </summary>
         /// <param name="obj"></param>
-        public void AddCustomObject(CustomObject obj)
+        public void AddObject(CustomObject obj)
         {
-            AddObject(obj);
+            AddObject((PhysicsObject)obj);
             obj.OnInit(this);
         }
 
@@ -126,9 +126,9 @@ namespace Physics2D.Core
         /// 从物理世界移除一个定制的物体
         /// </summary>
         /// <param name="obj"></param>
-        public void RemoveCustomObject(CustomObject obj)
+        public void RemoveObject(CustomObject obj)
         {
-            RemoveObject(obj);
+            RemoveObject((PhysicsObject)obj);
             obj.OnRemove(this);
         }
 
