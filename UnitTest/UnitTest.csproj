@@ -66,6 +66,7 @@
     <Compile Include="Common\Vector2DTest.cs" />
     <Compile Include="Core\ForceRegistryTest.cs" />
     <Compile Include="Core\ContactRegistryTest.cs" />
+    <Compile Include="Core\WorldTest.cs" />
     <Compile Include="Factories\ContactFactoryTest.cs" />
     <Compile Include="Factories\ParticleFactoryTest.cs" />
     <Compile Include="Factories\ZoneFactoryTest.cs" />
