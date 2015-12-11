@@ -159,6 +159,16 @@ namespace Physics2D.Object
 
         Handle IPin.Pin(World world, Vector2D position)
         {
+            return Pin(world, position);
+        }
+
+        void IPin.UnPin(World world)
+        {
+            UnPin(world);
+        }
+
+        protected Handle Pin(World world, Vector2D position)
+        {
             var pin = new Particle
             {
                 Position = position,
@@ -174,7 +184,7 @@ namespace Physics2D.Object
             }
 
             var handle = new Handle(position);
-            handle.PropertyChanged += (obj, e) => 
+            handle.PropertyChanged += (obj, e) =>
             {
                 var p = ((Handle)obj).Position;
                 var d = p - pin.Position;
@@ -185,7 +195,7 @@ namespace Physics2D.Object
             return handle;
         }
 
-        void IPin.UnPin(World world)
+        protected void UnPin(World world)
         {
             // 移除连接
             foreach (var rod in _pinRods)
