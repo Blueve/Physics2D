@@ -159,6 +159,8 @@ namespace UnitTest.Core
                 Assert.AreEqual(0, a.ContactList.Count);
             };
             contactRegistry.ResolveContacts(1 / 60.0);
+
+            Settings.MaxContacts = 500;
         }
 
         [TestMethod]
@@ -176,11 +178,15 @@ namespace UnitTest.Core
             var contactRegistry = new ContactRegistry(objects, new HashSet<Edge>());
             contactRegistry.OnContactEvent += (s, a) =>
             {
+                _isRan = true;
                 Assert.AreEqual(contactRegistry, s);
                 Assert.AreEqual(1, a.ContactList.Count);
             };
 
             contactRegistry.ResolveContacts(1 / 60.0);
+            Assert.IsTrue(_isRan);
         }
+
+        private bool _isRan = false;
     }
 }

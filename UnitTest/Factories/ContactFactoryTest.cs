@@ -41,42 +41,36 @@ namespace UnitTest.Factories
         {
             var world = new World();
 
+            var poly = world.CreatePolygonEdge(new Vector2D(0, 0), new Vector2D(0, 5), new Vector2D(5, 0));
+
+            var it = poly.GetEnumerator();
+            it.MoveNext();
+            TestEdgeProperty(it.Current, new Vector2D(0, 0), new Vector2D(0, 5));
+
+            it.MoveNext();
+            TestEdgeProperty(it.Current, new Vector2D(0, 5), new Vector2D(5, 0));
+
+            it.MoveNext();
+            TestEdgeProperty(it.Current, new Vector2D(5, 0), new Vector2D(0, 0));
+
+
             try
             {
-                IEnumerable<Edge> poly = null;
-                try
-                {
-                    poly = world.CreatePolygonEdge(new Vector2D(0, 0), new Vector2D(0, 5), new Vector2D(5, 0));
-                }
-                catch(Exception)
-                {
-                    Assert.Fail("不应出现任何异常");
-                }
-
-                var it = poly.GetEnumerator();
-                it.MoveNext();
-                TestEdgeProperty(it.Current, new Vector2D(0, 0), new Vector2D(0, 5));
-
-                it.MoveNext();
-                TestEdgeProperty(it.Current, new Vector2D(0, 5), new Vector2D(5, 0));
-                
-                it.MoveNext();
-                TestEdgeProperty(it.Current, new Vector2D(5, 0), new Vector2D(0, 0));
+                poly = world.CreatePolygonEdge(new Vector2D(0, 0), new Vector2D(0, 5));
             }
             catch (Exception e)
             {
-                Assert.Fail($"不应出现任何异常, 但实际上出现了{e.GetType().ToString()}");
+                Assert.IsInstanceOfType(e, typeof(InvalidArgumentException), "点集不能构成多边形的时候抛出异常");
             }
+        }
 
-            try
-            {
-                var poly = world.CreatePolygonEdge(new Vector2D(0, 0), new Vector2D(0, 5));
-            }
-            catch (InvalidArgumentException) { }
-            catch (Exception)
-            {
-                Assert.Fail($"不应出现除{nameof(InvalidArgumentException)}之外的异常");
-            }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestCreatePolygonEdgeFail()
+        {
+            var world = new World();
+            
+            var poly = world.CreatePolygonEdge(new Vector2D(0, 0), new Vector2D(0, 5));
         }
 
         [TestMethod]
@@ -85,7 +79,7 @@ namespace UnitTest.Factories
             var world = new World();
 
             var rod = world.CreateRod(
-                new Particle { Position = new Vector2D(0, 0) }, 
+                new Particle { Position = new Vector2D(0, 0) },
                 new Particle { Position = new Vector2D(0, 5) });
 
             TestLinkProperty(rod, new Vector2D(0, 0), new Vector2D(0, 5));

@@ -26,28 +26,25 @@ namespace UnitTest.Object
             Assert.IsNotNull(obj);
             Assert.IsTrue(obj.Vertexs.Count == 4);
 
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestConstructorForCloseObjectFail()
+        {
             // 无法形成封闭形状物体
-            try
-            {
-                CombinedParticle objB = new CombinedParticle(
-                    new List<Vector2D>
-                    {
-                        new Vector2D(0, 0),
-                        new Vector2D(0, 1)
-                    });
-            }
-            catch (InvalidArgumentException) { }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+            CombinedParticle objB = new CombinedParticle(
+                new List<Vector2D>
+                {
+                    new Vector2D(0, 0),
+                    new Vector2D(0, 1)
+                });
         }
 
         [TestMethod]
         public void TestConstructorForNotCloseObject()
         {
-            
-
             // 不封闭物体
             CombinedParticle obj = new CombinedParticle(
                 new List<Vector2D>
@@ -61,42 +58,32 @@ namespace UnitTest.Object
         }
 
         [TestMethod]
-        public void TestConstructorFail()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestConstructorByOnePointFail()
         {
             CombinedParticle obj = null;
 
             // 无法构成组合物体
-            try
-            {
-                 obj = new CombinedParticle(
-                    new List<Vector2D>
-                    {
-                        new Vector2D(0, 0)
-                    }, isClose: false);
-            }
-            catch (InvalidArgumentException) { }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
-            Assert.IsNull(obj, "要创建一个不封闭的组合质体，至少需要两个点");
+            obj = new CombinedParticle(
+               new List<Vector2D>
+               {
+                   new Vector2D(0, 0)
+               }, isClose: false);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestConstructorByTwoPointFail()
+        {
+            CombinedParticle obj = null;
 
             // 无法构成封闭的组合物体
-            try
-            {
-                obj = new CombinedParticle(
-                    new List<Vector2D>
-                    {
-                        new Vector2D(0, 0),
-                        new Vector2D(0, 1)
-                    });
-            }
-            catch (InvalidArgumentException) { }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
-            Assert.IsNull(obj, "要创建一个封闭的组合质体，至少需要三个点");
+            obj = new CombinedParticle(
+                new List<Vector2D>
+                {
+                    new Vector2D(0, 0),
+                    new Vector2D(0, 1)
+                });
         }
 
         [TestMethod]
@@ -189,28 +176,6 @@ namespace UnitTest.Object
             // UnPin
             world.UnPin(obj);
             Assert.IsTrue(obj.PinRods.Count == 0);
-        }
-
-        [TestMethod]
-        public void TestCustomObject()
-        {
-            World world = new World();
-            CombinedParticle obj = new CombinedParticle(
-                new List<Vector2D>
-                {
-                    new Vector2D(0, 0),
-                    new Vector2D(0, 1),
-                    new Vector2D(1, 1)
-                });
-            try
-            {
-                obj.OnInit(world);
-                obj.OnRemove(world);
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
         }
 
         [TestMethod]

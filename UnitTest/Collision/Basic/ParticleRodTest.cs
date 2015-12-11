@@ -5,6 +5,7 @@ using Physics2D.Object;
 using Physics2D.Common;
 using System.Collections;
 using Physics2D.Collision;
+using System.Collections.Generic;
 
 namespace UnitTest.Collision.Basic
 {
@@ -29,10 +30,9 @@ namespace UnitTest.Collision.Basic
             var pB = new Particle { Mass = 1, Position = new Vector2D(5, 0) };
             var rod = new ParticleRod(pA, pB);
 
-            foreach (var contact in rod)
-            {
-                Assert.Fail("长度未变化时不产生任何碰撞");
-            }
+            var contacts = new List<ParticleContact>();
+            contacts.AddRange(rod);
+            Assert.AreEqual(0, contacts.Count, "长度未变化时不产生任何碰撞");
 
             pB.Position = new Vector2D(6, 0);
             foreach (var contact in rod)

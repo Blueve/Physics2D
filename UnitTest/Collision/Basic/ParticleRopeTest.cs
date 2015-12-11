@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Physics2D.Collision.Basic;
 using Physics2D.Object;
 using Physics2D.Common;
+using System.Collections.Generic;
+using Physics2D.Collision;
 
 namespace UnitTest.Collision.Basic
 {
@@ -29,10 +31,9 @@ namespace UnitTest.Collision.Basic
             var pB = new Particle { Mass = 1 };
             var rope = new ParticleRope(10, 0.5, pA, pB);
 
-            foreach (var contact in rope)
-            {
-                Assert.Fail("未超过绳长时不产生任何碰撞");
-            }
+            var contacts = new List<ParticleContact>();
+            contacts.AddRange(rope);
+            Assert.AreEqual(0, contacts.Count, "长度未变化时不产生任何碰撞");
 
             pB.Position = new Vector2D(20, 0);
             foreach (var contact in rope)

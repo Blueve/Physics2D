@@ -57,18 +57,20 @@ namespace UnitTest.Common
 
             Assert.IsTrue(MathHelper.IsInside(vertexs, new Vector2D(25, 25)));
             Assert.IsFalse(MathHelper.IsInside(vertexs, new Vector2D(100, 100)));
+        }
 
+        [TestMethod]
+        public void TestIsInsideFail()
+        {
             // 测试不能围成多边形的情况
-            vertexs.RemoveAt(0);
-            try
+            var vertexs = new List<Vector2D>
             {
-                MathHelper.IsInside(vertexs, new Vector2D(25, 25));
-            }
-            catch(InvalidArgumentException) { }
-            catch(Exception)
-            {
-                Assert.Fail();
-            }
+                new Vector2D(0, 0),
+                new Vector2D(100, 0),
+                new Vector2D(0, 100)
+            };
+
+            Assert.IsFalse(MathHelper.IsInside(vertexs, new Vector2D(25, 25)));
         }
     }
 }
