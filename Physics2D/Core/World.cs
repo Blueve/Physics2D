@@ -68,23 +68,6 @@ namespace Physics2D.Core
         }
 
         /// <summary>
-        /// 同AddObject方法
-        /// 但需要注意的是，单独使用+运算符时的效果和
-        /// 使用+=的效果时一致的，例如：
-        /// 1) world + obj;
-        /// 2) world += obj;
-        /// world的值都会被更改，但建议使用第二种方式，语义会更加明确
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static World operator +(World world, PhysicsObject obj)
-        {
-            world.AddObject(obj);
-            return world;
-        }
-
-        /// <summary>
         /// 从物理世界中移除一个物体
         /// </summary>
         /// <param name="obj"></param>
@@ -98,18 +81,6 @@ namespace Physics2D.Core
             {
                 ForceGenerators.Remove(particle);
             }
-        }
-
-        /// <summary>
-        /// 同RemoveObject方法
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static World operator -(World world, PhysicsObject obj)
-        {
-            world.RemoveObject(obj);
-            return world;
         }
 
         /// <summary>
