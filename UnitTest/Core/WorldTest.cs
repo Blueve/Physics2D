@@ -7,6 +7,7 @@ using Physics2D.Common;
 using Physics2D.Force.Zones;
 using Physics2D.Force;
 using Physics2D.Object.Tools;
+using Physics2D.Collision.Shapes;
 
 namespace UnitTest.Core
 {
@@ -44,6 +45,32 @@ namespace UnitTest.Core
 
             TestAddObject(world, objB);
             TestRemoveObject(world, objB);
+        }
+
+        [TestMethod]
+        public void TestAddAndRemoveEdge()
+        {
+            var world = new World();
+            var obj = new Particle { Mass = 1, Position = new Vector2D(0, 5), Velocity = new Vector2D(0, 5) };
+            obj.BindShape(new Circle(2));
+            var edgeA = new Edge(-5, 0, 5, 0);
+            var edgeB = new Edge(-5, 10, 5, 10);
+
+            world.AddObject(obj);
+            world.AddEdge(edgeA);
+            world.AddEdge(edgeB);
+
+            world.Update(1);
+            Assert.AreEqual(new Vector2D(0, -5), obj.Velocity, "质体会被反弹");
+
+            world.Update(1);
+            world.Update(1);
+            Assert.AreEqual(new Vector2D(0, 5), obj.Velocity, "质体会被再次反弹");
+
+            world.RemoveEdge(edgeB);
+            world.Update(1);
+            world.Update(1);
+            Assert.AreEqual(new Vector2D(0, 5), obj.Velocity, "移除边缘后质体不会被反弹");
         }
 
         private void TestAddCustomObject(World world, CombinedParticle obj)
