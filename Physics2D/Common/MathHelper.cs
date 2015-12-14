@@ -22,7 +22,6 @@ namespace Physics2D.Common
             return normal;
         }
 
-
         /// <summary>
         /// 计算两个线段的交点
         /// </summary>
@@ -89,6 +88,18 @@ namespace Physics2D.Common
                 if ((cond1 || cond2) && above) count++;
             }
             return (count % 2 != 0);
+        }
+
+        /// <summary>
+        /// 计算点到直线的距离的平方
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="linePA"></param>
+        /// <param name="linePB"></param>
+        /// <returns></returns>
+        public static double PointToLineDistenceSquared(Vector2D point, Vector2D linePA, Vector2D linePB)
+        {
+            return PointToLineVector(point, linePA, linePB).LengthSquared();
         }
     }
 }
