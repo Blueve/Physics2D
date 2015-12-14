@@ -72,5 +72,13 @@ namespace UnitTest.Common
 
             Assert.IsFalse(MathHelper.IsInside(vertexs, new Vector2D(25, 25)));
         }
+
+        [TestMethod]
+        public void TestPointToLineDistanceSquared()
+        {
+            Assert.AreEqual(25, MathHelper.PointToLineDistenceSquared(
+                new Vector2D(0, 5),
+                new Vector2D(-5, 0), new Vector2D(5, 0)));
+        }
     }
 }
