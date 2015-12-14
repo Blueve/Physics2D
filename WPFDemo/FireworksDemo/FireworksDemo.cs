@@ -128,16 +128,6 @@ namespace WPFDemo.FireworksDemo
                 _edge.PointA.Y.ToDisplayUnits(),
                 _edge.PointB.X.ToDisplayUnits(),
                 _edge.PointB.Y.ToDisplayUnits(), Colors.Black);
-            //bitmap.DrawLineAa(
-            //    _edge1.PointA.X.ToDisplayUnits(),
-            //    _edge1.PointA.Y.ToDisplayUnits(),
-            //    _edge1.PointB.X.ToDisplayUnits(),
-            //    _edge1.PointB.Y.ToDisplayUnits(), Colors.Black);
-            //bitmap.DrawLineAa(
-            //    _edge2.PointA.X.ToDisplayUnits(),
-            //    _edge2.PointA.Y.ToDisplayUnits(),
-            //    _edge2.PointB.X.ToDisplayUnits(),
-            //    _edge2.PointB.Y.ToDisplayUnits(), Colors.Black);
 
             for (int i = _objList.Count - 1; i >= 0; i--)
             {
@@ -176,24 +166,7 @@ namespace WPFDemo.FireworksDemo
                     350.ToSimUnits(),
                     400.ToSimUnits(),
                     200.ToSimUnits());
-                //_edge = PhysicsWorld.CreateEdge(
-                //    100.ToSimUnits(),
-                //    200.ToSimUnits(),
-                //    100.ToSimUnits(),
-                //    300.ToSimUnits());
-                //_edge1 = PhysicsWorld.CreateEdge(
-                //    250.ToSimUnits(),
-                //    200.ToSimUnits(),
-                //    250.ToSimUnits(),
-                //    300.ToSimUnits());
-                //_edge2 = PhysicsWorld.CreateEdge(
-                //    100.ToSimUnits(),
-                //    300.ToSimUnits(),
-                //    250.ToSimUnits(),
-                //    300.ToSimUnits());
                 Slot = 1 / 60.0;
-
-
             }
 
             var rnd = new Random();
@@ -211,6 +184,6 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        private Edge _edge, _edge1, _edge2;
+        private Edge _edge;
     }
 }
