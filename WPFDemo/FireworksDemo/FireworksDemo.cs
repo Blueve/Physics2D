@@ -72,6 +72,8 @@ namespace WPFDemo.FireworksDemo
         private readonly Zone _dragZone;
         private readonly Zone _windZone;
 
+        private Edge _edge;
+
         /// <summary>
         /// 物体列表
         /// </summary>
@@ -184,6 +186,6 @@ namespace WPFDemo.FireworksDemo
             }
         }
 
-        private Edge _edge;
+        
     }
 }
