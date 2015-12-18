@@ -7,23 +7,33 @@ using Physics2D.Object;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WPFDemo.Graphic;
+using System;
 
 namespace WPFDemo.ElasticDemo
 {
-    internal class ElasticatedNet : IDrawable
+    internal sealed class ElasticatedNet : CustomObject, IDrawable
     {
-        private readonly World _world;
-
+        #region 私有字段
         private readonly Particle[,] _net;
         private readonly int _width;
         private readonly int _height;
-
         private Vector2D _startPosition;
         private readonly double _gridSize;
+        #endregion
 
-        public ElasticatedNet(World world, Vector2D startPosition, int width, int height, double gridSize)
+        #region 公开属性
+        /// <summary>
+        /// 弹簧网网格
+        /// </summary>
+        public Particle[,] Net
         {
-            _world         = world;
+            get { return _net; }
+        }
+        #endregion
+
+        #region 构造方法
+        public ElasticatedNet(Vector2D startPosition, int width, int height, double gridSize)
+        {
             _width         = width;
             _height        = height;
             _startPosition = startPosition;
@@ -31,52 +41,9 @@ namespace WPFDemo.ElasticDemo
 
             _net = new Particle[width, height];
         }
+        #endregion
 
-        public void Reset()
-        {
-            // 清除以往的的数据
-            foreach (var item in _net)
-            {
-                if (item != null) _world.RemoveObject(item);
-            }
-            // 根据参数创建弹性网
-            for (int i = 0; i < _width; i++)
-            {
-                for (int j = 0; j < _height; j++)
-                {
-                    _net[i, j] = _world.CreateParticle
-                    (
-                        new Vector2D(
-                            (_startPosition.X + i * _gridSize),
-                            (_startPosition.Y + j * _gridSize)
-                        ),
-                        Vector2D.Zero,
-                        1
-                    );
-                }
-            }
-            // 设置弹性网
-            for (int i = 0; i < _width; i++)
-            {
-                for (int j = 0; j < _height; j++)
-                {
-                    var spring = new DestructibleElastic(12, _gridSize);
-                    if (i > 0          ) spring.Joint(_net[i - 1, j]);
-                    if (i < _width - 1 ) spring.Joint(_net[i + 1, j]);
-                    if (j > 0          ) spring.Joint(_net[i, j - 1]);
-                    if (j < _height - 1) spring.Joint(_net[i, j + 1]);
-                    spring.Add(_net[i, j]);
-                    _world.ForceGenerators.Add(spring);
-                }
-            }
-            // 对弹性网进行拉扯
-            for (int i = 0; i < _width; i++)
-            {
-                _net[i, _height - 1].Velocity    = new Vector2D(0, 0.1) * 4 * (i >= _width / 2 ? -1 : 1);
-                _net[i, _height - 1].InverseMass = 0;
-            }
-        }
-
+        #region 实现IDrawable
         /// <summary>
         /// 实现图形接口的绘图逻辑
         /// </summary>
@@ -115,5 +82,54 @@ namespace WPFDemo.ElasticDemo
                 }
             }
         }
+        #endregion
+
+        #region 实现CustomObject
+        public override void OnInit(World world)
+        {
+            // 根据参数创建弹性网
+            for (int i = 0; i < _width; i++)
+            {
+                for (int j = 0; j < _height; j++)
+                {
+                    _net[i, j] = world.CreateParticle
+                    (
+                        new Vector2D(
+                            (_startPosition.X + i * _gridSize),
+                            (_startPosition.Y + j * _gridSize)
+                        ),
+                        Vector2D.Zero,
+                        1
+                    );
+                }
+            }
+            // 设置弹性网
+            for (int i = 0; i < _width; i++)
+            {
+                for (int j = 0; j < _height; j++)
+                {
+                    var spring = new DestructibleElastic(12, _gridSize);
+                    if (i > 0) spring.Joint(_net[i - 1, j]);
+                    if (i < _width - 1) spring.Joint(_net[i + 1, j]);
+                    if (j > 0) spring.Joint(_net[i, j - 1]);
+                    if (j < _height - 1) spring.Joint(_net[i, j + 1]);
+                    spring.Add(_net[i, j]);
+                    world.ForceGenerators.Add(spring);
+                }
+            }
+        }
+
+        public override void OnRemove(World world)
+        {
+            foreach (var item in _net)
+            {
+                world.RemoveObject(item);
+            }
+        }
+
+        public override void Update(double duration)
+        {
+        }
+        #endregion
     }
 }
