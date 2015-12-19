@@ -17,8 +17,9 @@ namespace WPFDemo.ElasticDemo
         private readonly Particle[,] _net;
         private readonly int _width;
         private readonly int _height;
-        private Vector2D _startPosition;
+        private readonly Vector2D _startPosition;
         private readonly double _gridSize;
+        private readonly double _factor;
         #endregion
 
         #region 公开属性
@@ -32,13 +33,13 @@ namespace WPFDemo.ElasticDemo
         #endregion
 
         #region 构造方法
-        public ElasticatedNet(Vector2D startPosition, int width, int height, double gridSize)
+        public ElasticatedNet(Vector2D startPosition, int width, int height, double gridSize, double factor)
         {
             _width         = width;
             _height        = height;
             _startPosition = startPosition;
             _gridSize      = gridSize;
-
+            _factor        = factor;
             _net = new Particle[width, height];
         }
         #endregion
@@ -61,17 +62,17 @@ namespace WPFDemo.ElasticDemo
                     // 绘制弹性连线
                     double dLeft;
                     double dDown;
-                    if (i > 0 && (dLeft = (_net[i, j].Position - _net[i - 1, j].Position).Length()) < 1.5)
+                    if (i > 0 && (dLeft =(_net[i, j].Position - _net[i - 1, j].Position).Length()) / _gridSize < _factor)
                     {
-                        byte colorRow = dLeft > _gridSize ? (byte)((int)(255 - (dLeft - _gridSize) * 150)) : (byte)255;
+                        byte colorRow = dLeft > _gridSize ? (byte)((int)(255 - (dLeft - _gridSize) / ((_factor - 1) * _gridSize) * 200)) : (byte)255;
                         bitmap.DrawLineAa(
                             x, y,
                             _net[i - 1, j].Position.X.ToDisplayUnits(), _net[i - 1, j].Position.Y.ToDisplayUnits(),
                             Color.FromArgb(colorRow, 0, 0, 0));
                     }
-                    if (j > 0 && (dDown = (_net[i, j].Position - _net[i, j - 1].Position).Length()) < 1.5)
+                    if (j > 0 && (dDown = (_net[i, j].Position - _net[i, j - 1].Position).Length()) / _gridSize < _factor)
                     {
-                        byte colorCol = dDown > _gridSize ? (byte)((int)(255 - (dDown - _gridSize) * 150)) : (byte)255;
+                        byte colorCol = dDown > _gridSize ? (byte)((int)(255 - (dDown - _gridSize) / ((_factor - 1) * _gridSize) * 200)) : (byte)255;
                         bitmap.DrawLineAa(
                             x, y,
                             _net[i, j - 1].Position.X.ToDisplayUnits(), _net[i, j - 1].Position.Y.ToDisplayUnits(),
@@ -108,7 +109,7 @@ namespace WPFDemo.ElasticDemo
             {
                 for (int j = 0; j < _height; j++)
                 {
-                    var spring = new DestructibleElastic(12, _gridSize);
+                    var spring = new DestructibleElastic(12, _gridSize, _factor);
                     if (i > 0) spring.Joint(_net[i - 1, j]);
                     if (i < _width - 1) spring.Joint(_net[i + 1, j]);
                     if (j > 0) spring.Joint(_net[i, j - 1]);
