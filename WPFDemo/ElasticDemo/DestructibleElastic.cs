@@ -27,14 +27,15 @@ namespace WPFDemo.ElasticDemo
         /// 延展系数
         /// 当链接的长度与静息长度的比值超过该数值的时发生断裂
         /// </summary>
-        private const double LengthFactor = 1.5;
+        private readonly double _lengthFactor;
         #endregion
 
         #region 构造方法
-        public DestructibleElastic(double k, double length)
+        public DestructibleElastic(double k, double length, double lengthFactor = 4)
         {
             _k = k;
             _length = length;
+            _lengthFactor = lengthFactor;
         }
         #endregion
 
@@ -55,8 +56,7 @@ namespace WPFDemo.ElasticDemo
                 if (_linked[i].IsValid)
                 {
                     var d = particle.Position - _linked[i].Particle.Position;
-                    // TODO: 链接破坏规则需要修正
-                    if (d.Length() > LengthFactor)
+                    if (d.Length() / _length > _lengthFactor)
                     {
                         _linked[i].IsValid = false;
                         continue;

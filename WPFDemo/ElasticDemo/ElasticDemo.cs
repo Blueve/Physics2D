@@ -19,6 +19,10 @@ namespace WPFDemo.ElasticDemo
         /// </summary>
         private const int Height = 10;
         /// <summary>
+        /// 延展系数
+        /// </summary>
+        private const double Factor = 4;
+        /// <summary>
         /// 网格尺寸
         /// </summary>
         private static readonly double GridSize = 20.ToSimUnits();
@@ -66,7 +70,7 @@ namespace WPFDemo.ElasticDemo
             // 创建弹性网并加入到物理世界和绘制队列
             _elasticatedNet = new ElasticatedNet(
                 new Vector2D(40, 120).ToSimUnits(),
-                Width, Height, GridSize
+                Width, Height, GridSize, Factor
             );
             DrawQueue.Add(_elasticatedNet);
             PhysicsWorld.AddObject(_elasticatedNet);
