@@ -19,6 +19,7 @@ namespace WPFDemo.FireworksDemo
 
     public class FireworksDemo : PhysicsGraphic, IDrawable
     {
+        #region 公开的内部类型
         /// <summary>
         /// 选项状态枚举
         /// </summary>
@@ -28,17 +29,16 @@ namespace WPFDemo.FireworksDemo
             Water,
             Wind
         }
+        #endregion
 
-        /// <summary>
-        /// 粒子半径
-        /// </summary>
-        public const int BallSize = 4;
-
+        #region 私有字段
         /// <summary>
         /// 当前选项
         /// </summary>
         private PhysicsType _type = PhysicsType.None;
+        #endregion
 
+        #region 公开的属性
         /// <summary>
         /// 当前选项
         /// </summary>
@@ -64,30 +64,50 @@ namespace WPFDemo.FireworksDemo
                 }
             }
         }
+        #endregion
 
-        // 空间作用力
+        #region 私有字段
+        /// <summary>
+        /// 阻力
+        /// </summary>
         private readonly ParticleDrag _drag = new ParticleDrag(2, 1);
+        /// <summary>
+        /// 风
+        /// </summary>
         private readonly ParticleConstantForce _wind = new ParticleConstantForce(new Vector2D(20, -5));
-
+        /// <summary>
+        /// 阻力区
+        /// </summary>
         private readonly Zone _dragZone;
+        /// <summary>
+        /// 有风区
+        /// </summary>
         private readonly Zone _windZone;
-
+        /// <summary>
+        /// 横板
+        /// </summary>
         private Edge _edge;
-
         /// <summary>
         /// 物体列表
         /// </summary>
         private readonly List<Particle> _objList = new List<Particle>();
-
         /// <summary>
         /// 粒子形状Id
         /// 所有粒子都使用相同的Id，从而使粒子之间可以交叠
         /// </summary>
         private readonly int _shapeId = Shape.NewId();
+        /// <summary>
+        /// 粒子半径
+        /// </summary>
+        private const int BallSize = 4;
+        #endregion
 
+        #region 私有的常量字段
         private const int WorldHeight = 400;
         private const int WorldWidth = 500;
+        #endregion
 
+        #region 构造方法
         public FireworksDemo(Image image)
             : base(image)
         {
@@ -111,12 +131,16 @@ namespace WPFDemo.FireworksDemo
             );
             _windZone.Add(_wind);
         }
+        #endregion
 
+        #region 实现PhysicsGraphic
         protected override void UpdatePhysics(double duration)
         {
             PhysicsWorld.Update(duration);
         }
+        #endregion
 
+        #region 实现IDrawable
         public void Draw(WriteableBitmap bitmap)
         {
             
@@ -154,7 +178,9 @@ namespace WPFDemo.FireworksDemo
                 }
             }
         }
+        #endregion
 
+        #region 响应鼠标事件
         public void Fire(double x, double y)
         {
             if (!Start)
@@ -185,7 +211,7 @@ namespace WPFDemo.FireworksDemo
                 _objList.Add(paritcle);
             }
         }
+        #endregion
 
-        
     }
 }
