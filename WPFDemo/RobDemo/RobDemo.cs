@@ -26,17 +26,19 @@ namespace WPFDemo.RobDemo
 {
     class RobDemo : PhysicsGraphic, IDrawable
     {
-        #region 三角形顶点
-
+        #region 私有字段
+        /// <summary>
+        /// 多边形顶点集
+        /// </summary>
         private readonly List<Vector2D> _vertexs = new List<Vector2D>
         {
             new Vector2D(200, 20).ToSimUnits(),
             new Vector2D(300, 40).ToSimUnits(),
             new Vector2D(300, 100).ToSimUnits()
         };
-        #endregion
-
-        #region 边界
+        /// <summary>
+        /// 多边形边集
+        /// </summary>
         private readonly List<Vector2D> _edgePoints = new List<Vector2D>
         {
             new Vector2D(10, 10).ToSimUnits(),
@@ -44,21 +46,35 @@ namespace WPFDemo.RobDemo
             new Vector2D(490, 390).ToSimUnits(),
             new Vector2D(10, 390).ToSimUnits()
         };
+        /// <summary>
+        /// 组合质体
+        /// </summary>
+        private readonly CombinedParticle _combinedParticle;
+        /// <summary>
+        /// 当前状态
+        /// </summary>
+        private State _state = State.Up;
+        /// <summary>
+        /// 鼠标位置
+        /// </summary>
+        private Vector2D _mousePosition = Vector2D.Zero;
+        /// <summary>
+        /// 固定点操纵杆
+        /// </summary>
+        private Handle _handle;
         #endregion
 
-        private readonly CombinedParticle _combinedParticle;
-
-        private State _state = State.Up;
-
+        #region 内部类型
+        /// <summary>
+        /// 状态枚举
+        /// </summary>
         enum State
         {
             Down, Pinned, Up
         }
+        #endregion
 
-        private Vector2D _mousePosition = Vector2D.Zero;
-
-        private Handle _handle;
-
+        #region 构造方法
         public RobDemo(Image image)
             : base(image)
         {
@@ -82,7 +98,9 @@ namespace WPFDemo.RobDemo
             DrawQueue.Add(this);
             Start = true;
         }
+        #endregion
 
+        #region 实现PhysicsGraphic
         protected override void UpdatePhysics(double duration)
         {
             if(_state == State.Pinned)
@@ -94,7 +112,9 @@ namespace WPFDemo.RobDemo
 
             PhysicsWorld.Update(duration);
         }
+        #endregion
 
+        #region 公开方法
         public void Down(double x, double y)
         {
             _mousePosition.Set(x, y);
@@ -122,7 +142,9 @@ namespace WPFDemo.RobDemo
                 PhysicsWorld.UnPin(_combinedParticle);
             _state = State.Up;
         }
+        #endregion
 
+        #region 实现IDrawable
         public void Draw(WriteableBitmap bitmap)
         {
             // 绘制物体
@@ -153,5 +175,6 @@ namespace WPFDemo.RobDemo
                     e.ParticleB.Position.X.ToDisplayUnits(), e.ParticleB.Position.Y.ToDisplayUnits(), Colors.Red);
             }
         }
+        #endregion
     }
 }
