@@ -24,9 +24,14 @@ namespace WPFDemo.ContactDemo
 {
     class ContactDemo : PhysicsGraphic
     {
-
+        #region 私有字段
+        /// <summary>
+        /// 钢珠列表
+        /// </summary>
         private readonly List<Ball> _ballList = new List<Ball>();
+        #endregion
 
+        #region 构造方法
         public ContactDemo(Image image)
             : base(image)
         {
@@ -61,16 +66,20 @@ namespace WPFDemo.ContactDemo
 
             Start = true;
         }
+        #endregion
 
-
+        #region 实现PhysicsGraphic
         protected override void UpdatePhysics(double duration)
         {
             PhysicsWorld.Update(duration);
         }
+        #endregion
 
+        #region 鼠标事件响应
         public void Fire()
         {
             _ballList[0].Particle.Velocity = new Vector2D(-10, 0);
         }
+        #endregion
     }
 }

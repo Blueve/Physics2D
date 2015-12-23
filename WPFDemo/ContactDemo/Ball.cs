@@ -17,10 +17,13 @@ namespace WPFDemo.ContactDemo
 {
     class Ball : IDrawable
     {
+        #region 公开属性
         public Particle FixedParticle;
         public Particle Particle;
         public int R;
+        #endregion
 
+        #region 实现IDrawable
         public void Draw(WriteableBitmap bitmap)
         {
             bitmap.DrawLineAa
@@ -37,5 +40,6 @@ namespace WPFDemo.ContactDemo
                 Particle.Position.Y.ToDisplayUnits(), R, R, Colors.DarkRed
             );
         }
+        #endregion
     }
 }
