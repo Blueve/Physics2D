@@ -13,10 +13,18 @@ namespace WPFDemo.CircleDemo
 {
     public class CircleDemo : PhysicsGraphic, IDrawable
     {
+        #region 私有字段
+        /// <summary>
+        /// 中心点
+        /// </summary>
         private readonly Particle _centerObj;
-
+        /// <summary>
+        /// 物体列表
+        /// </summary>
         private readonly List<Particle> _objList = new List<Particle>();
+        #endregion
 
+        #region 构造方法
         public CircleDemo(Image image)
             : base(image)
         {
@@ -32,7 +40,9 @@ namespace WPFDemo.CircleDemo
             // 注册绘制对象
             DrawQueue.Add(this);
         }
+        #endregion
 
+        #region 实现PhysicsGraphic
         protected override void UpdatePhysics(double duration)
         {
             foreach (var item in _objList)
@@ -42,7 +52,9 @@ namespace WPFDemo.CircleDemo
             }
             PhysicsWorld.Update(duration);
         }
+        #endregion
 
+        #region 响应鼠标事件
         public void Fire()
         {
             if (!Start)
@@ -59,7 +71,9 @@ namespace WPFDemo.CircleDemo
             );
             _objList.Add(item);
         }
+        #endregion
 
+        #region 实现IDrawable
         public void Draw(WriteableBitmap bitmap)
         {
             bitmap.FillEllipseCentered
@@ -75,5 +89,6 @@ namespace WPFDemo.CircleDemo
                 bitmap.FillEllipseCentered(x, y, 4, 4, Colors.Black);
             }
         }
+        #endregion
     }
 }
