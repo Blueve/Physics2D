@@ -109,10 +109,9 @@ namespace Physics2D.Core
                 List<Shape> shapes = CollectAllShapes(_objects, _edges);
 
                 // 执行质体碰撞检测器
-                var contacts = ExcuteParticleCollisionDetector(shapes);
-                while (contacts.MoveNext())
+                foreach(var contact in ExcuteParticleCollisionDetector(shapes))
                 {
-                    AddToContactList(contacts.Current);
+                    AddToContactList(contact);
                 }
 
                 // 执行碰撞发生器
@@ -154,7 +153,7 @@ namespace Physics2D.Core
             return shapes;
         }
 
-        public static IEnumerator<ParticleContact> ExcuteParticleCollisionDetector(List<Shape> sharps)
+        public static IEnumerable<ParticleContact> ExcuteParticleCollisionDetector(List<Shape> sharps)
         {
             ParticleContact contact;
             for (int indexA = 0; indexA < sharps.Count; indexA++)
