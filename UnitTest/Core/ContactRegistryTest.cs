@@ -78,13 +78,13 @@ namespace UnitTest.Core
             var shapes = ContactRegistry.CollectAllShapes(objects, edges);
             var contacts = ContactRegistry.ExcuteParticleCollisionDetector(shapes);
             var count = 0;
-            while (contacts.MoveNext()) count++;
+            foreach(var contact in contacts) count++;
             Assert.AreEqual(3, count, "应当产生三个碰撞");
 
             shapes = new List<Shape> { edge, pA.Shape, pB.Shape };
             contacts = ContactRegistry.ExcuteParticleCollisionDetector(shapes);
             count = 0;
-            while (contacts.MoveNext()) count++;
+            foreach (var contact in contacts) count++;
             Assert.AreEqual(3, count, "形状列表的次序不影响结果");
             
             pA.BindShape(new Circle(5, 1));
@@ -92,7 +92,7 @@ namespace UnitTest.Core
             shapes = new List<Shape> { pA.Shape, edge, pB.Shape };
             contacts = ContactRegistry.ExcuteParticleCollisionDetector(shapes);
             count = 0;
-            while (contacts.MoveNext()) count++;
+            foreach (var contact in contacts) count++;
             Assert.AreEqual(2, count, "形状标识符一致的物体不执行碰撞检测");
         }
 
