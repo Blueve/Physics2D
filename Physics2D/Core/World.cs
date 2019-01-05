@@ -1,37 +1,31 @@
-﻿using Physics2D.Collision;
-using Physics2D.Collision.Shapes;
-using Physics2D.Common;
-using Physics2D.Factories;
-using Physics2D.Force;
-using Physics2D.Force.Zones;
-using Physics2D.Object;
-using Physics2D.Object.Tools;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Physics2D.Core
+﻿namespace Physics2D.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Physics2D.Collision.Shapes;
+    using Physics2D.Common;
+    using Physics2D.Force.Zones;
+    using Physics2D.Object;
+    using Physics2D.Object.Tools;
+
     public sealed class World
     {
-        #region 私有字段
         /// <summary>
         /// 物体集合
         /// </summary>
-        private readonly HashSet<PhysicsObject> _objects;
+        private readonly HashSet<PhysicsObject> objects;
 
         /// <summary>
         /// 边缘集合
         /// </summary>
-        private readonly HashSet<Edge> _edges;
+        private readonly HashSet<Edge> edges;
 
         /// <summary>
         /// Pin集合
         /// </summary>
-        private readonly Dictionary<IPin, Handle> _pins = new Dictionary<IPin, Handle>();
-        #endregion
+        private readonly Dictionary<IPin, Handle> pins = new Dictionary<IPin, Handle>();
 
-        #region 只读字段
         /// <summary>
         /// 作用力区域集合
         /// </summary>
@@ -46,25 +40,21 @@ namespace Physics2D.Core
         /// 质体碰撞管理器
         /// </summary>
         public readonly ContactRegistry ContactGenerators;
-        #endregion
 
-        #region 构造方法
         public World()
         {
-            _objects = new HashSet<PhysicsObject>();
-            _edges = new HashSet<Edge>();
-            ContactGenerators = new ContactRegistry(_objects, _edges);
+            this.objects = new HashSet<PhysicsObject>();
+            this.edges = new HashSet<Edge>();
+            this.ContactGenerators = new ContactRegistry(this.objects, this.edges);
         }
-        #endregion
 
-        #region 物体管理
         /// <summary>
         /// 向物理世界中添加一个物体
         /// </summary>
         /// <param name="obj"></param>
         public void AddObject(PhysicsObject obj)
         {
-            _objects.Add(obj);
+            this.objects.Add(obj);
         }
 
         /// <summary>
@@ -73,13 +63,13 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void RemoveObject(PhysicsObject obj)
         {
-            _objects.Remove(obj);
+            this.objects.Remove(obj);
 
             // 仅在物体为质体时执行注销操作
             var particle = obj as Particle;
             if (particle != null)
             {
-                ForceGenerators.Remove(particle);
+                this.ForceGenerators.Remove(particle);
             }
         }
 
@@ -89,7 +79,7 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void AddObject(CustomObject obj)
         {
-            AddObject((PhysicsObject)obj);
+            this.AddObject((PhysicsObject)obj);
             obj.OnInit(this);
         }
 
@@ -99,7 +89,7 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void RemoveObject(CustomObject obj)
         {
-            RemoveObject((PhysicsObject)obj);
+            this.RemoveObject((PhysicsObject)obj);
             obj.OnRemove(this);
         }
 
@@ -109,7 +99,7 @@ namespace Physics2D.Core
         /// <param name="edge"></param>
         public void AddEdge(Edge edge)
         {
-            _edges.Add(edge);
+            this.edges.Add(edge);
         }
 
         /// <summary>
@@ -118,7 +108,7 @@ namespace Physics2D.Core
         /// <param name="edge"></param>
         public void RemoveEdge(Edge edge)
         {
-            _edges.Remove(edge);
+            this.edges.Remove(edge);
         }
 
         /// <summary>
@@ -129,15 +119,16 @@ namespace Physics2D.Core
         /// <returns></returns>
         public Handle Pin(IPin obj, Vector2D position)
         {
-            if(!_pins.ContainsKey(obj))
+            if (!this.pins.ContainsKey(obj))
             {
-                _pins[obj] = obj.Pin(this, position);
+                this.pins[obj] = obj.Pin(this, position);
             }
             else
             {
                 throw new InvalidOperationException("Can't pin target object which was alreadly pinned.");
             }
-            return _pins[obj];
+
+            return this.pins[obj];
         }
 
         /// <summary>
@@ -146,20 +137,18 @@ namespace Physics2D.Core
         /// <param name="obj"></param>
         public void UnPin(IPin obj)
         {
-            if (_pins.ContainsKey(obj))
+            if (this.pins.ContainsKey(obj))
             {
-                obj.UnPin(this);
-                _pins[obj].Release();
-                _pins.Remove(obj);
+                obj.Unpin(this);
+                this.pins[obj].Release();
+                this.pins.Remove(obj);
             }
             else
             {
                 throw new InvalidOperationException("Can't unpin target object which was not pinned.");
             }
         }
-        #endregion
 
-        #region 公开方法
         /// <summary>
         /// 按时间间隔更新整个物理世界
         /// </summary>
@@ -167,23 +156,23 @@ namespace Physics2D.Core
         public void Update(double duration)
         {
             // 为粒子施加作用力
-            ForceGenerators.Update(duration);
+            this.ForceGenerators.Update(duration);
 
             // 更新物理对象
-            Parallel.ForEach(_objects, item =>
+            Parallel.ForEach(this.objects, item =>
             {
                 // 为物理对象施加区域作用力
-                foreach (var z in Zones)
+                foreach (var z in this.Zones)
                 {
                     z.TryApplyTo(item, duration);
                 }
+
                 // 对物理对象进行积分
                 item.Update(duration);
             });
 
             // 质体碰撞检测
-            ContactGenerators.ResolveContacts(duration);
+            this.ContactGenerators.ResolveContacts(duration);
         }
-        #endregion
     }
 }

@@ -1,12 +1,11 @@
-﻿using Physics2D.Core;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-
-namespace WPFDemo.Graphic
+﻿namespace WPFDemo.Graphic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows.Controls;
+    using System.Windows.Media.Imaging;
+    using Physics2D.Core;
+
     public abstract class PhysicsGraphic
     {
         /// <summary>
@@ -43,23 +42,27 @@ namespace WPFDemo.Graphic
 
         protected PhysicsGraphic(Image image)
         {
-            Bitmap = BitmapFactory.New((int)image.Width, (int)image.Height);
+            this.Bitmap = BitmapFactory.New((int)image.Width, (int)image.Height);
         }
 
         public void Update(object sender, EventArgs e)
         {
-            var interval = TimeTracker.Update();
-            if (!Start) return;
+            var interval = this.TimeTracker.Update();
+            if (!this.Start)
+            {
+                return;
+            }
 
             // 更新物理世界
-            TimeSpan += interval;
-            for (; TimeSpan >= Slot; TimeSpan -= Slot)
+            this.TimeSpan += interval;
+            for (; this.TimeSpan >= this.Slot; this.TimeSpan -= this.Slot)
             {
-                UpdatePhysics(Slot);
+                this.UpdatePhysics(this.Slot);
             }
+
             // 更新图形
-            Bitmap.Clear();
-            DrawQueue.ForEach(item => item.Draw(Bitmap));
+            this.Bitmap.Clear();
+            this.DrawQueue.ForEach(item => item.Draw(this.Bitmap));
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Physics2D.Object;
-
-namespace Physics2D.Collision.Basic
+﻿namespace Physics2D.Collision.Basic
 {
+    using System.Collections.Generic;
+    using Physics2D.Object;
+
     public class ParticleRope : ParticleLink
     {
         /// <summary>
@@ -17,22 +17,25 @@ namespace Physics2D.Collision.Basic
 
         public ParticleRope(double maxLength, double restitution, Particle pA, Particle pB)
         {
-            MaxLength = maxLength;
-            Restitution = restitution;
-            ParticleA = pA;
-            ParticleB = pB;
+            this.MaxLength = maxLength;
+            this.Restitution = restitution;
+            this.ParticleA = pA;
+            this.ParticleB = pB;
         }
 
         public override IEnumerator<ParticleContact> GetEnumerator()
         {
-            double length = CurrentLength();
+            double length = this.CurrentLength();
 
             // 未超过绳索长度
-            if (length < MaxLength) yield break;
+            if (length < this.MaxLength)
+            {
+                yield break;
+            }
 
-            var normal = (ParticleB.Position - ParticleA.Position).Normalize();
+            var normal = (this.ParticleB.Position - this.ParticleA.Position).Normalize();
 
-            yield return new ParticleContact(ParticleA, ParticleB, Restitution, length - MaxLength, normal);
+            yield return new ParticleContact(this.ParticleA, this.ParticleB, this.Restitution, length - this.MaxLength, normal);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Physics2D.Object;
-
-namespace Physics2D.Force
+﻿namespace Physics2D.Force
 {
+    using System.Collections.Generic;
+    using Physics2D.Object;
+
     public abstract class ParticleForceGenerator
     {
         /// <summary>
@@ -14,13 +14,13 @@ namespace Physics2D.Force
         /// 添加新的受力对象
         /// </summary>
         /// <param name="particle">受力对象</param>
-        public void Add(Particle particle) => Objects.Add(particle);
+        public void Add(Particle particle) => this.Objects.Add(particle);
 
         /// <summary>
         /// 移除受力对象
         /// </summary>
         /// <param name="particle">受力对象</param>
-        public void Remove(Particle particle) => Objects.Remove(particle);
+        public void Remove(Particle particle) => this.Objects.Remove(particle);
 
         /// <summary>
         /// 为指定质体施加作用力
@@ -35,9 +35,9 @@ namespace Physics2D.Force
         /// <param name="duration"></param>
         public void Apply(double duration)
         {
-            foreach (var particle in Objects)
+            foreach (var particle in this.Objects)
             {
-                ApplyTo(particle, duration);
+                this.ApplyTo(particle, duration);
             }
         }
     }

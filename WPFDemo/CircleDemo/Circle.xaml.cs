@@ -1,28 +1,28 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace WPFDemo.CircleDemo
+﻿namespace WPFDemo.CircleDemo
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
     /// <summary>
     /// Circle.xaml 的交互逻辑
     /// </summary>
     public partial class Circle : Window
     {
-        private readonly CircleDemo _circleDemo;
+        private readonly CircleDemo circleDemo;
 
         public Circle()
         {
-            InitializeComponent();
-            _circleDemo = new CircleDemo(ImageSurface);
+            this.InitializeComponent();
+            this.circleDemo = new CircleDemo(this.ImageSurface);
 
-            ImageSurface.Source = _circleDemo.Bitmap;
-            CompositionTarget.Rendering += _circleDemo.Update;
+            this.ImageSurface.Source = this.circleDemo.Bitmap;
+            CompositionTarget.Rendering += this.circleDemo.Update;
         }
 
-        private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _circleDemo.Fire();
+            this.circleDemo.Fire();
         }
     }
 }

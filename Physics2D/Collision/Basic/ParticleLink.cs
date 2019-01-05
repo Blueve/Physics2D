@@ -1,13 +1,14 @@
-﻿using Physics2D.Object;
-
-namespace Physics2D.Collision.Basic
+﻿namespace Physics2D.Collision.Basic
 {
+    using Physics2D.Object;
+
     public abstract class ParticleLink : ParticleContactGenerator
     {
         /// <summary>
         /// 质体A
         /// </summary>
         public Particle ParticleA;
+
         /// <summary>
         /// 质体B
         /// </summary>
@@ -19,7 +20,7 @@ namespace Physics2D.Collision.Basic
         /// <returns></returns>
         protected double CurrentLength()
         {
-            return (ParticleA.Position - ParticleB.Position).Length();
+            return (this.ParticleA.Position - this.ParticleB.Position).Length();
         }
     }
 }

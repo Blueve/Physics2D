@@ -1,29 +1,29 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace WPFDemo.ElasticDemo
+﻿namespace WPFDemo.ElasticDemo
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
     /// <summary>
     /// ElasticDemo.xaml 的交互逻辑
     /// </summary>
     public partial class Elastic : Window
     {
-        private ElasticDemo _elasticDemo;
+        private ElasticDemo elasticDemo;
 
         public Elastic()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            _elasticDemo = new ElasticDemo(ImageSurface);
+            this.elasticDemo = new ElasticDemo(this.ImageSurface);
 
-            ImageSurface.Source = _elasticDemo.Bitmap;
-            CompositionTarget.Rendering += _elasticDemo.Update;
+            this.ImageSurface.Source = this.elasticDemo.Bitmap;
+            CompositionTarget.Rendering += this.elasticDemo.Update;
         }
 
-        private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _elasticDemo.Fire();
+            this.elasticDemo.Fire();
         }
     }
 }

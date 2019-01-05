@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Collision.Shapes;
-using Physics2D.Common;
-using Physics2D.Object;
-using System;
-
-namespace UnitTest.Object
+﻿namespace UnitTest.Object
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision.Shapes;
+    using Physics2D.Common;
+    using Physics2D.Object;
+
     [TestClass]
     public class ParticleTest
     {
@@ -28,6 +28,7 @@ namespace UnitTest.Object
             {
                 Position = new Vector2D(0, 50)
             };
+
             // Normal
             obj.Mass = 2;
             Assert.AreEqual(2, obj.Mass);

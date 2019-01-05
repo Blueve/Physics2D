@@ -1,9 +1,8 @@
-﻿using Physics2D.Common.Exceptions;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Physics2D.Common
+﻿namespace Physics2D.Common
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class MathHelper
     {
         /// <summary>
@@ -16,8 +15,8 @@ namespace Physics2D.Common
         /// <returns></returns>
         public static Vector2D PointToLineVector(Vector2D point, Vector2D linePA, Vector2D linePB)
         {
-            var BA = linePB - linePA;
-            var normal = BA * (point - linePA) * BA / BA.LengthSquared() - (point - linePA);
+            var lineBA = linePB - linePA;
+            var normal = lineBA * (point - linePA) * lineBA / lineBA.LengthSquared() - (point - linePA);
 
             return normal;
         }
@@ -35,11 +34,11 @@ namespace Physics2D.Common
             var area1 = SignedTriangleArea(lineA1, lineA2, lineB2);
             var area2 = SignedTriangleArea(lineA1, lineA2, lineB1);
 
-            if(area1 * area2 < 0)
+            if (area1 * area2 < 0)
             {
                 var area3 = SignedTriangleArea(lineB1, lineB2, lineA1);
                 var area4 = area3 + area2 - area1;
-                if(area3 * area4 < 0)
+                if (area3 * area4 < 0)
                 {
                     var intersectionScale = area3 / (area3 - area4);
                     var intersectionPoint = (lineA2 - lineA1) * intersectionScale + lineA1;
@@ -48,6 +47,7 @@ namespace Physics2D.Common
                     return intersectionPoint;
                 }
             }
+
             return null;
         }
 
@@ -73,21 +73,26 @@ namespace Physics2D.Common
         {
             int count = 0;
             int num = vertexs.Count() - 1;
-            
+
             if (num < 3)
             {
                 // 当点集不能围成多边形时该函数永假
                 return false;
             }
-            for(int i = 0; i < num; i++)
+
+            for (int i = 0; i < num; i++)
             {
                 var slope = (vertexs[i + 1].Y - vertexs[i].Y) / (vertexs[i + 1].X - vertexs[i].X);
                 bool cond1 = (vertexs[i].X <= point.X) && (point.X < vertexs[i + 1].X);
                 bool cond2 = (vertexs[i + 1].X <= point.X) && (point.X < vertexs[i].X);
-                bool above = (point.Y < slope * (point.X - vertexs[i].X) + vertexs[i].Y);
-                if ((cond1 || cond2) && above) count++;
+                bool above = point.Y < slope * (point.X - vertexs[i].X) + vertexs[i].Y;
+                if ((cond1 || cond2) && above)
+                {
+                    count++;
+                }
             }
-            return (count % 2 != 0);
+
+            return count % 2 != 0;
         }
 
         /// <summary>

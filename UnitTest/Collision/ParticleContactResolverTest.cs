@@ -1,12 +1,11 @@
-﻿using System;
-using Physics2D.Collision;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using Physics2D.Object;
-using Physics2D.Common;
-
-namespace UnitTest.Collision
+﻿namespace UnitTest.Collision
 {
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision;
+    using Physics2D.Common;
+    using Physics2D.Object;
+
     [TestClass]
     public class ParticleContactResolverTest
     {
@@ -51,7 +50,7 @@ namespace UnitTest.Collision
 
             var contactList = new List<ParticleContact>();
             resolver.ResolveContacts(contactList, 1 / 60.0);
-            
+
             contactList.Add(contact);
             resolver.ResolveContacts(contactList, 1 / 60.0);
             Assert.AreEqual(new Vector2D(-1, 0), p[0].Position, "物体0依据速度分量分离");
@@ -82,7 +81,6 @@ namespace UnitTest.Collision
             Assert.AreEqual(new Vector2D(0, 0), p[0].Velocity, "函数满足对称性");
             Assert.AreEqual(new Vector2D(1, 0), p[1].Velocity, "函数满足对称性");
 
-            
         }
 
         [TestMethod]

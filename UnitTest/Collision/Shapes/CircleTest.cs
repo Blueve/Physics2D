@@ -1,9 +1,8 @@
-﻿using System;
-using Physics2D.Collision.Shapes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace UnitTest.Collision.Shapes
+﻿namespace UnitTest.Collision.Shapes
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision.Shapes;
+
     [TestClass]
     public class CircleTest
     {

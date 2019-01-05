@@ -1,12 +1,4 @@
-﻿using Physics2D.Common;
-using Physics2D.Object;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Collision.Shapes
+﻿namespace Physics2D.Collision.Shapes
 {
     public sealed class Circle : Shape
     {
@@ -14,8 +6,8 @@ namespace Physics2D.Collision.Shapes
 
         public Circle(double r, int id = 0)
         {
-            R = r;
-            Id = id;
+            this.R = r;
+            this.Id = id;
         }
 
         public override ShapeType Type

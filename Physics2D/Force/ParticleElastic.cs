@@ -1,34 +1,33 @@
-﻿using Physics2D.Common;
-using Physics2D.Object;
-using System.Collections.Generic;
-
-namespace Physics2D.Force
+﻿namespace Physics2D.Force
 {
+    using System.Collections.Generic;
+    using Physics2D.Object;
+
     public class ParticleElastic : ParticleForceGenerator
     {
-        private readonly List<Particle> _linked = new List<Particle>();
+        private readonly List<Particle> linked = new List<Particle>();
 
-        private readonly double _k;
-        private readonly double _length;
+        private readonly double k;
+        private readonly double length;
 
         public ParticleElastic(double k, double length)
         {
-            _k = k;
-            _length = length;
+            this.k = k;
+            this.length = length;
         }
 
         public void LinkWith(Particle item)
         {
-            _linked.Add(item);
+            this.linked.Add(item);
         }
 
         public override void ApplyTo(Particle particle, double duration)
         {
-            foreach (var item in _linked)
+            foreach (var item in this.linked)
             {
                 var d = particle.Position - item.Position;
 
-                double force = (_length - d.Length()) * _k;
+                double force = (this.length - d.Length()) * this.k;
                 d.Normalize();
                 particle.AddForce(d * force);
             }

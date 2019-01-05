@@ -1,12 +1,7 @@
-﻿using Physics2D.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Object
+﻿namespace Physics2D.Object
 {
+    using Physics2D.Core;
+
     /// <summary>
     /// 自定义的物体需要实现该抽象类
     /// </summary>

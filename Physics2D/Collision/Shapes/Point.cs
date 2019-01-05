@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Collision.Shapes
+﻿namespace Physics2D.Collision.Shapes
 {
     /// <summary>
     /// 点形状适用于无形体的物体，通常将其作为物体的默认形状

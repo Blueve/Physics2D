@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Object.Tools;
-using Physics2D.Common;
-
-namespace UnitTest.Object.Tools
+﻿namespace UnitTest.Object.Tools
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+    using Physics2D.Object.Tools;
+
     [TestClass]
     public class HandleTest
     {

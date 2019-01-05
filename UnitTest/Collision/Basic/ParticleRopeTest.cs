@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Collision.Basic;
-using Physics2D.Object;
-using Physics2D.Common;
-using System.Collections.Generic;
-using Physics2D.Collision;
-
-namespace UnitTest.Collision.Basic
+﻿namespace UnitTest.Collision.Basic
 {
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision;
+    using Physics2D.Collision.Basic;
+    using Physics2D.Common;
+    using Physics2D.Object;
+
     [TestClass]
     public class ParticleRopeTest
     {

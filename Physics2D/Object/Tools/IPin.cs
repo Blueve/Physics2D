@@ -1,29 +1,22 @@
-﻿using Physics2D.Common;
-using Physics2D.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Object.Tools
+﻿namespace Physics2D.Object.Tools
 {
+    using Physics2D.Common;
+    using Physics2D.Core;
+
     public interface IPin
     {
         /// <summary>
-        /// 把自己固定到物理世界中
-        /// 返回锚点
+        /// Pin self to world.
         /// </summary>
-        /// <param name="world"></param>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="world">The <see cref="World"/>.</param>
+        /// <param name="position">The <see cref="Vector2D"/></param>
+        /// <returns>The pined point.</returns>
         Handle Pin(World world, Vector2D position);
 
         /// <summary>
-        /// 把自己从物理世界中解除固定
+        /// Unpin self from world.
         /// </summary>
-        /// <param name="world"></param>
-        /// <returns></returns>
-        void UnPin(World world);
+        /// <param name="world">The <see cref="World"/>.</param>
+        void Unpin(World world);
     }
 }

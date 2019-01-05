@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Physics2D.Collision;
-using Physics2D.Collision.Basic;
-using Physics2D.Core;
-using Physics2D.Object;
-using Physics2D.Collision.Shapes;
-using Physics2D.Common;
-using Physics2D.Common.Exceptions;
-
-namespace Physics2D.Factories
+﻿namespace Physics2D.Factories
 {
+    using System.Collections.Generic;
+    using Physics2D.Collision;
+    using Physics2D.Collision.Basic;
+    using Physics2D.Collision.Shapes;
+    using Physics2D.Common;
+    using Physics2D.Common.Exceptions;
+    using Physics2D.Core;
+    using Physics2D.Object;
+
     public static class ContactFactory
     {
-        #region 工厂方法
         /// <summary>
         /// 在物理世界创建一条边缘
         /// </summary>
@@ -58,16 +53,17 @@ namespace Physics2D.Factories
         {
             List<Edge> result = new List<Edge>();
 
-            if(points.Length < 3)
+            if (points.Length < 3)
             {
                 throw new InvalidArgumentException(
                     $"Can't create a polygon by given points. points.Length = {points.Length}", nameof(points));
             }
 
-            for(int i = 1; i < points.Length; i++)
+            for (int i = 1; i < points.Length; i++)
             {
                 result.Add(world.CreateEdge(points[i - 1], points[i]));
             }
+
             result.Add(world.CreateEdge(points[points.Length - 1], points[0]));
             return result;
         }
@@ -102,7 +98,6 @@ namespace Physics2D.Factories
             return world.CreateContact(rod);
         }
 
-
         /// <summary>
         /// 在物理世界中创建一组关联
         /// </summary>
@@ -116,6 +111,5 @@ namespace Physics2D.Factories
             world.ContactGenerators.Add(contact);
             return contact;
         }
-        #endregion
     }
 }

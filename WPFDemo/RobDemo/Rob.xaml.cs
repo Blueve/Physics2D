@@ -1,50 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-using Physics2D;
-
-namespace WPFDemo.RobDemo
+﻿namespace WPFDemo.RobDemo
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using Physics2D;
+
     /// <summary>
     /// Rob.xaml 的交互逻辑
     /// </summary>
     public partial class Rob : Window
     {
-        private readonly RobDemo _robDemo;
+        private readonly RobDemo robDemo;
 
         public Rob()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            _robDemo = new RobDemo(ImageSurface);
-            ImageSurface.Source = _robDemo.Bitmap;
-            CompositionTarget.Rendering += _robDemo.Update;
+            this.robDemo = new RobDemo(this.ImageSurface);
+            this.ImageSurface.Source = this.robDemo.Bitmap;
+            CompositionTarget.Rendering += this.robDemo.Update;
         }
 
         private void ImageSurface_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            _robDemo.Down(e.GetPosition(ImageSurface).X.ToSimUnits(), e.GetPosition(ImageSurface).Y.ToSimUnits());
+            this.robDemo.Down(e.GetPosition(this.ImageSurface).X.ToSimUnits(), e.GetPosition(this.ImageSurface).Y.ToSimUnits());
         }
 
         private void ImageSurface_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            _robDemo.Up();
+            this.robDemo.Up();
         }
 
         private void ImageSurface_OnMouseMove(object sender, MouseEventArgs e)
         {
-            _robDemo.Move(e.GetPosition(ImageSurface).X.ToSimUnits(), e.GetPosition(ImageSurface).Y.ToSimUnits());
+            this.robDemo.Move(e.GetPosition(this.ImageSurface).X.ToSimUnits(), e.GetPosition(this.ImageSurface).Y.ToSimUnits());
         }
     }
 }

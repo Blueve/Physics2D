@@ -1,12 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Physics2D.Common;
-using System.Collections.Generic;
-using Physics2D.Common.Exceptions;
-
-namespace UnitTest.Common
+﻿namespace UnitTest.Common
 {
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+
     [TestClass]
     public class MathHelperTest
     {

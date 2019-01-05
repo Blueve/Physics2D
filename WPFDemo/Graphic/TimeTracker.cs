@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace WPFDemo.Graphic
+﻿namespace WPFDemo.Graphic
 {
+    using System;
+    using System.Diagnostics;
+
     public class TimeTracker
     {
         public double TimerInterval { get; set; } = -1;
@@ -15,26 +15,27 @@ namespace WPFDemo.Graphic
 
         public TimeTracker()
         {
-            ElapsedTime = DateTime.Now;
+            this.ElapsedTime = DateTime.Now;
         }
 
         public double Update()
         {
             DateTime currentTime = DateTime.Now;
-            TimeSpan diffTime = currentTime - ElapsedTime;
+            TimeSpan diffTime = currentTime - this.ElapsedTime;
 
-            DeltaSeconds = diffTime.TotalSeconds;
-            if (TimerInterval > 0)
+            this.DeltaSeconds = diffTime.TotalSeconds;
+            if (this.TimerInterval > 0)
             {
-                if (currentTime != ElapsedTime)
+                if (currentTime != this.ElapsedTime)
                 {
-                    Debug.Assert(TimerFired != null, "TimerFired != null");
-                    TimerFired(this, null);
+                    Debug.Assert(this.TimerFired != null, "TimerFired != null");
+                    this.TimerFired(this, null);
                 }
             }
-            ElapsedTime = currentTime;
 
-            return DeltaSeconds;
+            this.ElapsedTime = currentTime;
+
+            return this.DeltaSeconds;
         }
     }
 }

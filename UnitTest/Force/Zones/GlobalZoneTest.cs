@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Force.Zones;
-using Physics2D.Common;
-using Physics2D.Force;
-using Physics2D.Object;
-
-namespace UnitTest.Force.Zones
+﻿namespace UnitTest.Force.Zones
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+    using Physics2D.Force;
+    using Physics2D.Force.Zones;
+    using Physics2D.Object;
+
     [TestClass]
     public class GlobalZoneTest
     {

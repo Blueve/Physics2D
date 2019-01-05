@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Force;
-using Physics2D.Object;
-using Physics2D.Common;
-
-namespace UnitTest.Force
+﻿namespace UnitTest.Force
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+    using Physics2D.Force;
+    using Physics2D.Object;
+
     [TestClass]
     public class ParticleElasticTest
     {

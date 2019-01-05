@@ -1,48 +1,42 @@
-﻿using Physics2D.Common;
-using Physics2D.Force;
-using Physics2D.Object;
-using System.Collections.Generic;
-
-namespace WPFDemo.ElasticDemo
+﻿namespace WPFDemo.ElasticDemo
 {
+    using System.Collections.Generic;
+    using Physics2D.Force;
+    using Physics2D.Object;
+
     internal sealed class DestructibleElastic : ParticleForceGenerator
     {
-        #region 私有字段
         /// <summary>
         /// 所有链接
         /// </summary>
-        private readonly List<LinkedItem> _linked = new List<LinkedItem>();
+        private readonly List<LinkedItem> linked = new List<LinkedItem>();
 
         /// <summary>
         /// 弹性常量
         /// </summary>
-        private readonly double _k;
+        private readonly double k;
 
         /// <summary>
         /// 静息长度
         /// </summary>
-        private readonly double _length;
+        private readonly double length;
 
         /// <summary>
         /// 延展系数
         /// 当链接的长度与静息长度的比值超过该数值的时发生断裂
         /// </summary>
-        private readonly double _lengthFactor;
-        #endregion
+        private readonly double lengthFactor;
 
-        #region 构造方法
         public DestructibleElastic(double k, double length, double lengthFactor = 4)
         {
-            _k = k;
-            _length = length;
-            _lengthFactor = lengthFactor;
+            this.k = k;
+            this.length = length;
+            this.lengthFactor = lengthFactor;
         }
-        #endregion
 
-        #region 实现ParticleForceGenerator
         public void Joint(Particle item)
         {
-            _linked.Add(new LinkedItem
+            this.linked.Add(new LinkedItem
             {
                 Particle = item,
                 IsValid = true
@@ -51,29 +45,27 @@ namespace WPFDemo.ElasticDemo
 
         public override void ApplyTo(Particle particle, double duration)
         {
-            for (int i = _linked.Count - 1; i >= 0; i--)
+            for (int i = this.linked.Count - 1; i >= 0; i--)
             {
-                if (_linked[i].IsValid)
+                if (this.linked[i].IsValid)
                 {
-                    var d = particle.Position - _linked[i].Particle.Position;
-                    if (d.Length() / _length > _lengthFactor)
+                    var d = particle.Position - this.linked[i].Particle.Position;
+                    if (d.Length() / this.length > this.lengthFactor)
                     {
-                        _linked[i].IsValid = false;
+                        this.linked[i].IsValid = false;
                         continue;
                     }
-                    double force = (_length - d.Length()) * _k;
+
+                    double force = (this.length - d.Length()) * this.k;
                     particle.AddForce(d.Normalize() * force);
                 }
             }
         }
-        #endregion
 
-        #region 私有内部类
         private class LinkedItem
         {
             public Particle Particle;
             public bool IsValid;
         }
-        #endregion
     }
 }

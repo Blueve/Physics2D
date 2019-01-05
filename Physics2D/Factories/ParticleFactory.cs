@@ -1,16 +1,14 @@
-﻿using Physics2D.Common;
-using Physics2D.Core;
-using Physics2D.Object;
-
-namespace Physics2D.Factories
+﻿namespace Physics2D.Factories
 {
+    using Physics2D.Common;
+    using Physics2D.Core;
+    using Physics2D.Object;
+
     /// <summary>
     /// 粒子工厂
     /// </summary>
     public static class ParticleFactory
     {
-        #region 工厂方法
-
         /// <summary>
         /// 创建一个粒子
         /// </summary>
@@ -70,7 +68,5 @@ namespace Physics2D.Factories
             world.AddObject(particle);
             return particle;
         }
-
-        #endregion
     }
 }

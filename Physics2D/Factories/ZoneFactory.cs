@@ -1,18 +1,15 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Physics2D.Common;
-using Physics2D.Core;
-using Physics2D.Force;
-using Physics2D.Force.Zones;
-
-namespace Physics2D.Factories
+﻿namespace Physics2D.Factories
 {
+    using Physics2D.Common;
+    using Physics2D.Core;
+    using Physics2D.Force;
+    using Physics2D.Force.Zones;
+
     /// <summary>
     /// 区域作用力工厂
     /// </summary>
     public static class ZoneFactory
     {
-        #region 工厂方法
-
         /// <summary>
         /// 在物理世界创建一个全局作用力区域
         /// </summary>
@@ -20,7 +17,7 @@ namespace Physics2D.Factories
         /// <param name="particleForceGenerator">作用力发生器</param>
         /// <returns></returns>
         public static GlobalZone CreateGlobalZone(
-            this World world, 
+            this World world,
             ParticleForceGenerator particleForceGenerator)
         {
             var zone = new GlobalZone();
@@ -70,16 +67,14 @@ namespace Physics2D.Factories
         /// <param name="particleForceGenerator"></param>
         /// <returns></returns>
         public static T CreateZone<T>(
-            this World world, 
-            T zone, 
-            ParticleForceGenerator particleForceGenerator) 
+            this World world,
+            T zone,
+            ParticleForceGenerator particleForceGenerator)
             where T : Zone
         {
             zone.Add(particleForceGenerator);
             world.Zones.Add(zone);
             return zone;
         }
-
-        #endregion
     }
 }

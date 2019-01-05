@@ -1,29 +1,28 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace WPFDemo.ContactDemo
+﻿namespace WPFDemo.ContactDemo
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
     /// <summary>
     /// Contact.xaml 的交互逻辑
     /// </summary>
     public partial class Contact : Window
     {
-        private readonly ContactDemo _contactDemo;
-
+        private readonly ContactDemo contactDemo;
 
         public Contact()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            _contactDemo = new ContactDemo(ImageSurface);
-            ImageSurface.Source = _contactDemo.Bitmap;
-            CompositionTarget.Rendering += _contactDemo.Update;
+            this.contactDemo = new ContactDemo(this.ImageSurface);
+            this.ImageSurface.Source = this.contactDemo.Bitmap;
+            CompositionTarget.Rendering += this.contactDemo.Update;
         }
 
-        private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _contactDemo.Fire();
+            this.contactDemo.Fire();
         }
     }
 }

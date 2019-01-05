@@ -1,12 +1,7 @@
-﻿using Physics2D.Object;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Collision.Shapes
+﻿namespace Physics2D.Collision.Shapes
 {
+    using Physics2D.Object;
+
     public abstract class Shape
     {
         /// <summary>
@@ -23,13 +18,13 @@ namespace Physics2D.Collision.Shapes
         /// <summary>
         /// 标识符基数
         /// </summary>
-        private static int _idBase = 1;
+        private static int idBase = 1;
 
         /// <summary>
         /// 产生一个新的Id
         /// </summary>
         /// <returns></returns>
-        public static int NewId() => _idBase++;
+        public static int NewId() => idBase++;
 
         /// <summary>
         /// 返回当前形状的类型

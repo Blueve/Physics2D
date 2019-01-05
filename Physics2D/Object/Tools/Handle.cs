@@ -1,92 +1,76 @@
-﻿using Physics2D.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Object.Tools
+﻿namespace Physics2D.Object.Tools
 {
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using Physics2D.Common;
+
     public class Handle : INotifyPropertyChanged
     {
-        #region 私有字段
         /// <summary>
-        /// 位置
+        /// The position.
         /// </summary>
-        private Vector2D _position;
-        #endregion
+        private Vector2D position;
 
-        #region 公开属性
         /// <summary>
-        /// 位置
+        /// The position.
         /// </summary>
         public Vector2D Position
         {
-            get { return _position; }
-            set { SetProperty(ref _position, value); }
+            get { return this.position; }
+            set { this.SetProperty(ref this.position, value); }
         }
-        #endregion
 
-        #region 构造方法
         public Handle(Vector2D position)
         {
-            _position = position;
+            this.position = position;
         }
-        #endregion
 
-        #region 属性变动通知
         /// <summary>
-        /// 设置属性值
-        /// 当值发生变动时会自动触发属性变动事件
+        /// Set property's value.
+        /// Trigger property changed event when value changed.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="storge"></param>
-        /// <param name="value"></param>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The type.</typeparam>
+        /// <param name="storge">Current value.</param>
+        /// <param name="value">Aim value.</param>
+        /// <param name="propertyName">The property's name.</param>
+        /// <returns>True if property value updated.</returns>
         protected bool SetProperty<T>(ref T storge, T value, [CallerMemberName]string propertyName = null)
         {
-            if (Equals(storge, value)) return false;
+            if (object.Equals(storge, value))
+            {
+                return false;
+            }
+
             storge = value;
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
             return true;
         }
 
         /// <summary>
-        /// 触发属性变动事件
+        /// The event of property changed.
         /// </summary>
-        /// <param name="propertyName"></param>
+        /// <param name="propertyName">The property's name.</param>
         protected void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
-            var eventHandler = PropertyChanged;
-            if (eventHandler != null)
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
 
-        #region 公开方法
         /// <summary>
-        /// 释放所有委托
+        /// Release all events.
         /// </summary>
         public void Release()
         {
-            var delegates = PropertyChanged.GetInvocationList();
-            foreach(var d in delegates)
+            var delegates = this.PropertyChanged.GetInvocationList();
+            foreach (var d in delegates)
             {
-                PropertyChanged -= d as PropertyChangedEventHandler;
+                this.PropertyChanged -= d as PropertyChangedEventHandler;
             }
         }
-        #endregion
 
-        #region 属性变动事件
         /// <summary>
-        /// 属性变动事件
-        /// 注册Handle发生变动时所需执行的委托
+        /// The property changed event.
+        /// Registed delegation will fired on property changed.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
     }
 }

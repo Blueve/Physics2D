@@ -1,40 +1,40 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using Physics2D;
-
-namespace WPFDemo.FireworksDemo
+﻿namespace WPFDemo.FireworksDemo
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using Physics2D;
+
     /// <summary>
     /// Fireworks.xaml 的交互逻辑
     /// </summary>
     public partial class Fireworks : Window
     {
-        private FireworksDemo _fireworksDemo;
+        private FireworksDemo fireworksDemo;
 
         public Fireworks()
         {
-            InitializeComponent();
-            _fireworksDemo = new FireworksDemo(ImageSurface);
+            this.InitializeComponent();
+            this.fireworksDemo = new FireworksDemo(this.ImageSurface);
 
-            ImageSurface.Source = _fireworksDemo.Bitmap;
-            CompositionTarget.Rendering += _fireworksDemo.Update;
+            this.ImageSurface.Source = this.fireworksDemo.Bitmap;
+            CompositionTarget.Rendering += this.fireworksDemo.Update;
         }
 
-        private void imageSurface_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImageSurface_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _fireworksDemo.Fire(e.GetPosition(ImageSurface).X.ToSimUnits(), e.GetPosition(ImageSurface).Y.ToSimUnits());
+            this.fireworksDemo.Fire(e.GetPosition(this.ImageSurface).X.ToSimUnits(), e.GetPosition(this.ImageSurface).Y.ToSimUnits());
         }
 
         private void Checked(object sender, RoutedEventArgs e)
         {
-            if (Drag.IsChecked == true)
+            if (this.Drag.IsChecked == true)
             {
-                _fireworksDemo.Type = FireworksDemo.PhysicsType.Water;
+                this.fireworksDemo.Type = FireworksDemo.PhysicsType.Water;
             }
-            else if (Wind.IsChecked == true)
+            else if (this.Wind.IsChecked == true)
             {
-                _fireworksDemo.Type = FireworksDemo.PhysicsType.Wind;
+                this.fireworksDemo.Type = FireworksDemo.PhysicsType.Wind;
             }
         }
     }

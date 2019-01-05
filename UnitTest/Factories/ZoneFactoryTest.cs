@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Core;
-using Physics2D.Factories;
-using Physics2D.Force;
-using Physics2D.Common;
-
-namespace UnitTest.Factories
+﻿namespace UnitTest.Factories
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+    using Physics2D.Core;
+    using Physics2D.Factories;
+    using Physics2D.Force;
+
     [TestClass]
     public class ZoneFactoryTest
     {

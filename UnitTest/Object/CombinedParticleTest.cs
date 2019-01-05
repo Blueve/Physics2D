@@ -1,14 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Object;
-using System.Collections.Generic;
-using Physics2D.Common;
-using Physics2D.Common.Exceptions;
-using Physics2D.Object.Tools;
-using Physics2D.Core;
-
-namespace UnitTest.Object
+﻿namespace UnitTest.Object
 {
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+    using Physics2D.Common.Exceptions;
+    using Physics2D.Core;
+    using Physics2D.Object;
+
     [TestClass]
     public class CombinedParticleTest
     {
@@ -25,7 +23,6 @@ namespace UnitTest.Object
                 });
             Assert.IsNotNull(obj);
             Assert.IsTrue(obj.Vertexs.Count == 4);
-
 
         }
 

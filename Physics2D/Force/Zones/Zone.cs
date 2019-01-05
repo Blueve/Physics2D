@@ -1,9 +1,8 @@
-﻿using Physics2D.Object;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Physics2D.Force.Zones
+﻿namespace Physics2D.Force.Zones
 {
+    using System.Collections.Generic;
+    using Physics2D.Object;
+
     /// <summary>
     /// 作用力区域
     /// 使在区域内的粒子均受到指定的作用力
@@ -13,21 +12,21 @@ namespace Physics2D.Force.Zones
         /// <summary>
         /// 区域内粒子作用力发生器
         /// </summary>
-        private readonly HashSet<ParticleForceGenerator> _particleForceGenerators = new HashSet<ParticleForceGenerator>();
+        private readonly HashSet<ParticleForceGenerator> particleForceGenerators = new HashSet<ParticleForceGenerator>();
 
         /// <summary>
         /// 添加一个作用力发生器
         /// </summary>
         /// <param name="particleForceGenerator"></param>
         public void Add(ParticleForceGenerator particleForceGenerator)
-            => _particleForceGenerators.Add(particleForceGenerator);
+            => this.particleForceGenerators.Add(particleForceGenerator);
 
         /// <summary>
         /// 移除一个作用力发生器
         /// </summary>
         /// <param name="particleForceGenerator"></param>
         public void Remove(ParticleForceGenerator particleForceGenerator)
-            => _particleForceGenerators.Remove(particleForceGenerator);
+            => this.particleForceGenerators.Remove(particleForceGenerator);
 
         /// <summary>
         /// 判断给定物体是否存在于当前区域
@@ -43,13 +42,16 @@ namespace Physics2D.Force.Zones
         /// <param name="duration">施加作用力的时间</param>
         public void TryApplyTo(PhysicsObject obj, double duration)
         {
-            if (!IsIn(obj)) return;
+            if (!this.IsIn(obj))
+            {
+                return;
+            }
 
             if (obj is Particle)
             {
-                foreach (var item in _particleForceGenerators)
+                foreach (var item in this.particleForceGenerators)
                 {
-                    item.ApplyTo((Particle) obj, duration);
+                    item.ApplyTo((Particle)obj, duration);
                 }
             }
         }

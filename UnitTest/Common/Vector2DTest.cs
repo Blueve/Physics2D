@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Physics2D.Common;
-
-namespace UnitTest.Common
+﻿namespace UnitTest.Common
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+
     [TestClass]
     public class Vector2DTest
     {
@@ -50,7 +49,7 @@ namespace UnitTest.Common
         public void TestToString()
         {
             Vector2D vector = new Vector2D(1, 2);
-            
+
             Assert.AreEqual("(1.23, 4.56)", new Vector2D(1.23, 4.56).ToString());
         }
 
@@ -58,7 +57,7 @@ namespace UnitTest.Common
         public void TestGetHashCode()
         {
             Vector2D vector = new Vector2D(1, 2);
-            
+
             Assert.IsNotNull(vector.GetHashCode());
         }
 
@@ -96,7 +95,7 @@ namespace UnitTest.Common
         public void TestDivision()
         {
             Vector2D vector = new Vector2D(3, 4);
-            
+
             Assert.AreEqual(new Vector2D(1.5, 2), vector / 2);
         }
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Collision
+﻿namespace Physics2D.Collision
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// 碰撞生成器
     /// </summary>
@@ -16,7 +12,7 @@ namespace Physics2D.Collision
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
     }
 }

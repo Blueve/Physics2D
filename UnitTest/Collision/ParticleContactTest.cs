@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Object;
-using System.Collections.Generic;
-using Physics2D.Common;
-using Physics2D.Collision;
-
-namespace UnitTest.Collision
+﻿namespace UnitTest.Collision
 {
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision;
+    using Physics2D.Common;
+    using Physics2D.Object;
+
     [TestClass]
     public class ParticleContactTest
     {
@@ -184,7 +183,7 @@ namespace UnitTest.Collision
             var contact = new ParticleContact(p, null, 1, 0, new Vector2D(-1, 0));
             var resolveVelocity = new PrivateObject(contact);
             resolveVelocity.Invoke("ResolveVelocity", 1);
-            
+
             Assert.AreEqual(new Vector2D(-1, 0), p.Velocity, "物体获得补偿速度");
 
             p.AddForce(new Vector2D(1, 0));

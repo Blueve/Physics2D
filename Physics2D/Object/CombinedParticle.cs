@@ -1,66 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Physics2D.Core;
-using Physics2D.Collision.Shapes;
-using Physics2D.Collision.Basic;
-using Physics2D.Factories;
-using Physics2D.Common;
-using Physics2D.Object.Tools;
-using Physics2D.Common.Exceptions;
-
-namespace Physics2D.Object
+﻿namespace Physics2D.Object
 {
+    using System.Collections.Generic;
+    using Physics2D.Collision.Basic;
+    using Physics2D.Common;
+    using Physics2D.Common.Exceptions;
+    using Physics2D.Core;
+    using Physics2D.Factories;
+    using Physics2D.Object.Tools;
+
     /// <summary>
     /// 由多个质点组合成的物体
     /// 质点由刚性连杆连接，可获得类似刚体的自由度
     /// </summary>
     public class CombinedParticle : CustomObject, IPin
     {
-        #region 私有字段
         /// <summary>
         /// 质体顶点表（顺时针）
         /// </summary>
-        private readonly List<Particle> _vertexs = new List<Particle>();
+        private readonly List<Particle> vertexs = new List<Particle>();
 
         /// <summary>
         /// 刚性连杆表（顺时针）
         /// </summary>
-        private readonly List<ParticleRod> _rods = new List<ParticleRod>();
+        private readonly List<ParticleRod> rods = new List<ParticleRod>();
 
         /// <summary>
         /// 锚点连杆表
         /// </summary>
-        private List<ParticleRod> _pinRods = new List<ParticleRod>();
+        private List<ParticleRod> pinRods = new List<ParticleRod>();
 
         /// <summary>
         /// 是否封闭（首尾相连）
         /// </summary>
-        private readonly bool _isClose;
-        #endregion
+        private readonly bool isClose;
 
-        #region 公开的属性
         /// <summary>
         /// 质体顶点表（顺时针）
         /// </summary>
-        public IReadOnlyList<Particle> Vertexs => _vertexs;
+        public IReadOnlyList<Particle> Vertexs => this.vertexs;
 
         /// <summary>
         /// 刚性连杆表（顺时针）
         /// </summary>
-        public IReadOnlyList<ParticleRod> Rods => _rods;
+        public IReadOnlyList<ParticleRod> Rods => this.rods;
 
         /// <summary>
         /// 是否封闭（首尾相连）
         /// </summary>
-        public bool IsClose => _isClose;
+        public bool IsClose => this.isClose;
 
-        public IReadOnlyList<ParticleRod> PinRods => _pinRods;
-        #endregion
+        public IReadOnlyList<ParticleRod> PinRods => this.pinRods;
 
-        #region 构造方法
         /// <summary>
         /// 创建一个联合质体
         /// </summary>
@@ -72,20 +62,20 @@ namespace Physics2D.Object
         public CombinedParticle(List<Vector2D> vertexs, double mass = 1, double restitution = 1, bool isClose = true)
         {
             var num = vertexs.Count;
-            if(num < 2)
+            if (num < 2)
             {
                 throw new InvalidArgumentException(
                     $"Can't create a combined particle by given vertexs. vertexs.Count = {vertexs.Count}", nameof(vertexs));
             }
-            else if(isClose && num < 3)
+            else if (isClose && num < 3)
             {
                 throw new InvalidArgumentException(
                     $"Can't create a closed combined particle by given vertexs. vertexs.Count = {vertexs.Count}", nameof(vertexs));
             }
 
-            foreach(var vertex in vertexs)
+            foreach (var vertex in vertexs)
             {
-                _vertexs.Add(new Particle
+                this.vertexs.Add(new Particle
                 {
                     Position = vertex,
                     Mass = mass / num,
@@ -94,31 +84,31 @@ namespace Physics2D.Object
             }
 
             // 在可形成多边形的时候允许链接为封闭图形
-            _isClose = isClose;
-            if(isClose && num > 2)
+            this.isClose = isClose;
+            if (isClose && num > 2)
             {
-                _vertexs.Add(_vertexs[0]);
+                this.vertexs.Add(this.vertexs[0]);
             }
+
             // 创建刚性连杆
-            for(int i = 1; i < _vertexs.Count; i++)
+            for (int i = 1; i < this.vertexs.Count; i++)
             {
-                _rods.Add(new ParticleRod(_vertexs[i - 1], _vertexs[i]));
+                this.rods.Add(new ParticleRod(this.vertexs[i - 1], this.vertexs[i]));
             }
         }
-        #endregion
 
-        #region 自定义物体接口实现
         /// <summary>
         /// 装载到物理世界
         /// </summary>
         /// <param name="world"></param>
         public override void OnInit(World world)
         {
-            foreach(var vertex in _vertexs)
+            foreach (var vertex in this.vertexs)
             {
                 world.AddObject(vertex);
             }
-            foreach(var rod in _rods)
+
+            foreach (var rod in this.rods)
             {
                 world.ContactGenerators.Add(rod);
             }
@@ -130,14 +120,12 @@ namespace Physics2D.Object
         /// <param name="world"></param>
         public override void OnRemove(World world)
         {
-            foreach (var vertex in _vertexs)
+            foreach (var vertex in this.vertexs)
             {
                 world.RemoveObject(vertex);
             }
         }
-        #endregion
 
-        #region 物体抽象方法实现
         /// <summary>
         /// 更新物体
         /// </summary>
@@ -146,25 +134,23 @@ namespace Physics2D.Object
         {
             // 组织质体的位移被视为所有质体的偏移量
             // 该偏移量在每次施加偏移过后置0
-            var N = _isClose ? _vertexs.Count - 1 : _vertexs.Count;
+            var N = this.isClose ? this.vertexs.Count - 1 : this.vertexs.Count;
             for (int i = 0; i < N; i++)
             {
-                _vertexs[i].Position += Position;
+                this.vertexs[i].Position += this.Position;
             }
-            Position = Vector2D.Zero;
-        }
-        #endregion
 
-        #region 固定物体接口实现
+            this.Position = Vector2D.Zero;
+        }
 
         Handle IPin.Pin(World world, Vector2D position)
         {
-            return Pin(world, position);
+            return this.Pin(world, position);
         }
 
-        void IPin.UnPin(World world)
+        void IPin.Unpin(World world)
         {
-            UnPin(world);
+            this.UnPin(world);
         }
 
         protected Handle Pin(World world, Vector2D position)
@@ -177,10 +163,10 @@ namespace Physics2D.Object
 
             // 对于封闭图形，任意连接三个点即可固定住形状
             // 对于不封闭图形，需要每个点都连接才可固定
-            var N = _isClose ? 3 : _vertexs.Count;
+            var N = this.isClose ? 3 : this.vertexs.Count;
             for (int i = 0; i < N; i++)
             {
-                _pinRods.Add(world.CreateRod(_vertexs[i], pin));
+                this.pinRods.Add(world.CreateRod(this.vertexs[i], pin));
             }
 
             var handle = new Handle(position);
@@ -188,7 +174,7 @@ namespace Physics2D.Object
             {
                 var p = ((Handle)obj).Position;
                 var d = p - pin.Position;
-                Position = d;
+                this.Position = d;
                 pin.Position = p;
             };
 
@@ -198,17 +184,18 @@ namespace Physics2D.Object
         protected void UnPin(World world)
         {
             // 移除连接
-            foreach (var rod in _pinRods)
+            foreach (var rod in this.pinRods)
             {
                 world.ContactGenerators.Remove(rod);
             }
-            _pinRods.Clear();
+
+            this.pinRods.Clear();
+
             // 恢复速度
-            foreach (var vertex in _vertexs)
+            foreach (var vertex in this.vertexs)
             {
-                vertex.Velocity = Velocity;
+                vertex.Velocity = this.Velocity;
             }
         }
-        #endregion
     }
 }

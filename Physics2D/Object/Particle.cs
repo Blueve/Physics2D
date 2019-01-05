@@ -1,8 +1,7 @@
-﻿using Physics2D.Common;
-using System;
-
-namespace Physics2D.Object
+﻿namespace Physics2D.Object
 {
+    using Physics2D.Common;
+
     public class Particle : PhysicsObject
     {
         /// <summary>
@@ -11,16 +10,16 @@ namespace Physics2D.Object
         /// <param name="duration"></param>
         public override void Update(double duration)
         {
-            PrePosition = Position;
+            this.PrePosition = this.Position;
 
             // 对位置速度以及加速度进行更新
-            Acceleration = _forceAccum * _inverseMass;
+            this.Acceleration = this.forceAccum * this.inverseMass;
 
-            Position += Velocity * duration;
-            Velocity += Acceleration * duration;
+            this.Position += this.Velocity * duration;
+            this.Velocity += this.Acceleration * duration;
 
             // 清除作用力
-            _forceAccum = Vector2D.Zero;
+            this.forceAccum = Vector2D.Zero;
         }
     }
 }

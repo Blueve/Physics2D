@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Collision.Basic;
-using Physics2D.Object;
-using Physics2D.Common;
-using System.Collections;
-using Physics2D.Collision;
-using System.Collections.Generic;
-
-namespace UnitTest.Collision.Basic
+﻿namespace UnitTest.Collision.Basic
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision;
+    using Physics2D.Collision.Basic;
+    using Physics2D.Common;
+    using Physics2D.Object;
+
     [TestClass]
     public class ParticleRodTest
     {
@@ -18,7 +17,7 @@ namespace UnitTest.Collision.Basic
             var pA = new Particle { Mass = 1 };
             var pB = new Particle { Mass = 1, Position = new Vector2D(5, 0) };
             var rod = new ParticleRod(pA, pB);
-            
+
             Assert.AreEqual(pA, rod.ParticleA);
             Assert.AreEqual(pB, rod.ParticleB);
         }

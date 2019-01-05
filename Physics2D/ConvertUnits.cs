@@ -1,102 +1,91 @@
-﻿using Physics2D.Common;
-
-namespace Physics2D
+﻿namespace Physics2D
 {
+    using Physics2D.Common;
+
     /// <summary>
-    /// 单位换算类
-    /// 用于转换物理世界以及图形渲染世界的数值
+    /// The units convert class.
+    /// This is a static helper class for convert units between real world unit and graphic units.
     /// </summary>
     public static class ConvertUnits
     {
-        #region 私有字段
         /// <summary>
-        /// 显示尺寸至模拟尺寸转换比例
+        /// The radio of display units to physical units.
         /// </summary>
-        private static double _displayUnitsToSimUnitsRatio = 50;
+        private static double displayUnitsToSimUnitsRatio = 50;
 
         /// <summary>
-        /// 模拟尺寸至显示尺寸转换比例
+        /// The radio of physical units to display units.
         /// </summary>
-        private static double _simUnitsToDisplayUnitsRatio = 1 / _displayUnitsToSimUnitsRatio;
+        private static double simUnitsToDisplayUnitsRatio = 1 / displayUnitsToSimUnitsRatio;
 
-        #endregion
-
-        #region 公开的方法
         /// <summary>
-        /// 设置转换比例
+        /// Set the ratio.
         /// </summary>
-        /// <param name="displayUnitsPerSimUnit"></param>
+        /// <param name="displayUnitsPerSimUnit">The ratio of display units to physical units.</param>
         public static void SetDisplayUnitToSimUnitRatio(double displayUnitsPerSimUnit)
         {
-            _displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;
-            _simUnitsToDisplayUnitsRatio = 1 / displayUnitsPerSimUnit;
+            displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;
+            simUnitsToDisplayUnitsRatio = 1 / displayUnitsPerSimUnit;
         }
 
-        #endregion
-
-        #region 转换到显示尺寸
         /// <summary>
-        /// 转换到显示尺寸
+        /// Convert to display size.
         /// </summary>
-        /// <param name="simUnits"></param>
-        /// <returns></returns>
+        /// <param name="simUnits">The double type size by physical units.</param>
+        /// <returns>The size by display units.</returns>
         public static int ToDisplayUnits(this double simUnits)
         {
-            return (int)(simUnits * _displayUnitsToSimUnitsRatio);
+            return (int)(simUnits * displayUnitsToSimUnitsRatio);
         }
 
         /// <summary>
-        /// 转换到显示尺寸
+        /// Convert to display size.
         /// </summary>
-        /// <param name="simUnits"></param>
-        /// <returns></returns>
+        /// <param name="simUnits">The int type size by physical units.</param>
+        /// <returns>The size by display units.</returns>
         public static int ToDisplayUnits(this int simUnits)
         {
-            return (int)(simUnits * _displayUnitsToSimUnitsRatio);
+            return (int)(simUnits * displayUnitsToSimUnitsRatio);
         }
 
         /// <summary>
-        /// 转换到显示尺寸
+        /// Convert to display size.
         /// </summary>
-        /// <param name="simUnits"></param>
-        /// <returns></returns>
+        /// <param name="simUnits">The <see cref="Vector2D"/> type size by physical units.</param>
+        /// <returns>The size by display units.</returns>
         public static Vector2D ToDisplayUnits(this Vector2D simUnits)
         {
-            return simUnits * _displayUnitsToSimUnitsRatio;
+            return simUnits * displayUnitsToSimUnitsRatio;
         }
 
-        #endregion
-
-        #region 转换到物理世界尺寸
         /// <summary>
-        /// 转换到模拟尺寸
+        /// Convert to physical size.
         /// </summary>
-        /// <param name="displayUnits"></param>
-        /// <returns></returns>
+        /// <param name="displayUnits">The double type size by display units.</param>
+        /// <returns>The size by physical units.</returns>
         public static double ToSimUnits(this double displayUnits)
         {
-            return displayUnits / _displayUnitsToSimUnitsRatio;
+            return displayUnits / displayUnitsToSimUnitsRatio;
         }
 
         /// <summary>
-        /// 转换到模拟尺寸
+        /// Convert to physical size.
         /// </summary>
-        /// <param name="displayUnits"></param>
-        /// <returns></returns>
+        /// <param name="displayUnits">The int type size by display units.</param>
+        /// <returns>The size by physical units.</returns>
         public static double ToSimUnits(this int displayUnits)
         {
-            return displayUnits / _displayUnitsToSimUnitsRatio;
+            return displayUnits / displayUnitsToSimUnitsRatio;
         }
 
         /// <summary>
-        /// 转换到模拟尺寸
+        /// Convert to physical size.
         /// </summary>
-        /// <param name="displayUnits"></param>
-        /// <returns></returns>
+        /// <param name="displayUnits">The <see cref="Vector2D"/> type size by display units.</param>
+        /// <returns>The size by physical units.</returns>
         public static Vector2D ToSimUnits(this Vector2D displayUnits)
         {
-            return displayUnits / _displayUnitsToSimUnitsRatio;
+            return displayUnits / displayUnitsToSimUnitsRatio;
         }
-        #endregion
     }
 }

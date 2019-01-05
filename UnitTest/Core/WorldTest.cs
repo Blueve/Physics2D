@@ -1,16 +1,16 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Core;
-using Physics2D.Object;
-using System.Collections.Generic;
-using Physics2D.Common;
-using Physics2D.Force.Zones;
-using Physics2D.Force;
-using Physics2D.Object.Tools;
-using Physics2D.Collision.Shapes;
-
-namespace UnitTest.Core
+﻿namespace UnitTest.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision.Shapes;
+    using Physics2D.Common;
+    using Physics2D.Core;
+    using Physics2D.Force;
+    using Physics2D.Force.Zones;
+    using Physics2D.Object;
+    using Physics2D.Object.Tools;
+
     [TestClass]
     public class WorldTest
     {
@@ -27,24 +27,24 @@ namespace UnitTest.Core
                     new Vector2D(0, 5)
                 });
             var objB = new Particle { Mass = 1, Position = Vector2D.Zero };
-            
+
             // 一个全局作用力
             var zone = new GlobalZone();
             zone.Add(new ParticleGravity(new Vector2D(0, 9.8)));
             world.Zones.Add(zone);
 
-            TestAddCustomObject(world, objA);
-            var handle = TestPin(world, objA);
-            TestUnPin(world, objA, handle);
-            TestRemoveCustomObject(world, objA);
+            this.TestAddCustomObject(world, objA);
+            var handle = this.TestPin(world, objA);
+            this.TestUnPin(world, objA, handle);
+            this.TestRemoveCustomObject(world, objA);
 
             // 一个作用力
             var force = new ParticleConstantForce(new Vector2D(5, 0));
             force.Add(objB);
             world.ForceGenerators.Add(force);
 
-            TestAddObject(world, objB);
-            TestRemoveObject(world, objB);
+            this.TestAddObject(world, objB);
+            this.TestRemoveObject(world, objB);
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace UnitTest.Core
             world.Update(1);
 
             var vertexs = obj.Vertexs;
-            for(var i = 0; i < vertexs.Count; i++)
+            for (var i = 0; i < vertexs.Count; i++)
             {
                 Assert.AreEqual(new Vector2D(0, 9.8), vertexs[i].Acceleration, $"作用力应被正确地施加到了物体{i}上");
             }
@@ -116,7 +116,7 @@ namespace UnitTest.Core
             {
                 world.UnPin(obj);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Assert.IsInstanceOfType(e, typeof(InvalidOperationException), "不允许对未Pin的物体执行UnPin");
             }
@@ -125,14 +125,14 @@ namespace UnitTest.Core
         private void TestRemoveCustomObject(World world, CombinedParticle obj)
         {
             var vertexs = obj.Vertexs;
-            foreach(var vertex in vertexs)
+            foreach (var vertex in vertexs)
             {
                 vertex.Acceleration = Vector2D.Zero;
             }
 
             world.RemoveObject(obj);
             world.Update(1);
-            
+
             for (var i = 0; i < vertexs.Count; i++)
             {
                 Assert.AreEqual(new Vector2D(0, 0), vertexs[i].Acceleration, $"物体{i}上");

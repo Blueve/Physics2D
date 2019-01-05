@@ -1,16 +1,15 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Core;
-using Physics2D.Factories;
-using Physics2D.Common;
-using Physics2D.Collision.Shapes;
-using Physics2D.Common.Exceptions;
-using System.Collections.Generic;
-using Physics2D.Object;
-using Physics2D.Collision.Basic;
-
-namespace UnitTest.Factories
+﻿namespace UnitTest.Factories
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision.Basic;
+    using Physics2D.Collision.Shapes;
+    using Physics2D.Common;
+    using Physics2D.Common.Exceptions;
+    using Physics2D.Core;
+    using Physics2D.Factories;
+    using Physics2D.Object;
+
     [TestClass]
     public class ContactFactoryTest
     {
@@ -20,13 +19,11 @@ namespace UnitTest.Factories
             var world = new World();
 
             var edge = world.CreateEdge(new Vector2D(0, 0), new Vector2D(0, 5));
-            TestEdgeProperty(edge, new Vector2D(0, 0), new Vector2D(0, 5));
+            this.TestEdgeProperty(edge, new Vector2D(0, 0), new Vector2D(0, 5));
 
             edge = world.CreateEdge(0, 0, 0, 5);
-            TestEdgeProperty(edge, new Vector2D(0, 0), new Vector2D(0, 5));
+            this.TestEdgeProperty(edge, new Vector2D(0, 0), new Vector2D(0, 5));
         }
-
-
 
         private void TestEdgeProperty(Edge edge, Vector2D pointA, Vector2D pointB)
         {
@@ -45,14 +42,13 @@ namespace UnitTest.Factories
 
             var it = poly.GetEnumerator();
             it.MoveNext();
-            TestEdgeProperty(it.Current, new Vector2D(0, 0), new Vector2D(0, 5));
+            this.TestEdgeProperty(it.Current, new Vector2D(0, 0), new Vector2D(0, 5));
 
             it.MoveNext();
-            TestEdgeProperty(it.Current, new Vector2D(0, 5), new Vector2D(5, 0));
+            this.TestEdgeProperty(it.Current, new Vector2D(0, 5), new Vector2D(5, 0));
 
             it.MoveNext();
-            TestEdgeProperty(it.Current, new Vector2D(5, 0), new Vector2D(0, 0));
-
+            this.TestEdgeProperty(it.Current, new Vector2D(5, 0), new Vector2D(0, 0));
 
             try
             {
@@ -69,7 +65,7 @@ namespace UnitTest.Factories
         public void TestCreatePolygonEdgeFail()
         {
             var world = new World();
-            
+
             var poly = world.CreatePolygonEdge(new Vector2D(0, 0), new Vector2D(0, 5));
         }
 
@@ -82,7 +78,7 @@ namespace UnitTest.Factories
                 new Particle { Position = new Vector2D(0, 0) },
                 new Particle { Position = new Vector2D(0, 5) });
 
-            TestLinkProperty(rod, new Vector2D(0, 0), new Vector2D(0, 5));
+            this.TestLinkProperty(rod, new Vector2D(0, 0), new Vector2D(0, 5));
             Assert.AreEqual(5, rod.Length);
 
         }
@@ -104,7 +100,7 @@ namespace UnitTest.Factories
                 new Particle { Position = new Vector2D(0, 0) },
                 new Particle { Position = new Vector2D(0, 5) });
 
-            TestLinkProperty(rope, new Vector2D(0, 0), new Vector2D(0, 5));
+            this.TestLinkProperty(rope, new Vector2D(0, 0), new Vector2D(0, 5));
             Assert.AreEqual(10, rope.MaxLength);
             Assert.AreEqual(1, rope.Restitution);
         }

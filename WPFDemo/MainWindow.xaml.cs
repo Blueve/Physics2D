@@ -1,12 +1,12 @@
-﻿using System.Windows;
-using WPFDemo.ContactDemo;
-using WPFDemo.ElasticDemo;
-using WPFDemo.FireworksDemo;
-using WPFDemo.FluidDemo;
-using WPFDemo.RobDemo;
-
-namespace WPFDemo
+﻿namespace WPFDemo
 {
+    using System.Windows;
+    using WPFDemo.ContactDemo;
+    using WPFDemo.ElasticDemo;
+    using WPFDemo.FireworksDemo;
+    using WPFDemo.FluidDemo;
+    using WPFDemo.RobDemo;
+
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
@@ -14,7 +14,7 @@ namespace WPFDemo
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void fireworksDemo_Click(object sender, RoutedEventArgs e)

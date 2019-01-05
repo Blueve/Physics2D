@@ -1,27 +1,26 @@
-﻿using System.Collections.Generic;
-
-using System.Windows.Controls;
-using System.Windows.Media;
-
-namespace WPFDemo
+﻿namespace WPFDemo
 {
+    using System.Collections.Generic;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+
     public class DrawingCanvas : Panel
     {
-        private readonly List<Visual> _visuals = new List<Visual>();
+        private readonly List<Visual> visuals = new List<Visual>();
 
         protected override Visual GetVisualChild(int index)
         {
-            return _visuals[index];
+            return this.visuals[index];
         }
 
-        protected override int VisualChildrenCount => _visuals.Count;
+        protected override int VisualChildrenCount => this.visuals.Count;
 
         public void AddVisual(Visual visual)
         {
-            _visuals.Add(visual);
+            this.visuals.Add(visual);
 
-            AddVisualChild(visual);
-            AddLogicalChild(visual);
+            this.AddVisualChild(visual);
+            this.AddLogicalChild(visual);
         }
     }
 }

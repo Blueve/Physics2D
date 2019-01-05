@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Core;
-using Physics2D.Common;
-using Physics2D.Factories;
-using Physics2D.Object;
-
-namespace UnitTest.Factories
+﻿namespace UnitTest.Factories
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+    using Physics2D.Core;
+    using Physics2D.Factories;
+    using Physics2D.Object;
+
     [TestClass]
     public class ParticleFactoryTest
     {
@@ -16,7 +15,7 @@ namespace UnitTest.Factories
             var world = new World();
 
             var p = world.CreateParticle(new Vector2D(0, 1), new Vector2D(1, 0), 1, 1);
-            TestParticleProperty(p, new Vector2D(0, 1), new Vector2D(1, 0), 1, 1);
+            this.TestParticleProperty(p, new Vector2D(0, 1), new Vector2D(1, 0), 1, 1);
         }
 
         [TestMethod]
@@ -25,7 +24,7 @@ namespace UnitTest.Factories
             var world = new World();
 
             var p = world.CreateFixedParticle(new Vector2D(0, 1));
-            TestParticleProperty(p, new Vector2D(0, 1), Vector2D.Zero, double.MaxValue, 1);
+            this.TestParticleProperty(p, new Vector2D(0, 1), Vector2D.Zero, double.MaxValue, 1);
         }
 
         [TestMethod]
@@ -34,14 +33,14 @@ namespace UnitTest.Factories
             var world = new World();
 
             var p = world.CreateUnstoppableParticle(new Vector2D(0, 1), new Vector2D(1, 0));
-            TestParticleProperty(p, new Vector2D(0, 1), new Vector2D(1, 0), double.MaxValue, 1);
+            this.TestParticleProperty(p, new Vector2D(0, 1), new Vector2D(1, 0), double.MaxValue, 1);
         }
 
         private void TestParticleProperty(
-            Particle particle, 
-            Vector2D p, 
-            Vector2D v, 
-            double m, 
+            Particle particle,
+            Vector2D p,
+            Vector2D v,
+            double m,
             double restitution)
         {
             Assert.AreEqual(p, particle.Position, "位置");

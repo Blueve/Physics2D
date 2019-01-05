@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Core;
-using Physics2D.Force;
-using Physics2D.Object;
-using Physics2D.Common;
-
-namespace UnitTest.Core
+﻿namespace UnitTest.Core
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Common;
+    using Physics2D.Core;
+    using Physics2D.Force;
+    using Physics2D.Object;
+
     [TestClass]
     public class ForceRegistryTest
     {
@@ -18,27 +17,27 @@ namespace UnitTest.Core
             var p = new Particle { Mass = 1 };
             force.Add(p);
 
-            TestAddForceGenerator(forceRegistry, force);
+            this.TestAddForceGenerator(forceRegistry, force);
             forceRegistry.Update(1 / 60.0);
             p.Update(1 / 60.0);
             Assert.AreEqual(new Vector2D(5, 0), p.Acceleration, "物体被赋予正确的加速度");
 
             p.Acceleration = Vector2D.Zero;
-            TestRemoveForceGenerator(forceRegistry, force);
+            this.TestRemoveForceGenerator(forceRegistry, force);
             forceRegistry.Update(1 / 60.0);
             p.Update(1 / 60.0);
             Assert.AreEqual(new Vector2D(0, 0), p.Acceleration, "删去作用力发生器，物体不再受该作用力发生器所产生的力");
 
             force.Add(p);
-            TestAddForceGenerator(forceRegistry, force);
-            TestRemoveParticle(forceRegistry, p);
+            this.TestAddForceGenerator(forceRegistry, force);
+            this.TestRemoveParticle(forceRegistry, p);
             forceRegistry.Update(1 / 60.0);
             p.Update(1 / 60.0);
             Assert.AreEqual(new Vector2D(0, 0), p.Acceleration, "删去物体，物体不再受该作用力发生器所产生的力");
         }
 
         private void TestAddForceGenerator(
-            ForceRegistry forceRegistry, 
+            ForceRegistry forceRegistry,
             ParticleForceGenerator force)
         {
             forceRegistry.Add(force);
@@ -57,6 +56,6 @@ namespace UnitTest.Core
         {
             forceRegistry.Remove(p);
         }
-        
+
     }
 }

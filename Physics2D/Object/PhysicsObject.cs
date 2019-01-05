@@ -1,13 +1,11 @@
-﻿using Physics2D.Common;
-using Physics2D.Collision.Shapes;
-using System.Collections.Generic;
-using System;
-
-namespace Physics2D.Object
+﻿namespace Physics2D.Object
 {
+    using System;
+    using Physics2D.Collision.Shapes;
+    using Physics2D.Common;
+
     public abstract class PhysicsObject
     {
-        #region 公开的字段
         /// <summary>
         /// 位置
         /// </summary>
@@ -32,38 +30,34 @@ namespace Physics2D.Object
         /// 碰撞回弹系数
         /// </summary>
         public double Restitution = 1;
-        #endregion
 
-        #region 保护的字段
         /// <summary>
         /// 质量
         /// </summary>
-        protected double _mass;
+        protected double mass;
 
         /// <summary>
         /// 质量的倒数
         /// </summary>
-        protected double _inverseMass;
+        protected double inverseMass;
 
         /// <summary>
         /// 物体绑定的形状
         /// </summary>
-        protected Shape _shape = new Point();
+        protected Shape shape = new Point();
 
         /// <summary>
         /// 物体所受的力的合力
         /// </summary>
-        protected Vector2D _forceAccum;
-        #endregion
+        protected Vector2D forceAccum;
 
-        #region 属性
         /// <summary>
         /// 为物体施加力
         /// </summary>
         /// <param name="force"></param>
         public void AddForce(Vector2D force)
         {
-            _forceAccum += force;
+            this.forceAccum += force;
         }
 
         /// <summary>
@@ -75,13 +69,13 @@ namespace Physics2D.Object
             {
                 if (value != 0)
                 {
-                    _mass = value;
-                    _inverseMass = 1.0 / value;
+                    this.mass = value;
+                    this.inverseMass = 1.0 / value;
                 }
                 else
                     throw new ArgumentOutOfRangeException("Particle's mass cannot be zero.");
             }
-            get { return _mass; }
+            get { return this.mass; }
         }
 
         /// <summary>
@@ -91,16 +85,14 @@ namespace Physics2D.Object
         {
             set
             {
-                _mass = value == 0 ? double.MaxValue : 1.0 / value;
-                _inverseMass = value;
+                this.mass = value == 0 ? double.MaxValue : 1.0 / value;
+                this.inverseMass = value;
             }
-            get { return _inverseMass; }
+            get { return this.inverseMass; }
         }
 
-        public Shape Shape { get { return _shape; } }
-        #endregion
+        public Shape Shape { get { return this.shape; } }
 
-        #region 公开的方法
         /// <summary>
         /// 为物体绑定一个形状
         /// </summary>
@@ -108,7 +100,7 @@ namespace Physics2D.Object
         public void BindShape(Shape shape)
         {
             shape.Body = this;
-            _shape = shape;
+            this.shape = shape;
         }
 
         /// <summary>
@@ -116,6 +108,5 @@ namespace Physics2D.Object
         /// </summary>
         /// <param name="duration"></param>
         public abstract void Update(double duration);
-        #endregion
     }
 }

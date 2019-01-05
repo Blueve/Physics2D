@@ -1,13 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Physics2D.Collision.Shapes;
-
-namespace UnitTest.Collision.Shapes
+﻿namespace UnitTest.Collision.Shapes
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Physics2D.Collision.Shapes;
+
     [TestClass]
     public class PointTest
     {
-
         [TestMethod]
         public void TestType()
         {

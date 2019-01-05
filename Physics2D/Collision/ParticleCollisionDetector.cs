@@ -1,14 +1,9 @@
-﻿using Physics2D.Collision.Shapes;
-using Physics2D.Common;
-using Physics2D.Object;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Physics2D.Collision
+﻿namespace Physics2D.Collision
 {
+    using System;
+    using Physics2D.Collision.Shapes;
+    using Physics2D.Common;
+
     public class ParticleCollisionDetector
     {
         /// <summary>
@@ -21,16 +16,20 @@ namespace Physics2D.Collision
         public static ParticleContact CircleAndCircle(Circle A, Circle B)
         {
             var d = (A.Body.Position - B.Body.Position).Length();
+
             // 碰撞检测
             var l = A.R + B.R;
 
-            if (d >= l) return null;
+            if (d >= l)
+            {
+                return null;
+            }
 
             // 产生一组碰撞
             return new ParticleContact(
-                A.Body, B.Body, 
-                (A.Body.Restitution + B.Body.Restitution) / 2, 
-                l - d, 
+                A.Body, B.Body,
+                (A.Body.Restitution + B.Body.Restitution) / 2,
+                l - d,
                 (A.Body.Position - B.Body.Position).Normalize());
         }
 
@@ -47,9 +46,9 @@ namespace Physics2D.Collision
             var BALengthSquared = BA.LengthSquared();
 
             var intersectionPoint = MathHelper.LineIntersection(
-                circle.Body.PrePosition, 
-                circle.Body.Position, 
-                edge.PointA, 
+                circle.Body.PrePosition,
+                circle.Body.Position,
+                edge.PointA,
                 edge.PointB);
 
             // 检测物体的运动路径是否发生穿越
@@ -68,21 +67,22 @@ namespace Physics2D.Collision
                 // 圆心的投影在线上
                 var normal = BA * (circle.Body.Position - edge.PointA) * BA / BALengthSquared;
                 normal = (circle.Body.Position - edge.PointA) - normal;
-                
+
                 // 线到圆心的距离
                 var d = normal.Length();
                 if (circle.R > d)
                 {
                     // 针对圆心正好处于线上的情况的作处理
-                    if(Math.Abs(d) < Settings.Percision)
+                    if (Math.Abs(d) < Settings.Percision)
                     {
                         normal = BA * (circle.Body.PrePosition - edge.PointA) * BA / BALengthSquared;
                         normal = (circle.Body.PrePosition - edge.PointA) - normal;
                     }
+
                     return new ParticleContact(
-                        circle.Body, null, 
-                        circle.Body.Restitution, 
-                        circle.R - d, 
+                        circle.Body, null,
+                        circle.Body.Restitution,
+                        circle.R - d,
                         normal.Normalize());
                 }
             }
@@ -95,12 +95,13 @@ namespace Physics2D.Collision
                 {
                     var normal = circle.Body.Position - (dAO < dBO ? edge.PointA : edge.PointB);
                     return new ParticleContact(
-                        circle.Body, null, 
-                        circle.Body.Restitution, 
-                        circle.R - Math.Sqrt(dAO < dBO ? dAO : dBO), 
+                        circle.Body, null,
+                        circle.Body.Restitution,
+                        circle.R - Math.Sqrt(dAO < dBO ? dAO : dBO),
                         normal.Normalize());
                 }
             }
+
             return null;
         }
     }
